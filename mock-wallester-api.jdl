@@ -1,0 +1,343 @@
+/**
+ * Represents a Company.
+ */
+entity Company {
+  id UUID, // Changed to UUID
+  name String,
+  registrationNumber String,
+  // Flattened Registration Address
+  regAddressCountryCode CountryCode,
+  regAddress1 String,
+  regAddress2 String,
+  regAddressCity String,
+  regAddressPostalCode String,
+  // Flattened Headquarter Address
+  hqAddressCountryCode CountryCode,
+  hqAddress1 String,
+  hqAddress2 String,
+  hqAddressCity String,
+  hqAddressPostalCode String,
+  riskProfile RiskProfile,
+  mobile String,
+  email String,
+  createdAt Instant,
+  createdBy String,
+  updatedAt Instant,
+  updatedBy String,
+  deletedAt Instant,
+  deletedBy String,
+  industryType String,
+  dateOfIncorporation Instant,
+  businessRelationshipPurpose String,
+  isSanctionsRelated Boolean,
+  isAdverseMediaInvolved Boolean,
+  employeesQuantity String,
+  cardSpendingAmount String,
+  // Simplified Limits (Example subset)
+  limitDailyPurchase BigDecimal,
+  limitDailyWithdrawal BigDecimal,
+  limitMonthlyPurchase BigDecimal,
+  limitMonthlyWithdrawal BigDecimal,
+  kybStatus KybStatus,
+  status AccountStatus, // Reusing AccountStatus for Company status as per original model
+  pushNotificationsEnabled Boolean,
+  preferredLanguageCode LanguageCode, // Assuming LanguageCode enum exists or needs definition
+  vatNumber String
+}
+
+/**
+ * Represents a customer Account.
+ */
+entity Account {
+  id UUID, // Changed to UUID
+  productId String,
+  personId String, // Assuming Person entity might exist elsewhere
+  companyId UUID, // Link to Company ID
+  externalId String,
+  name String,
+  currencyCode CurrencyCode,
+  creditLimit BigDecimal,
+  usedCredit BigDecimal,
+  balance BigDecimal,
+  availableAmount BigDecimal,
+  blockedAmount BigDecimal,
+  status AccountStatus, // Updated Enum
+  createdAt Instant,
+  updatedAt Instant,
+  closedAt Instant,
+  // Simplified Limits (Example subset)
+  limitDailyPurchase BigDecimal,
+  limitDailyWithdrawal BigDecimal,
+  limitMonthlyPurchase BigDecimal,
+  limitMonthlyWithdrawal BigDecimal,
+  closedBy String,
+  closeReason AccountCloseReason, // Updated Enum
+  isMain Boolean,
+  cardsCount Integer,
+  viban String,
+  // Flattened Top Up Details
+  topUpIban String,
+  topUpSwiftCode String,
+  topUpReceiverName String,
+  topUpPaymentDetails String,
+  topUpBankName String,
+  topUpBankAddress String,
+  topUpRegistrationNumber String,
+  referenceNumber String
+}
+
+/**
+ * Represents a single record in an Account Statement.
+ */
+entity AccountStatementRecord {
+  id UUID, // Changed to UUID
+  cardId UUID, // Link to Card ID
+  type AccountStatementRecordType, // Updated Enum
+  group AccountStatementRecordGroup, // Updated Enum
+  date Instant,
+  transactionAmount BigDecimal,
+  transactionCurrencyCode CurrencyCode,
+  accountAmount BigDecimal,
+  accountCurrencyCode CurrencyCode,
+  merchantCategoryCode MerchantCategoryCode, // Updated Enum
+  merchantId String,
+  terminalId String,
+  merchantName String,
+  merchantCity String,
+  merchantCountryCode CountryCode, // Updated Enum
+  description String,
+  originalAuthorizationId String,
+  isReversal Boolean,
+  isDeclined Boolean,
+  isCleared Boolean,
+  markedForDisputeAt Instant,
+  markedForDisputeBy String,
+  status AccountStatementRecordStatus, // Updated Enum
+  response AccountStatementRecordResponse, // Updated Enum
+  responseCode String,
+  accountExternalId String,
+  maskedCardNumber String,
+  hasPaymentDocumentFiles Boolean,
+  hasPaymentNotes Boolean,
+  cardName String,
+  embossingName String,
+  embossingFirstName String,
+  embossingLastName String,
+  embossingCompanyName String,
+  subType String,
+  purchaseDate Instant,
+  exchangeRate BigDecimal,
+  // Flattened Enriched Merchant Data
+  enrichedMerchantName String,
+  enrichedMerchantUrl String,
+  enrichedMerchantDomain String,
+  enrichedMerchantTelephone String,
+  enrichedMerchantIconUrl String,
+  totalAmount BigDecimal
+}
+
+/**
+ * Represents a Card.
+ */
+entity Card {
+  id UUID, // Changed to UUID
+  predecessorCardId UUID, // Link to previous Card ID
+  accountId UUID, // Link to Account ID
+  personId String, // Assuming Person entity might exist elsewhere
+  externalId String,
+  type CardType, // Updated Enum
+  name String,
+  maskedCardNumber String,
+  referenceNumber String,
+  expiryDate Instant,
+  blockType BlockType, // Updated Enum
+  blockedAt Instant,
+  blockedBy String,
+  status CardStatus, // Updated Enum
+  embossingName String,
+  embossingFirstName String,
+  embossingLastName String,
+  embossingCompanyName String,
+  // Simplified Limits (Example subset)
+  limitDailyPurchase BigDecimal,
+  limitDailyWithdrawal BigDecimal,
+  limitMonthlyPurchase BigDecimal,
+  limitMonthlyWithdrawal BigDecimal,
+  limitTransactionPurchase BigDecimal,
+  // Simplified 3D Secure Settings
+  secure3DType Secure3DType, // Assuming Secure3DType enum exists or needs definition
+  secure3DMobile String,
+  secure3DEmail String,
+  secure3DLanguageCode LanguageCode, // Assuming LanguageCode enum exists or needs definition
+  secure3DOutOfBandEnabled Boolean,
+  secure3DOutOfBandId String,
+  // Flattened Delivery Address
+  deliveryFirstName String,
+  deliveryLastName String,
+  deliveryCompanyName String,
+  deliveryAddress1 String,
+  deliveryAddress2 String,
+  deliveryPostalCode String,
+  deliveryCity String,
+  deliveryCountryCode CountryCode, // Updated Enum
+  deliveryDispatchMethod DispatchMethod, // Assuming DispatchMethod enum exists or needs definition
+  deliveryPhone String,
+  deliveryTrackingNumber String,
+  isEnrolledFor3DSecure Boolean,
+  isCard3DSecureActivated Boolean,
+  renewAutomatically Boolean,
+  isDisposable Boolean,
+  // Flattened Security Settings
+  securityContactlessEnabled Boolean,
+  securityWithdrawalEnabled Boolean,
+  securityInternetPurchaseEnabled Boolean,
+  securityOverallLimitsEnabled Boolean,
+  securityAllTimeLimitsEnabled Boolean,
+  personalizationProductCode String,
+  carrierType CarrierType, // Assuming CarrierType enum exists or needs definition
+  cardMetadataProfileId String,
+  activatedAt Instant,
+  createdAt Instant,
+  updatedAt Instant,
+  closedAt Instant,
+  closedBy String,
+  closeReason CardCloseReason, // Updated Enum
+  companyId UUID, // Optional link to Company ID
+  dispatchedAt Instant,
+  // Card Notification Settings
+  notificationReceiptsReminderEnabled Boolean,
+  notificationInstantSpendUpdateEnabled Boolean,
+  disposableType DisposableType // Assuming DisposableType enum exists or needs definition
+}
+
+// --- Enums ---
+
+// Updated with provided values
+enum BlockType {
+  BlockedByCardUser, BlockedByCardholder, BlockedByCardholderViaPhone, BlockedByClient, BlockedByIssuer, Counterfeit, Fraudulent, Frozen, Lost, MaxInvalidTriesCVV2, MaxInvalidTriesPIN, NotDelivered, Stolen
+}
+
+// New Enum based on provided values
+enum CardStatus {
+  Active, AwaitingRenewal, Blocked, Closed, Closing, Created, Dispatched, Expired, Ordered, Personalized
+}
+
+// New Enum based on provided values
+enum CardCloseReason {
+  ClosedByCardholder, ClosedByClient, ClosedByIssuer, ClosedByRenewal, ClosedByReplace, ClosedBySystem
+}
+
+// Updated with provided values
+enum CardType {
+  ChipAndPin, ChipAndPinAnonymous, Virtual
+}
+
+// Updated with provided values
+enum CurrencyCode {
+  AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP, TRY, TTD, TWD, TZA, UAH, UGX, USD, USN, UYI, UYU, UYW, UZS, VES, VND, VUV, WST, XAF, XCD, XOF, XPF, YER, ZAR, ZMW, ZWL
+}
+
+// Updated with provided values
+enum AccountStatus {
+  Active, Blocked, Closed, Closing
+}
+
+// New Enum based on provided values
+enum AccountCloseReason {
+  ClosedByCardholder, ClosedByClient, ClosedByIssuer, ClosedBySystem
+}
+
+// New Enum based on provided values
+enum AccountStatementRecordType {
+  AccountAdjustment, Authorization, Fee, Transaction
+}
+
+// New Enum based on provided values
+enum AccountStatementRecordGroup {
+  AccountClosureFee, AccountTransferFee, AdditionalBINConfigurationFee, AdditionalBINMaintenanceFee, AdditionalVirtualCardsFee, AuthorizationATMBalanceInquiryFixedFee, AuthorizationATMDeclinedFixedFee, AuthorizationATMWithdrawalComplexFee, AuthorizationATMWithdrawalEEAComplexFee, AuthorizationATMWithdrawalFixedFee, AuthorizationATMWithdrawalInternationalComplexFee, AuthorizationATMWithdrawalPercentageFee, AuthorizationDeclinedFixedFee, AuthorizationEEAFixedFee, AuthorizationForeignExchangePercentageFee, AuthorizationInternationalFixedFee, AvailableFundsRefundFee, Card3DSecureAttemptFixedFee, CardDeliveryFixedFee, CardExpressDeliveryFixedFee, CardIssuanceFixedFee, CardRenewalFixedFee, CardReplacementFixedFee, CardTopUpPercentageFee, CardUsageFixedFee, ChargebackProcessingFee, CurrencyExchangeFee, DedicatedBINRangeFee, Deposit, DisposableCardCreationFee, ExclusiveBINFee, ExclusiveSharedBINFee, IncomingSEPAPaymentFixedFee, IncomingSEPAPaymentPercentageFee, IndustryFee, InternetPurchase, MerchantWhitelistFee, MonthlyFeePerEmployee, MonthlyServiceFee, NewEmployeeAdditionFee, Other, OtherAdministrativeRequestFee, PINChangeFixedFee, PINManagement, PaymentEEAComplexFee, PaymentEEAFixedFee, PaymentInternationalComplexFee, PaymentInternationalFixedFee, PaymentPercentageFee, PricingPlanFee, Purchase, Refund, Remind3DSPasswordFixedFee, RemindPINFixedFee, SharedBINRangeFee, StablecoinTopUpPercentageFee, WireTransferDomesticFixedFee, WireTransferInternationalFixedFee, Withdraw, ZeroAuthorizationEEAFixedFee, ZeroAuthorizationInternationalFixedFee
+}
+
+// Updated with provided values - prefixed numeric codes with '_'
+enum MerchantCategoryCode {
+  _0742, _0763, _0780, _1520, _1711, _1731, _1740, _1750, _1761, _1771, _1799, _2842, _4011, _4111, _4112, _4119, _4121, _4131, _4214, _4215, _4225, _4411, _4457, _4468, _4511, _4582, _4722, _4784, _4789, _4812, _4814, _4816, _4821, _4829, _4899, _4900, _5013, _5137, _5139, _5200, _5211, _5231, _5251, _5261, _5271, _5300, _5309, _5310, _5311, _5331, _5411, _5422, _5441, _5451, _5462, _5499, _5511, _5521, _5532, _5533, _5541, _5542, _5561, _5571, _5592, _5598, _5599, _5611, _5621, _5631, _5641, _5651, _5655, _5661, _5681, _5691, _5697, _5699, _5712, _5713, _5714, _5718, _5719, _5722, _5732, _5733, _5735, _5811, _5812, _5813, _5814, _5912, _5931, _5932, _5933, _5937, _5940, _5941, _5942, _5943, _5945, _5946, _5947, _5948, _5949, _5950, _5962, _5967, _5970, _5971, _5972, _5973, _5975, _5976, _5977, _5978, _5983, _5992, _5993, _5994, _5995, _5996, _5997, _5998, _5999, _6010, _6011, _6051, _6300, _7011, _7012, _7032, _7033, _7210, _7211, _7216, _7217, _7221, _7230, _7251, _7261, _7273, _7276, _7277, _7278, _7296, _7297, _7298, _7299, _7311, _7321, _7322, _7333, _7338, _7339, _7342, _7349, _7361, _7372, _7375, _7379, _7392, _7393, _7394, _7395, _7399, _7512, _7513, _7519, _7523, _7531, _7538, _7829, _7832, _7841, _7911, _7922, _7929, _7932, _7933, _7941, _7991, _7992, _7993, _7994, _7995, _7996, _7997, _7998, _7999, _8011, _8021, _8031, _8041, _8042, _8043, _8049, _8050, _8062, _8071, _8099, _8111, _8351, _8911, _8931, _8999, _9223, _9402
+}
+
+// Updated with provided ISO 3166-1 Alpha-3 codes
+enum CountryCode {
+  ABW, AFG, AGO, AIA, ALA, ALB, AND, ANT, ARE, ARG, ARM, ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT, MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMR, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, UNK, URY, USA, UZS, VAT, VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XKX, YEM, ZAF, ZMB, ZWE
+}
+
+// New Enum based on provided values
+enum AccountStatementRecordStatus {
+  Canceled, Completed, Pending
+}
+
+// New Enum based on provided values
+enum AccountStatementRecordResponse {
+  Approved, Declined
+}
+
+// --- Other Enums (Assuming definitions based on previous context or needs) ---
+// You might need to define these if they weren't fully specified or if you need them
+enum RiskProfile {
+  Low, Medium, High // From original model
+}
+enum KybStatus {
+  NotStarted, Pending, Approved, Rejected, NotConfirmed // From original model
+}
+enum LanguageCode {
+  AAR, ENG // From original model - Add more as needed
+}
+enum Secure3DType {
+  SMSOTPAndStaticPassword, AppBasedOTP, None // From original model
+}
+enum DispatchMethod {
+  StandardMail, DHLExpress, FedEx, Courier // From original model
+}
+enum CarrierType {
+  Standard, Custom // From original model
+}
+enum DisposableType {
+  SingleUse, CustomExpiryDate, None // From original model
+}
+
+
+// --- Relationships ---
+
+relationship ManyToOne {
+  Account{company(id)} to Company{accounts} // Added inverse side
+}
+
+relationship ManyToOne {
+  Card{account(id)} to Account{cards} // Changed to ManyToOne, added inverse side
+}
+
+// Optional: If AccountStatementRecord needs direct link back to Account
+relationship ManyToOne {
+  AccountStatementRecord{account(id)} to Account{statementRecords} // Added inverse side
+}
+
+// Optional: If AccountStatementRecord needs direct link to the specific Card
+relationship ManyToOne {
+  AccountStatementRecord{card(id)} to Card{statementRecords} // Added inverse side
+}
+
+
+// --- Pagination ---
+paginate AccountStatementRecord with pagination
+paginate Card with infinite-scroll
+paginate Account with pagination // Added pagination for Account
+paginate Company with pagination // Added pagination for Company
+
+// --- DTOs ---
+// Use MapStruct for DTOs
+dto * with mapstruct
+
+// --- Service Layer ---
+// Service layer removed as requested
+
+// --- Filtering ---
+// Enable filtering for relevant entities/fields if needed
+// filter Account, Card, AccountStatementRecord // Enable for all fields
+// Or specify fields: filter AccountStatementRecord(date, type, status)
+

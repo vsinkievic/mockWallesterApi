@@ -1,0 +1,3 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    io.github.vsinkievic.mockwallesterapi.config.\
+    SqlTestContainersSpringContextCustomizerFactory
