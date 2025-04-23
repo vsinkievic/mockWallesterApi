@@ -1,0 +1,277 @@
+{
+  "annotations": {
+    "changelogDate": "20250423104305"
+  },
+  "applications": "*",
+  "documentation": "Represents a Card.",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "predecessorCardId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "accountId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "personId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "externalId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "CardType",
+      "fieldValues": "ChipAndPin,ChipAndPinAnonymous,Virtual"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maskedCardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "referenceNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "expiryDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "blockType",
+      "fieldType": "BlockType",
+      "fieldValues": "BlockedByCardUser,BlockedByCardholder,BlockedByCardholderViaPhone,BlockedByClient,BlockedByIssuer,Counterfeit,Fraudulent,Frozen,Lost,MaxInvalidTriesCVV2,MaxInvalidTriesPIN,NotDelivered,Stolen"
+    },
+    {
+      "fieldName": "blockedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "blockedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "CardStatus",
+      "fieldValues": "Active,AwaitingRenewal,Blocked,Closed,Closing,Created,Dispatched,Expired,Ordered,Personalized"
+    },
+    {
+      "fieldName": "embossingName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingCompanyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "limitDailyPurchase",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "limitDailyWithdrawal",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "limitMonthlyPurchase",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "limitMonthlyWithdrawal",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "limitTransactionPurchase",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "secure3DType",
+      "fieldType": "Secure3DType",
+      "fieldValues": "SMSOTPAndStaticPassword,AppBasedOTP,None"
+    },
+    {
+      "fieldName": "secure3DMobile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "secure3DEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "secure3DLanguageCode",
+      "fieldType": "LanguageCode",
+      "fieldValues": "AAR,ENG"
+    },
+    {
+      "fieldName": "secure3DOutOfBandEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "secure3DOutOfBandId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryCompanyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryAddress1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryAddress2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryPostalCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryCountryCode",
+      "fieldType": "CountryCode",
+      "fieldValues": "ABW,AFG,AGO,AIA,ALA,ALB,AND,ANT,ARE,ARG,ARM,ASM,ATA,ATF,ATG,AUS,AUT,AZE,BDI,BEL,BEN,BES,BFA,BGD,BGR,BHR,BHS,BIH,BLM,BLR,BLZ,BMU,BOL,BRA,BRB,BRN,BTN,BVT,BWA,CAF,CAN,CCK,CHE,CHL,CHN,CIV,CMR,COD,COG,COK,COL,COM,CPV,CRI,CUB,CUW,CXR,CYM,CYP,CZE,DEU,DJI,DMA,DNK,DOM,DZA,ECU,EGY,ERI,ESH,ESP,EST,ETH,FIN,FJI,FLK,FRA,FRO,FSM,GAB,GBR,GEO,GGY,GHA,GIB,GIN,GLP,GMB,GNB,GNQ,GRC,GRD,GRL,GTM,GUF,GUM,GUY,HKG,HMD,HND,HRV,HTI,HUN,IDN,IMN,IND,IOT,IRL,IRN,IRQ,ISL,ISR,ITA,JAM,JEY,JOR,JPN,KAZ,KEN,KGZ,KHM,KIR,KNA,KOR,KWT,LAO,LBN,LBR,LBY,LCA,LIE,LKA,LSO,LTU,LUX,LVA,MAC,MAF,MAR,MCO,MDA,MDG,MDV,MEX,MHL,MKD,MLI,MLT,MMR,MNE,MNG,MNP,MOZ,MRT,MSR,MTQ,MUS,MWI,MYS,MYT,NAM,NCL,NER,NFK,NGA,NIC,NIU,NLD,NOR,NPL,NRU,NZL,OMR,PAK,PAN,PCN,PER,PHL,PLW,PNG,POL,PRI,PRK,PRT,PRY,PSE,PYF,QAT,REU,ROU,RUS,RWA,SAU,SDN,SEN,SGP,SGS,SHN,SJM,SLB,SLE,SLV,SMR,SOM,SPM,SRB,SSD,STP,SUR,SVK,SVN,SWE,SWZ,SXM,SYC,SYR,TCA,TCD,TGO,THA,TJK,TKL,TKM,TLS,TON,TTO,TUN,TUR,TUV,TWN,TZA,UGA,UKR,UMI,UNK,URY,USA,UZS,VAT,VCT,VEN,VGB,VIR,VNM,VUT,WLF,WSM,XKX,YEM,ZAF,ZMB,ZWE"
+    },
+    {
+      "fieldName": "deliveryDispatchMethod",
+      "fieldType": "DispatchMethod",
+      "fieldValues": "StandardMail,DHLExpress,FedEx,Courier"
+    },
+    {
+      "fieldName": "deliveryPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deliveryTrackingNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isEnrolledFor3DSecure",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isCard3DSecureActivated",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "renewAutomatically",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isDisposable",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "securityContactlessEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "securityWithdrawalEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "securityInternetPurchaseEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "securityOverallLimitsEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "securityAllTimeLimitsEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "personalizationProductCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "carrierType",
+      "fieldType": "CarrierType",
+      "fieldValues": "Standard,Custom"
+    },
+    {
+      "fieldName": "cardMetadataProfileId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "activatedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "closedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "closedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "closeReason",
+      "fieldType": "CardCloseReason",
+      "fieldValues": "ClosedByCardholder,ClosedByClient,ClosedByIssuer,ClosedByRenewal,ClosedByReplace,ClosedBySystem"
+    },
+    {
+      "fieldName": "companyId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "dispatchedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "notificationReceiptsReminderEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "notificationInstantSpendUpdateEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "disposableType",
+      "fieldType": "DisposableType",
+      "fieldValues": "SingleUse,CustomExpiryDate,None"
+    }
+  ],
+  "name": "Card",
+  "pagination": "infinite-scroll",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

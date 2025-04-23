@@ -48,42 +48,17 @@ entity Company {
 /**
  * Represents a customer Account.
  */
-entity Account {
-  id UUID, // Changed to UUID
-  productId String,
-  personId String, // Assuming Person entity might exist elsewhere
-  companyId UUID, // Link to Company ID
-  externalId String,
-  name String,
-  currencyCode CurrencyCode,
-  creditLimit BigDecimal,
-  usedCredit BigDecimal,
-  balance BigDecimal,
-  availableAmount BigDecimal,
-  blockedAmount BigDecimal,
-  status AccountStatus, // Updated Enum
-  createdAt Instant,
-  updatedAt Instant,
-  closedAt Instant,
-  // Simplified Limits (Example subset)
-  limitDailyPurchase BigDecimal,
-  limitDailyWithdrawal BigDecimal,
-  limitMonthlyPurchase BigDecimal,
-  limitMonthlyWithdrawal BigDecimal,
-  closedBy String,
-  closeReason AccountCloseReason, // Updated Enum
-  isMain Boolean,
-  cardsCount Integer,
-  viban String,
-  // Flattened Top Up Details
-  topUpIban String,
-  topUpSwiftCode String,
-  topUpReceiverName String,
-  topUpPaymentDetails String,
-  topUpBankName String,
-  topUpBankAddress String,
-  topUpRegistrationNumber String,
-  referenceNumber String
+entity CardAccount {
+  id UUID required
+  accountNumber String required
+  currency CurrencyCode required
+  balance BigDecimal required
+  reservedAmount BigDecimal required
+  availableAmount BigDecimal required
+  blockedAmount BigDecimal required
+  status AccountStatus required
+  createdAt Instant required
+  updatedAt Instant required
 }
 
 /**
@@ -259,7 +234,7 @@ enum AccountStatementRecordGroup {
 
 // Updated with provided values - prefixed numeric codes with '_'
 enum MerchantCategoryCode {
-  _0742, _0763, _0780, _1520, _1711, _1731, _1740, _1750, _1761, _1771, _1799, _2842, _4011, _4111, _4112, _4119, _4121, _4131, _4214, _4215, _4225, _4411, _4457, _4468, _4511, _4582, _4722, _4784, _4789, _4812, _4814, _4816, _4821, _4829, _4899, _4900, _5013, _5137, _5139, _5200, _5211, _5231, _5251, _5261, _5271, _5300, _5309, _5310, _5311, _5331, _5411, _5422, _5441, _5451, _5462, _5499, _5511, _5521, _5532, _5533, _5541, _5542, _5561, _5571, _5592, _5598, _5599, _5611, _5621, _5631, _5641, _5651, _5655, _5661, _5681, _5691, _5697, _5699, _5712, _5713, _5714, _5718, _5719, _5722, _5732, _5733, _5735, _5811, _5812, _5813, _5814, _5912, _5931, _5932, _5933, _5937, _5940, _5941, _5942, _5943, _5945, _5946, _5947, _5948, _5949, _5950, _5962, _5967, _5970, _5971, _5972, _5973, _5975, _5976, _5977, _5978, _5983, _5992, _5993, _5994, _5995, _5996, _5997, _5998, _5999, _6010, _6011, _6051, _6300, _7011, _7012, _7032, _7033, _7210, _7211, _7216, _7217, _7221, _7230, _7251, _7261, _7273, _7276, _7277, _7278, _7296, _7297, _7298, _7299, _7311, _7321, _7322, _7333, _7338, _7339, _7342, _7349, _7361, _7372, _7375, _7379, _7392, _7393, _7394, _7395, _7399, _7512, _7513, _7519, _7523, _7531, _7538, _7829, _7832, _7841, _7911, _7922, _7929, _7932, _7933, _7941, _7991, _7992, _7993, _7994, _7995, _7996, _7997, _7998, _7999, _8011, _8021, _8031, _8041, _8042, _8043, _8049, _8050, _8062, _8071, _8099, _8111, _8351, _8911, _8931, _8999, _9223, _9402
+  MCC0742, MCC0763, MCC0780, MCC1520, MCC1711, MCC1731, MCC1740, MCC1750, MCC1761, MCC1771, MCC1799, MCC2842, MCC4011, MCC4111, MCC4112, MCC4119, MCC4121, MCC4131, MCC4214, MCC4215, MCC4225, MCC4411, MCC4457, MCC4468, MCC4511, MCC4582, MCC4722, MCC4784, MCC4789, MCC4812, MCC4814, MCC4816, MCC4821, MCC4829, MCC4899, MCC4900, MCC5013, MCC5137, MCC5139, MCC5200, MCC5211, MCC5231, MCC5251, MCC5261, MCC5271, MCC5300, MCC5309, MCC5310, MCC5311, MCC5331, MCC5411, MCC5422, MCC5441, MCC5451, MCC5462, MCC5499, MCC5511, MCC5521, MCC5532, MCC5533, MCC5541, MCC5542, MCC5561, MCC5571, MCC5592, MCC5598, MCC5599, MCC5611, MCC5621, MCC5631, MCC5641, MCC5651, MCC5655, MCC5661, MCC5681, MCC5691, MCC5697, MCC5699, MCC5712, MCC5713, MCC5714, MCC5718, MCC5719, MCC5722, MCC5732, MCC5733, MCC5735, MCC5811, MCC5812, MCC5813, MCC5814, MCC5912, MCC5931, MCC5932, MCC5933, MCC5937, MCC5940, MCC5941, MCC5942, MCC5943, MCC5945, MCC5946, MCC5947, MCC5948, MCC5949, MCC5950, MCC5962, MCC5967, MCC5970, MCC5971, MCC5972, MCC5973, MCC5975, MCC5976, MCC5977, MCC5978, MCC5983, MCC5992, MCC5993, MCC5994, MCC5995, MCC5996, MCC5997, MCC5998, MCC5999, MCC6010, MCC6011, MCC6051, MCC6300, MCC7011, MCC7012, MCC7032, MCC7033, MCC7210, MCC7211, MCC7216, MCC7217, MCC7221, MCC7230, MCC7251, MCC7261, MCC7273, MCC7276, MCC7277, MCC7278, MCC7296, MCC7297, MCC7298, MCC7299, MCC7311, MCC7321, MCC7322, MCC7333, MCC7338, MCC7339, MCC7342, MCC7349, MCC7361, MCC7372, MCC7375, MCC7379, MCC7392, MCC7393, MCC7394, MCC7395, MCC7399, MCC7512, MCC7513, MCC7519, MCC7523, MCC7531, MCC7538, MCC7829, MCC7832, MCC7841, MCC7911, MCC7922, MCC7929, MCC7932, MCC7933, MCC7941, MCC7991, MCC7992, MCC7993, MCC7994, MCC7995, MCC7996, MCC7997, MCC7998, MCC7999, MCC8011, MCC8021, MCC8031, MCC8041, MCC8042, MCC8043, MCC8049, MCC8050, MCC8062, MCC8071, MCC8099, MCC8111, MCC8351, MCC8911, MCC8931, MCC8999, MCC9223, MCC9402
 }
 
 // Updated with provided ISO 3166-1 Alpha-3 codes
@@ -304,29 +279,12 @@ enum DisposableType {
 
 // --- Relationships ---
 
-relationship ManyToOne {
-  Account{company(id)} to Company{accounts} // Added inverse side
-}
-
-relationship ManyToOne {
-  Card{account(id)} to Account{cards} // Changed to ManyToOne, added inverse side
-}
-
-// Optional: If AccountStatementRecord needs direct link back to Account
-relationship ManyToOne {
-  AccountStatementRecord{account(id)} to Account{statementRecords} // Added inverse side
-}
-
-// Optional: If AccountStatementRecord needs direct link to the specific Card
-relationship ManyToOne {
-  AccountStatementRecord{card(id)} to Card{statementRecords} // Added inverse side
-}
 
 
 // --- Pagination ---
 paginate AccountStatementRecord with pagination
 paginate Card with infinite-scroll
-paginate Account with pagination // Added pagination for Account
+paginate CardAccount with pagination // Added pagination for CardAccount
 paginate Company with pagination // Added pagination for Company
 
 // --- DTOs ---
@@ -338,6 +296,6 @@ dto * with mapstruct
 
 // --- Filtering ---
 // Enable filtering for relevant entities/fields if needed
-// filter Account, Card, AccountStatementRecord // Enable for all fields
+// filter CardAccount, Card, AccountStatementRecord // Enable for all fields
 // Or specify fields: filter AccountStatementRecord(date, type, status)
 

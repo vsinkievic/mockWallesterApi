@@ -1,0 +1,341 @@
+<div>
+  <h2 id="page-heading" data-cy="CardAccountHeading">
+    <span>Card Accounts</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-card-account"
+        [routerLink]="['/card-account/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Create a new Card Account</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (cardAccounts().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>No Card Accounts found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="accountNumber">
+              <div class="d-flex">
+                <span>Account Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="currency">
+              <div class="d-flex">
+                <span>Currency</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="balance">
+              <div class="d-flex">
+                <span>Balance</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="reservedAmount">
+              <div class="d-flex">
+                <span>Reserved Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="availableAmount">
+              <div class="d-flex">
+                <span>Available Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="blockedAmount">
+              <div class="d-flex">
+                <span>Blocked Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span>Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdAt">
+              <div class="d-flex">
+                <span>Created At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="updatedAt">
+              <div class="d-flex">
+                <span>Updated At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cardAccount of cardAccounts(); track trackId(cardAccount)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/card-account', cardAccount.id, 'view']">{{ cardAccount.id }}</a>
+              </td>
+              <td>{{ cardAccount.accountNumber }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    AED: 'AED',
+                    AFN: 'AFN',
+                    ALL: 'ALL',
+                    AMD: 'AMD',
+                    ANG: 'ANG',
+                    AOA: 'AOA',
+                    ARS: 'ARS',
+                    AUD: 'AUD',
+                    AWG: 'AWG',
+                    AZN: 'AZN',
+                    BAM: 'BAM',
+                    BBD: 'BBD',
+                    BDT: 'BDT',
+                    BGN: 'BGN',
+                    BHD: 'BHD',
+                    BIF: 'BIF',
+                    BMD: 'BMD',
+                    BND: 'BND',
+                    BOB: 'BOB',
+                    BOV: 'BOV',
+                    BRL: 'BRL',
+                    BSD: 'BSD',
+                    BTN: 'BTN',
+                    BWP: 'BWP',
+                    BYN: 'BYN',
+                    BZD: 'BZD',
+                    CAD: 'CAD',
+                    CDF: 'CDF',
+                    CHE: 'CHE',
+                    CHF: 'CHF',
+                    CHW: 'CHW',
+                    CLF: 'CLF',
+                    CLP: 'CLP',
+                    CNY: 'CNY',
+                    COP: 'COP',
+                    COU: 'COU',
+                    CRC: 'CRC',
+                    CUC: 'CUC',
+                    CUP: 'CUP',
+                    CVE: 'CVE',
+                    CZK: 'CZK',
+                    DJF: 'DJF',
+                    DKK: 'DKK',
+                    DOP: 'DOP',
+                    DZD: 'DZD',
+                    EGP: 'EGP',
+                    ERN: 'ERN',
+                    ETB: 'ETB',
+                    EUR: 'EUR',
+                    FJD: 'FJD',
+                    FKP: 'FKP',
+                    GBP: 'GBP',
+                    GEL: 'GEL',
+                    GHS: 'GHS',
+                    GIP: 'GIP',
+                    GMD: 'GMD',
+                    GNF: 'GNF',
+                    GTQ: 'GTQ',
+                    GYD: 'GYD',
+                    HKD: 'HKD',
+                    HNL: 'HNL',
+                    HRK: 'HRK',
+                    HTG: 'HTG',
+                    HUF: 'HUF',
+                    IDR: 'IDR',
+                    ILS: 'ILS',
+                    INR: 'INR',
+                    IQD: 'IQD',
+                    IRR: 'IRR',
+                    ISK: 'ISK',
+                    JMD: 'JMD',
+                    JOD: 'JOD',
+                    JPY: 'JPY',
+                    KES: 'KES',
+                    KGS: 'KGS',
+                    KHR: 'KHR',
+                    KMF: 'KMF',
+                    KPW: 'KPW',
+                    KRW: 'KRW',
+                    KWD: 'KWD',
+                    KYD: 'KYD',
+                    KZT: 'KZT',
+                    LAK: 'LAK',
+                    LBP: 'LBP',
+                    LKR: 'LKR',
+                    LRD: 'LRD',
+                    LSL: 'LSL',
+                    LYD: 'LYD',
+                    MAD: 'MAD',
+                    MDL: 'MDL',
+                    MGA: 'MGA',
+                    MKD: 'MKD',
+                    MMK: 'MMK',
+                    MNT: 'MNT',
+                    MOP: 'MOP',
+                    MRU: 'MRU',
+                    MUR: 'MUR',
+                    MVR: 'MVR',
+                    MWK: 'MWK',
+                    MXN: 'MXN',
+                    MXV: 'MXV',
+                    MYR: 'MYR',
+                    MZN: 'MZN',
+                    NAD: 'NAD',
+                    NGN: 'NGN',
+                    NIO: 'NIO',
+                    NOK: 'NOK',
+                    NPR: 'NPR',
+                    NZD: 'NZD',
+                    OMR: 'OMR',
+                    PAB: 'PAB',
+                    PEN: 'PEN',
+                    PGK: 'PGK',
+                    PHP: 'PHP',
+                    PKR: 'PKR',
+                    PLN: 'PLN',
+                    PYG: 'PYG',
+                    QAR: 'QAR',
+                    RON: 'RON',
+                    RSD: 'RSD',
+                    RUB: 'RUB',
+                    RWF: 'RWF',
+                    SAR: 'SAR',
+                    SBD: 'SBD',
+                    SCR: 'SCR',
+                    SDG: 'SDG',
+                    SEK: 'SEK',
+                    SGD: 'SGD',
+                    SHP: 'SHP',
+                    SLL: 'SLL',
+                    SOS: 'SOS',
+                    SRD: 'SRD',
+                    SSP: 'SSP',
+                    STN: 'STN',
+                    SVC: 'SVC',
+                    SYP: 'SYP',
+                    SZL: 'SZL',
+                    THB: 'THB',
+                    TJS: 'TJS',
+                    TMT: 'TMT',
+                    TND: 'TND',
+                    TOP: 'TOP',
+                    TRY: 'TRY',
+                    TTD: 'TTD',
+                    TWD: 'TWD',
+                    TZA: 'TZA',
+                    UAH: 'UAH',
+                    UGX: 'UGX',
+                    USD: 'USD',
+                    USN: 'USN',
+                    UYI: 'UYI',
+                    UYU: 'UYU',
+                    UYW: 'UYW',
+                    UZS: 'UZS',
+                    VES: 'VES',
+                    VND: 'VND',
+                    VUV: 'VUV',
+                    WST: 'WST',
+                    XAF: 'XAF',
+                    XCD: 'XCD',
+                    XOF: 'XOF',
+                    XPF: 'XPF',
+                    YER: 'YER',
+                    ZAR: 'ZAR',
+                    ZMW: 'ZMW',
+                    ZWL: 'ZWL',
+                  }[cardAccount.currency ?? 'null']
+                }}
+              </td>
+              <td>{{ cardAccount.balance }}</td>
+              <td>{{ cardAccount.reservedAmount }}</td>
+              <td>{{ cardAccount.availableAmount }}</td>
+              <td>{{ cardAccount.blockedAmount }}</td>
+              <td>
+                {{ { null: '', Active: 'Active', Blocked: 'Blocked', Closed: 'Closed', Closing: 'Closing' }[cardAccount.status ?? 'null'] }}
+              </td>
+              <td>{{ cardAccount.createdAt | formatMediumDatetime }}</td>
+              <td>{{ cardAccount.updatedAt | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/card-account', cardAccount.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </a>
+
+                  <a [routerLink]="['/card-account', cardAccount.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(cardAccount)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (cardAccounts().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,56 @@
+import dayjs from 'dayjs/esm';
+import { AccountStatementRecordType } from 'app/entities/enumerations/account-statement-record-type.model';
+import { AccountStatementRecordGroup } from 'app/entities/enumerations/account-statement-record-group.model';
+import { CurrencyCode } from 'app/entities/enumerations/currency-code.model';
+import { MerchantCategoryCode } from 'app/entities/enumerations/merchant-category-code.model';
+import { CountryCode } from 'app/entities/enumerations/country-code.model';
+import { AccountStatementRecordStatus } from 'app/entities/enumerations/account-statement-record-status.model';
+import { AccountStatementRecordResponse } from 'app/entities/enumerations/account-statement-record-response.model';
+
+export interface IAccountStatementRecord {
+  id: string;
+  cardId?: string | null;
+  type?: keyof typeof AccountStatementRecordType | null;
+  group?: keyof typeof AccountStatementRecordGroup | null;
+  date?: dayjs.Dayjs | null;
+  transactionAmount?: number | null;
+  transactionCurrencyCode?: keyof typeof CurrencyCode | null;
+  accountAmount?: number | null;
+  accountCurrencyCode?: keyof typeof CurrencyCode | null;
+  merchantCategoryCode?: keyof typeof MerchantCategoryCode | null;
+  merchantId?: string | null;
+  terminalId?: string | null;
+  merchantName?: string | null;
+  merchantCity?: string | null;
+  merchantCountryCode?: keyof typeof CountryCode | null;
+  description?: string | null;
+  originalAuthorizationId?: string | null;
+  isReversal?: boolean | null;
+  isDeclined?: boolean | null;
+  isCleared?: boolean | null;
+  markedForDisputeAt?: dayjs.Dayjs | null;
+  markedForDisputeBy?: string | null;
+  status?: keyof typeof AccountStatementRecordStatus | null;
+  response?: keyof typeof AccountStatementRecordResponse | null;
+  responseCode?: string | null;
+  accountExternalId?: string | null;
+  maskedCardNumber?: string | null;
+  hasPaymentDocumentFiles?: boolean | null;
+  hasPaymentNotes?: boolean | null;
+  cardName?: string | null;
+  embossingName?: string | null;
+  embossingFirstName?: string | null;
+  embossingLastName?: string | null;
+  embossingCompanyName?: string | null;
+  subType?: string | null;
+  purchaseDate?: dayjs.Dayjs | null;
+  exchangeRate?: number | null;
+  enrichedMerchantName?: string | null;
+  enrichedMerchantUrl?: string | null;
+  enrichedMerchantDomain?: string | null;
+  enrichedMerchantTelephone?: string | null;
+  enrichedMerchantIconUrl?: string | null;
+  totalAmount?: number | null;
+}
+
+export type NewAccountStatementRecord = Omit<IAccountStatementRecord, 'id'> & { id: null };

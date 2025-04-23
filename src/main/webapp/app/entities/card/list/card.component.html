@@ -1,0 +1,899 @@
+<div>
+  <h2 id="page-heading" data-cy="CardHeading">
+    <span>Cards</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-card"
+        [routerLink]="['/card/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Create a new Card</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (cards().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>No Cards found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="predecessorCardId">
+              <div class="d-flex">
+                <span>Predecessor Card Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="accountId">
+              <div class="d-flex">
+                <span>Account Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="personId">
+              <div class="d-flex">
+                <span>Person Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="externalId">
+              <div class="d-flex">
+                <span>External Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="type">
+              <div class="d-flex">
+                <span>Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span>Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="maskedCardNumber">
+              <div class="d-flex">
+                <span>Masked Card Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="referenceNumber">
+              <div class="d-flex">
+                <span>Reference Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="expiryDate">
+              <div class="d-flex">
+                <span>Expiry Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="blockType">
+              <div class="d-flex">
+                <span>Block Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="blockedAt">
+              <div class="d-flex">
+                <span>Blocked At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="blockedBy">
+              <div class="d-flex">
+                <span>Blocked By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span>Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="embossingName">
+              <div class="d-flex">
+                <span>Embossing Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="embossingFirstName">
+              <div class="d-flex">
+                <span>Embossing First Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="embossingLastName">
+              <div class="d-flex">
+                <span>Embossing Last Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="embossingCompanyName">
+              <div class="d-flex">
+                <span>Embossing Company Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="limitDailyPurchase">
+              <div class="d-flex">
+                <span>Limit Daily Purchase</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="limitDailyWithdrawal">
+              <div class="d-flex">
+                <span>Limit Daily Withdrawal</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="limitMonthlyPurchase">
+              <div class="d-flex">
+                <span>Limit Monthly Purchase</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="limitMonthlyWithdrawal">
+              <div class="d-flex">
+                <span>Limit Monthly Withdrawal</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="limitTransactionPurchase">
+              <div class="d-flex">
+                <span>Limit Transaction Purchase</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DType">
+              <div class="d-flex">
+                <span>Secure 3 D Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DMobile">
+              <div class="d-flex">
+                <span>Secure 3 D Mobile</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DEmail">
+              <div class="d-flex">
+                <span>Secure 3 D Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DLanguageCode">
+              <div class="d-flex">
+                <span>Secure 3 D Language Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DOutOfBandEnabled">
+              <div class="d-flex">
+                <span>Secure 3 D Out Of Band Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secure3DOutOfBandId">
+              <div class="d-flex">
+                <span>Secure 3 D Out Of Band Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryFirstName">
+              <div class="d-flex">
+                <span>Delivery First Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryLastName">
+              <div class="d-flex">
+                <span>Delivery Last Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryCompanyName">
+              <div class="d-flex">
+                <span>Delivery Company Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryAddress1">
+              <div class="d-flex">
+                <span>Delivery Address 1</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryAddress2">
+              <div class="d-flex">
+                <span>Delivery Address 2</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryPostalCode">
+              <div class="d-flex">
+                <span>Delivery Postal Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryCity">
+              <div class="d-flex">
+                <span>Delivery City</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryCountryCode">
+              <div class="d-flex">
+                <span>Delivery Country Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryDispatchMethod">
+              <div class="d-flex">
+                <span>Delivery Dispatch Method</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryPhone">
+              <div class="d-flex">
+                <span>Delivery Phone</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="deliveryTrackingNumber">
+              <div class="d-flex">
+                <span>Delivery Tracking Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="isEnrolledFor3DSecure">
+              <div class="d-flex">
+                <span>Is Enrolled For 3 D Secure</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="isCard3DSecureActivated">
+              <div class="d-flex">
+                <span>Is Card 3 D Secure Activated</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="renewAutomatically">
+              <div class="d-flex">
+                <span>Renew Automatically</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="isDisposable">
+              <div class="d-flex">
+                <span>Is Disposable</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="securityContactlessEnabled">
+              <div class="d-flex">
+                <span>Security Contactless Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="securityWithdrawalEnabled">
+              <div class="d-flex">
+                <span>Security Withdrawal Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="securityInternetPurchaseEnabled">
+              <div class="d-flex">
+                <span>Security Internet Purchase Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="securityOverallLimitsEnabled">
+              <div class="d-flex">
+                <span>Security Overall Limits Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="securityAllTimeLimitsEnabled">
+              <div class="d-flex">
+                <span>Security All Time Limits Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="personalizationProductCode">
+              <div class="d-flex">
+                <span>Personalization Product Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="carrierType">
+              <div class="d-flex">
+                <span>Carrier Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="cardMetadataProfileId">
+              <div class="d-flex">
+                <span>Card Metadata Profile Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="activatedAt">
+              <div class="d-flex">
+                <span>Activated At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdAt">
+              <div class="d-flex">
+                <span>Created At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="updatedAt">
+              <div class="d-flex">
+                <span>Updated At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="closedAt">
+              <div class="d-flex">
+                <span>Closed At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="closedBy">
+              <div class="d-flex">
+                <span>Closed By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="closeReason">
+              <div class="d-flex">
+                <span>Close Reason</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="companyId">
+              <div class="d-flex">
+                <span>Company Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="dispatchedAt">
+              <div class="d-flex">
+                <span>Dispatched At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="notificationReceiptsReminderEnabled">
+              <div class="d-flex">
+                <span>Notification Receipts Reminder Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="notificationInstantSpendUpdateEnabled">
+              <div class="d-flex">
+                <span>Notification Instant Spend Update Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="disposableType">
+              <div class="d-flex">
+                <span>Disposable Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
+          @for (card of cards(); track trackId(card)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/card', card.id, 'view']">{{ card.id }}</a>
+              </td>
+              <td>{{ card.predecessorCardId }}</td>
+              <td>{{ card.accountId }}</td>
+              <td>{{ card.personId }}</td>
+              <td>{{ card.externalId }}</td>
+              <td>
+                {{
+                  { null: '', ChipAndPin: 'ChipAndPin', ChipAndPinAnonymous: 'ChipAndPinAnonymous', Virtual: 'Virtual' }[
+                    card.type ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ card.name }}</td>
+              <td>{{ card.maskedCardNumber }}</td>
+              <td>{{ card.referenceNumber }}</td>
+              <td>{{ card.expiryDate | formatMediumDatetime }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    BlockedByCardUser: 'BlockedByCardUser',
+                    BlockedByCardholder: 'BlockedByCardholder',
+                    BlockedByCardholderViaPhone: 'BlockedByCardholderViaPhone',
+                    BlockedByClient: 'BlockedByClient',
+                    BlockedByIssuer: 'BlockedByIssuer',
+                    Counterfeit: 'Counterfeit',
+                    Fraudulent: 'Fraudulent',
+                    Frozen: 'Frozen',
+                    Lost: 'Lost',
+                    MaxInvalidTriesCVV2: 'MaxInvalidTriesCVV2',
+                    MaxInvalidTriesPIN: 'MaxInvalidTriesPIN',
+                    NotDelivered: 'NotDelivered',
+                    Stolen: 'Stolen',
+                  }[card.blockType ?? 'null']
+                }}
+              </td>
+              <td>{{ card.blockedAt | formatMediumDatetime }}</td>
+              <td>{{ card.blockedBy }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    Active: 'Active',
+                    AwaitingRenewal: 'AwaitingRenewal',
+                    Blocked: 'Blocked',
+                    Closed: 'Closed',
+                    Closing: 'Closing',
+                    Created: 'Created',
+                    Dispatched: 'Dispatched',
+                    Expired: 'Expired',
+                    Ordered: 'Ordered',
+                    Personalized: 'Personalized',
+                  }[card.status ?? 'null']
+                }}
+              </td>
+              <td>{{ card.embossingName }}</td>
+              <td>{{ card.embossingFirstName }}</td>
+              <td>{{ card.embossingLastName }}</td>
+              <td>{{ card.embossingCompanyName }}</td>
+              <td>{{ card.limitDailyPurchase }}</td>
+              <td>{{ card.limitDailyWithdrawal }}</td>
+              <td>{{ card.limitMonthlyPurchase }}</td>
+              <td>{{ card.limitMonthlyWithdrawal }}</td>
+              <td>{{ card.limitTransactionPurchase }}</td>
+              <td>
+                {{
+                  { null: '', SMSOTPAndStaticPassword: 'SMSOTPAndStaticPassword', AppBasedOTP: 'AppBasedOTP', None: 'None' }[
+                    card.secure3DType ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ card.secure3DMobile }}</td>
+              <td>{{ card.secure3DEmail }}</td>
+              <td>{{ { null: '', AAR: 'AAR', ENG: 'ENG' }[card.secure3DLanguageCode ?? 'null'] }}</td>
+              <td>{{ card.secure3DOutOfBandEnabled }}</td>
+              <td>{{ card.secure3DOutOfBandId }}</td>
+              <td>{{ card.deliveryFirstName }}</td>
+              <td>{{ card.deliveryLastName }}</td>
+              <td>{{ card.deliveryCompanyName }}</td>
+              <td>{{ card.deliveryAddress1 }}</td>
+              <td>{{ card.deliveryAddress2 }}</td>
+              <td>{{ card.deliveryPostalCode }}</td>
+              <td>{{ card.deliveryCity }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    ABW: 'ABW',
+                    AFG: 'AFG',
+                    AGO: 'AGO',
+                    AIA: 'AIA',
+                    ALA: 'ALA',
+                    ALB: 'ALB',
+                    AND: 'AND',
+                    ANT: 'ANT',
+                    ARE: 'ARE',
+                    ARG: 'ARG',
+                    ARM: 'ARM',
+                    ASM: 'ASM',
+                    ATA: 'ATA',
+                    ATF: 'ATF',
+                    ATG: 'ATG',
+                    AUS: 'AUS',
+                    AUT: 'AUT',
+                    AZE: 'AZE',
+                    BDI: 'BDI',
+                    BEL: 'BEL',
+                    BEN: 'BEN',
+                    BES: 'BES',
+                    BFA: 'BFA',
+                    BGD: 'BGD',
+                    BGR: 'BGR',
+                    BHR: 'BHR',
+                    BHS: 'BHS',
+                    BIH: 'BIH',
+                    BLM: 'BLM',
+                    BLR: 'BLR',
+                    BLZ: 'BLZ',
+                    BMU: 'BMU',
+                    BOL: 'BOL',
+                    BRA: 'BRA',
+                    BRB: 'BRB',
+                    BRN: 'BRN',
+                    BTN: 'BTN',
+                    BVT: 'BVT',
+                    BWA: 'BWA',
+                    CAF: 'CAF',
+                    CAN: 'CAN',
+                    CCK: 'CCK',
+                    CHE: 'CHE',
+                    CHL: 'CHL',
+                    CHN: 'CHN',
+                    CIV: 'CIV',
+                    CMR: 'CMR',
+                    COD: 'COD',
+                    COG: 'COG',
+                    COK: 'COK',
+                    COL: 'COL',
+                    COM: 'COM',
+                    CPV: 'CPV',
+                    CRI: 'CRI',
+                    CUB: 'CUB',
+                    CUW: 'CUW',
+                    CXR: 'CXR',
+                    CYM: 'CYM',
+                    CYP: 'CYP',
+                    CZE: 'CZE',
+                    DEU: 'DEU',
+                    DJI: 'DJI',
+                    DMA: 'DMA',
+                    DNK: 'DNK',
+                    DOM: 'DOM',
+                    DZA: 'DZA',
+                    ECU: 'ECU',
+                    EGY: 'EGY',
+                    ERI: 'ERI',
+                    ESH: 'ESH',
+                    ESP: 'ESP',
+                    EST: 'EST',
+                    ETH: 'ETH',
+                    FIN: 'FIN',
+                    FJI: 'FJI',
+                    FLK: 'FLK',
+                    FRA: 'FRA',
+                    FRO: 'FRO',
+                    FSM: 'FSM',
+                    GAB: 'GAB',
+                    GBR: 'GBR',
+                    GEO: 'GEO',
+                    GGY: 'GGY',
+                    GHA: 'GHA',
+                    GIB: 'GIB',
+                    GIN: 'GIN',
+                    GLP: 'GLP',
+                    GMB: 'GMB',
+                    GNB: 'GNB',
+                    GNQ: 'GNQ',
+                    GRC: 'GRC',
+                    GRD: 'GRD',
+                    GRL: 'GRL',
+                    GTM: 'GTM',
+                    GUF: 'GUF',
+                    GUM: 'GUM',
+                    GUY: 'GUY',
+                    HKG: 'HKG',
+                    HMD: 'HMD',
+                    HND: 'HND',
+                    HRV: 'HRV',
+                    HTI: 'HTI',
+                    HUN: 'HUN',
+                    IDN: 'IDN',
+                    IMN: 'IMN',
+                    IND: 'IND',
+                    IOT: 'IOT',
+                    IRL: 'IRL',
+                    IRN: 'IRN',
+                    IRQ: 'IRQ',
+                    ISL: 'ISL',
+                    ISR: 'ISR',
+                    ITA: 'ITA',
+                    JAM: 'JAM',
+                    JEY: 'JEY',
+                    JOR: 'JOR',
+                    JPN: 'JPN',
+                    KAZ: 'KAZ',
+                    KEN: 'KEN',
+                    KGZ: 'KGZ',
+                    KHM: 'KHM',
+                    KIR: 'KIR',
+                    KNA: 'KNA',
+                    KOR: 'KOR',
+                    KWT: 'KWT',
+                    LAO: 'LAO',
+                    LBN: 'LBN',
+                    LBR: 'LBR',
+                    LBY: 'LBY',
+                    LCA: 'LCA',
+                    LIE: 'LIE',
+                    LKA: 'LKA',
+                    LSO: 'LSO',
+                    LTU: 'LTU',
+                    LUX: 'LUX',
+                    LVA: 'LVA',
+                    MAC: 'MAC',
+                    MAF: 'MAF',
+                    MAR: 'MAR',
+                    MCO: 'MCO',
+                    MDA: 'MDA',
+                    MDG: 'MDG',
+                    MDV: 'MDV',
+                    MEX: 'MEX',
+                    MHL: 'MHL',
+                    MKD: 'MKD',
+                    MLI: 'MLI',
+                    MLT: 'MLT',
+                    MMR: 'MMR',
+                    MNE: 'MNE',
+                    MNG: 'MNG',
+                    MNP: 'MNP',
+                    MOZ: 'MOZ',
+                    MRT: 'MRT',
+                    MSR: 'MSR',
+                    MTQ: 'MTQ',
+                    MUS: 'MUS',
+                    MWI: 'MWI',
+                    MYS: 'MYS',
+                    MYT: 'MYT',
+                    NAM: 'NAM',
+                    NCL: 'NCL',
+                    NER: 'NER',
+                    NFK: 'NFK',
+                    NGA: 'NGA',
+                    NIC: 'NIC',
+                    NIU: 'NIU',
+                    NLD: 'NLD',
+                    NOR: 'NOR',
+                    NPL: 'NPL',
+                    NRU: 'NRU',
+                    NZL: 'NZL',
+                    OMR: 'OMR',
+                    PAK: 'PAK',
+                    PAN: 'PAN',
+                    PCN: 'PCN',
+                    PER: 'PER',
+                    PHL: 'PHL',
+                    PLW: 'PLW',
+                    PNG: 'PNG',
+                    POL: 'POL',
+                    PRI: 'PRI',
+                    PRK: 'PRK',
+                    PRT: 'PRT',
+                    PRY: 'PRY',
+                    PSE: 'PSE',
+                    PYF: 'PYF',
+                    QAT: 'QAT',
+                    REU: 'REU',
+                    ROU: 'ROU',
+                    RUS: 'RUS',
+                    RWA: 'RWA',
+                    SAU: 'SAU',
+                    SDN: 'SDN',
+                    SEN: 'SEN',
+                    SGP: 'SGP',
+                    SGS: 'SGS',
+                    SHN: 'SHN',
+                    SJM: 'SJM',
+                    SLB: 'SLB',
+                    SLE: 'SLE',
+                    SLV: 'SLV',
+                    SMR: 'SMR',
+                    SOM: 'SOM',
+                    SPM: 'SPM',
+                    SRB: 'SRB',
+                    SSD: 'SSD',
+                    STP: 'STP',
+                    SUR: 'SUR',
+                    SVK: 'SVK',
+                    SVN: 'SVN',
+                    SWE: 'SWE',
+                    SWZ: 'SWZ',
+                    SXM: 'SXM',
+                    SYC: 'SYC',
+                    SYR: 'SYR',
+                    TCA: 'TCA',
+                    TCD: 'TCD',
+                    TGO: 'TGO',
+                    THA: 'THA',
+                    TJK: 'TJK',
+                    TKL: 'TKL',
+                    TKM: 'TKM',
+                    TLS: 'TLS',
+                    TON: 'TON',
+                    TTO: 'TTO',
+                    TUN: 'TUN',
+                    TUR: 'TUR',
+                    TUV: 'TUV',
+                    TWN: 'TWN',
+                    TZA: 'TZA',
+                    UGA: 'UGA',
+                    UKR: 'UKR',
+                    UMI: 'UMI',
+                    UNK: 'UNK',
+                    URY: 'URY',
+                    USA: 'USA',
+                    UZS: 'UZS',
+                    VAT: 'VAT',
+                    VCT: 'VCT',
+                    VEN: 'VEN',
+                    VGB: 'VGB',
+                    VIR: 'VIR',
+                    VNM: 'VNM',
+                    VUT: 'VUT',
+                    WLF: 'WLF',
+                    WSM: 'WSM',
+                    XKX: 'XKX',
+                    YEM: 'YEM',
+                    ZAF: 'ZAF',
+                    ZMB: 'ZMB',
+                    ZWE: 'ZWE',
+                  }[card.deliveryCountryCode ?? 'null']
+                }}
+              </td>
+              <td>
+                {{
+                  { null: '', StandardMail: 'StandardMail', DHLExpress: 'DHLExpress', FedEx: 'FedEx', Courier: 'Courier' }[
+                    card.deliveryDispatchMethod ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ card.deliveryPhone }}</td>
+              <td>{{ card.deliveryTrackingNumber }}</td>
+              <td>{{ card.isEnrolledFor3DSecure }}</td>
+              <td>{{ card.isCard3DSecureActivated }}</td>
+              <td>{{ card.renewAutomatically }}</td>
+              <td>{{ card.isDisposable }}</td>
+              <td>{{ card.securityContactlessEnabled }}</td>
+              <td>{{ card.securityWithdrawalEnabled }}</td>
+              <td>{{ card.securityInternetPurchaseEnabled }}</td>
+              <td>{{ card.securityOverallLimitsEnabled }}</td>
+              <td>{{ card.securityAllTimeLimitsEnabled }}</td>
+              <td>{{ card.personalizationProductCode }}</td>
+              <td>{{ { null: '', Standard: 'Standard', Custom: 'Custom' }[card.carrierType ?? 'null'] }}</td>
+              <td>{{ card.cardMetadataProfileId }}</td>
+              <td>{{ card.activatedAt | formatMediumDatetime }}</td>
+              <td>{{ card.createdAt | formatMediumDatetime }}</td>
+              <td>{{ card.updatedAt | formatMediumDatetime }}</td>
+              <td>{{ card.closedAt | formatMediumDatetime }}</td>
+              <td>{{ card.closedBy }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    ClosedByCardholder: 'ClosedByCardholder',
+                    ClosedByClient: 'ClosedByClient',
+                    ClosedByIssuer: 'ClosedByIssuer',
+                    ClosedByRenewal: 'ClosedByRenewal',
+                    ClosedByReplace: 'ClosedByReplace',
+                    ClosedBySystem: 'ClosedBySystem',
+                  }[card.closeReason ?? 'null']
+                }}
+              </td>
+              <td>{{ card.companyId }}</td>
+              <td>{{ card.dispatchedAt | formatMediumDatetime }}</td>
+              <td>{{ card.notificationReceiptsReminderEnabled }}</td>
+              <td>{{ card.notificationInstantSpendUpdateEnabled }}</td>
+              <td>
+                {{
+                  { null: '', SingleUse: 'SingleUse', CustomExpiryDate: 'CustomExpiryDate', None: 'None' }[card.disposableType ?? 'null']
+                }}
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/card', card.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </a>
+
+                  <a [routerLink]="['/card', card.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(card)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

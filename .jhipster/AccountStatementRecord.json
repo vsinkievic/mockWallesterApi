@@ -1,0 +1,195 @@
+{
+  "annotations": {
+    "changelogDate": "20250423104304"
+  },
+  "applications": "*",
+  "documentation": "Represents a single record in an Account Statement.",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "cardId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "AccountStatementRecordType",
+      "fieldValues": "AccountAdjustment,Authorization,Fee,Transaction"
+    },
+    {
+      "fieldName": "group",
+      "fieldType": "AccountStatementRecordGroup",
+      "fieldValues": "AccountClosureFee,AccountTransferFee,AdditionalBINConfigurationFee,AdditionalBINMaintenanceFee,AdditionalVirtualCardsFee,AuthorizationATMBalanceInquiryFixedFee,AuthorizationATMDeclinedFixedFee,AuthorizationATMWithdrawalComplexFee,AuthorizationATMWithdrawalEEAComplexFee,AuthorizationATMWithdrawalFixedFee,AuthorizationATMWithdrawalInternationalComplexFee,AuthorizationATMWithdrawalPercentageFee,AuthorizationDeclinedFixedFee,AuthorizationEEAFixedFee,AuthorizationForeignExchangePercentageFee,AuthorizationInternationalFixedFee,AvailableFundsRefundFee,Card3DSecureAttemptFixedFee,CardDeliveryFixedFee,CardExpressDeliveryFixedFee,CardIssuanceFixedFee,CardRenewalFixedFee,CardReplacementFixedFee,CardTopUpPercentageFee,CardUsageFixedFee,ChargebackProcessingFee,CurrencyExchangeFee,DedicatedBINRangeFee,Deposit,DisposableCardCreationFee,ExclusiveBINFee,ExclusiveSharedBINFee,IncomingSEPAPaymentFixedFee,IncomingSEPAPaymentPercentageFee,IndustryFee,InternetPurchase,MerchantWhitelistFee,MonthlyFeePerEmployee,MonthlyServiceFee,NewEmployeeAdditionFee,Other,OtherAdministrativeRequestFee,PINChangeFixedFee,PINManagement,PaymentEEAComplexFee,PaymentEEAFixedFee,PaymentInternationalComplexFee,PaymentInternationalFixedFee,PaymentPercentageFee,PricingPlanFee,Purchase,Refund,Remind3DSPasswordFixedFee,RemindPINFixedFee,SharedBINRangeFee,StablecoinTopUpPercentageFee,WireTransferDomesticFixedFee,WireTransferInternationalFixedFee,Withdraw,ZeroAuthorizationEEAFixedFee,ZeroAuthorizationInternationalFixedFee"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "transactionAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "transactionCurrencyCode",
+      "fieldType": "CurrencyCode",
+      "fieldValues": "AED,AFN,ALL,AMD,ANG,AOA,ARS,AUD,AWG,AZN,BAM,BBD,BDT,BGN,BHD,BIF,BMD,BND,BOB,BOV,BRL,BSD,BTN,BWP,BYN,BZD,CAD,CDF,CHE,CHF,CHW,CLF,CLP,CNY,COP,COU,CRC,CUC,CUP,CVE,CZK,DJF,DKK,DOP,DZD,EGP,ERN,ETB,EUR,FJD,FKP,GBP,GEL,GHS,GIP,GMD,GNF,GTQ,GYD,HKD,HNL,HRK,HTG,HUF,IDR,ILS,INR,IQD,IRR,ISK,JMD,JOD,JPY,KES,KGS,KHR,KMF,KPW,KRW,KWD,KYD,KZT,LAK,LBP,LKR,LRD,LSL,LYD,MAD,MDL,MGA,MKD,MMK,MNT,MOP,MRU,MUR,MVR,MWK,MXN,MXV,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PGK,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,RWF,SAR,SBD,SCR,SDG,SEK,SGD,SHP,SLL,SOS,SRD,SSP,STN,SVC,SYP,SZL,THB,TJS,TMT,TND,TOP,TRY,TTD,TWD,TZA,UAH,UGX,USD,USN,UYI,UYU,UYW,UZS,VES,VND,VUV,WST,XAF,XCD,XOF,XPF,YER,ZAR,ZMW,ZWL"
+    },
+    {
+      "fieldName": "accountAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "accountCurrencyCode",
+      "fieldType": "CurrencyCode",
+      "fieldValues": "AED,AFN,ALL,AMD,ANG,AOA,ARS,AUD,AWG,AZN,BAM,BBD,BDT,BGN,BHD,BIF,BMD,BND,BOB,BOV,BRL,BSD,BTN,BWP,BYN,BZD,CAD,CDF,CHE,CHF,CHW,CLF,CLP,CNY,COP,COU,CRC,CUC,CUP,CVE,CZK,DJF,DKK,DOP,DZD,EGP,ERN,ETB,EUR,FJD,FKP,GBP,GEL,GHS,GIP,GMD,GNF,GTQ,GYD,HKD,HNL,HRK,HTG,HUF,IDR,ILS,INR,IQD,IRR,ISK,JMD,JOD,JPY,KES,KGS,KHR,KMF,KPW,KRW,KWD,KYD,KZT,LAK,LBP,LKR,LRD,LSL,LYD,MAD,MDL,MGA,MKD,MMK,MNT,MOP,MRU,MUR,MVR,MWK,MXN,MXV,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PGK,PHP,PKR,PLN,PYG,QAR,RON,RSD,RUB,RWF,SAR,SBD,SCR,SDG,SEK,SGD,SHP,SLL,SOS,SRD,SSP,STN,SVC,SYP,SZL,THB,TJS,TMT,TND,TOP,TRY,TTD,TWD,TZA,UAH,UGX,USD,USN,UYI,UYU,UYW,UZS,VES,VND,VUV,WST,XAF,XCD,XOF,XPF,YER,ZAR,ZMW,ZWL"
+    },
+    {
+      "fieldName": "merchantCategoryCode",
+      "fieldType": "MerchantCategoryCode",
+      "fieldValues": "MCC0742,MCC0763,MCC0780,MCC1520,MCC1711,MCC1731,MCC1740,MCC1750,MCC1761,MCC1771,MCC1799,MCC2842,MCC4011,MCC4111,MCC4112,MCC4119,MCC4121,MCC4131,MCC4214,MCC4215,MCC4225,MCC4411,MCC4457,MCC4468,MCC4511,MCC4582,MCC4722,MCC4784,MCC4789,MCC4812,MCC4814,MCC4816,MCC4821,MCC4829,MCC4899,MCC4900,MCC5013,MCC5137,MCC5139,MCC5200,MCC5211,MCC5231,MCC5251,MCC5261,MCC5271,MCC5300,MCC5309,MCC5310,MCC5311,MCC5331,MCC5411,MCC5422,MCC5441,MCC5451,MCC5462,MCC5499,MCC5511,MCC5521,MCC5532,MCC5533,MCC5541,MCC5542,MCC5561,MCC5571,MCC5592,MCC5598,MCC5599,MCC5611,MCC5621,MCC5631,MCC5641,MCC5651,MCC5655,MCC5661,MCC5681,MCC5691,MCC5697,MCC5699,MCC5712,MCC5713,MCC5714,MCC5718,MCC5719,MCC5722,MCC5732,MCC5733,MCC5735,MCC5811,MCC5812,MCC5813,MCC5814,MCC5912,MCC5931,MCC5932,MCC5933,MCC5937,MCC5940,MCC5941,MCC5942,MCC5943,MCC5945,MCC5946,MCC5947,MCC5948,MCC5949,MCC5950,MCC5962,MCC5967,MCC5970,MCC5971,MCC5972,MCC5973,MCC5975,MCC5976,MCC5977,MCC5978,MCC5983,MCC5992,MCC5993,MCC5994,MCC5995,MCC5996,MCC5997,MCC5998,MCC5999,MCC6010,MCC6011,MCC6051,MCC6300,MCC7011,MCC7012,MCC7032,MCC7033,MCC7210,MCC7211,MCC7216,MCC7217,MCC7221,MCC7230,MCC7251,MCC7261,MCC7273,MCC7276,MCC7277,MCC7278,MCC7296,MCC7297,MCC7298,MCC7299,MCC7311,MCC7321,MCC7322,MCC7333,MCC7338,MCC7339,MCC7342,MCC7349,MCC7361,MCC7372,MCC7375,MCC7379,MCC7392,MCC7393,MCC7394,MCC7395,MCC7399,MCC7512,MCC7513,MCC7519,MCC7523,MCC7531,MCC7538,MCC7829,MCC7832,MCC7841,MCC7911,MCC7922,MCC7929,MCC7932,MCC7933,MCC7941,MCC7991,MCC7992,MCC7993,MCC7994,MCC7995,MCC7996,MCC7997,MCC7998,MCC7999,MCC8011,MCC8021,MCC8031,MCC8041,MCC8042,MCC8043,MCC8049,MCC8050,MCC8062,MCC8071,MCC8099,MCC8111,MCC8351,MCC8911,MCC8931,MCC8999,MCC9223,MCC9402"
+    },
+    {
+      "fieldName": "merchantId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "terminalId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "merchantName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "merchantCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "merchantCountryCode",
+      "fieldType": "CountryCode",
+      "fieldValues": "ABW,AFG,AGO,AIA,ALA,ALB,AND,ANT,ARE,ARG,ARM,ASM,ATA,ATF,ATG,AUS,AUT,AZE,BDI,BEL,BEN,BES,BFA,BGD,BGR,BHR,BHS,BIH,BLM,BLR,BLZ,BMU,BOL,BRA,BRB,BRN,BTN,BVT,BWA,CAF,CAN,CCK,CHE,CHL,CHN,CIV,CMR,COD,COG,COK,COL,COM,CPV,CRI,CUB,CUW,CXR,CYM,CYP,CZE,DEU,DJI,DMA,DNK,DOM,DZA,ECU,EGY,ERI,ESH,ESP,EST,ETH,FIN,FJI,FLK,FRA,FRO,FSM,GAB,GBR,GEO,GGY,GHA,GIB,GIN,GLP,GMB,GNB,GNQ,GRC,GRD,GRL,GTM,GUF,GUM,GUY,HKG,HMD,HND,HRV,HTI,HUN,IDN,IMN,IND,IOT,IRL,IRN,IRQ,ISL,ISR,ITA,JAM,JEY,JOR,JPN,KAZ,KEN,KGZ,KHM,KIR,KNA,KOR,KWT,LAO,LBN,LBR,LBY,LCA,LIE,LKA,LSO,LTU,LUX,LVA,MAC,MAF,MAR,MCO,MDA,MDG,MDV,MEX,MHL,MKD,MLI,MLT,MMR,MNE,MNG,MNP,MOZ,MRT,MSR,MTQ,MUS,MWI,MYS,MYT,NAM,NCL,NER,NFK,NGA,NIC,NIU,NLD,NOR,NPL,NRU,NZL,OMR,PAK,PAN,PCN,PER,PHL,PLW,PNG,POL,PRI,PRK,PRT,PRY,PSE,PYF,QAT,REU,ROU,RUS,RWA,SAU,SDN,SEN,SGP,SGS,SHN,SJM,SLB,SLE,SLV,SMR,SOM,SPM,SRB,SSD,STP,SUR,SVK,SVN,SWE,SWZ,SXM,SYC,SYR,TCA,TCD,TGO,THA,TJK,TKL,TKM,TLS,TON,TTO,TUN,TUR,TUV,TWN,TZA,UGA,UKR,UMI,UNK,URY,USA,UZS,VAT,VCT,VEN,VGB,VIR,VNM,VUT,WLF,WSM,XKX,YEM,ZAF,ZMB,ZWE"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "originalAuthorizationId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isReversal",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isDeclined",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isCleared",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "markedForDisputeAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "markedForDisputeBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "AccountStatementRecordStatus",
+      "fieldValues": "Canceled,Completed,Pending"
+    },
+    {
+      "fieldName": "response",
+      "fieldType": "AccountStatementRecordResponse",
+      "fieldValues": "Approved,Declined"
+    },
+    {
+      "fieldName": "responseCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accountExternalId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maskedCardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hasPaymentDocumentFiles",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "hasPaymentNotes",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "cardName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingFirstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingLastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "embossingCompanyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "purchaseDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "exchangeRate",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "enrichedMerchantName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enrichedMerchantUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enrichedMerchantDomain",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enrichedMerchantTelephone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enrichedMerchantIconUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "name": "AccountStatementRecord",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

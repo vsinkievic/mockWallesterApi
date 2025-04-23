@@ -1,0 +1,1078 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-card-heading" data-cy="CardCreateUpdateHeading">Create or edit a Card</h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">Id</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_predecessorCardId">Predecessor Card Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="predecessorCardId"
+            id="field_predecessorCardId"
+            data-cy="predecessorCardId"
+            formControlName="predecessorCardId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountId">Account Id</label>
+          <input type="text" class="form-control" name="accountId" id="field_accountId" data-cy="accountId" formControlName="accountId" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_personId">Person Id</label>
+          <input type="text" class="form-control" name="personId" id="field_personId" data-cy="personId" formControlName="personId" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_externalId">External Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="externalId"
+            id="field_externalId"
+            data-cy="externalId"
+            formControlName="externalId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null"></option>
+            @for (cardType of cardTypeValues; track $index) {
+              <option [value]="cardType">
+                {{ { null: '', ChipAndPin: 'ChipAndPin', ChipAndPinAnonymous: 'ChipAndPinAnonymous', Virtual: 'Virtual' }[cardType] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_maskedCardNumber">Masked Card Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="maskedCardNumber"
+            id="field_maskedCardNumber"
+            data-cy="maskedCardNumber"
+            formControlName="maskedCardNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_referenceNumber">Reference Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="referenceNumber"
+            id="field_referenceNumber"
+            data-cy="referenceNumber"
+            formControlName="referenceNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_expiryDate">Expiry Date</label>
+          <div class="d-flex">
+            <input
+              id="field_expiryDate"
+              data-cy="expiryDate"
+              type="datetime-local"
+              class="form-control"
+              name="expiryDate"
+              formControlName="expiryDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_blockType">Block Type</label>
+          <select class="form-control" name="blockType" formControlName="blockType" id="field_blockType" data-cy="blockType">
+            <option [ngValue]="null"></option>
+            @for (blockType of blockTypeValues; track $index) {
+              <option [value]="blockType">
+                {{
+                  {
+                    null: '',
+                    BlockedByCardUser: 'BlockedByCardUser',
+                    BlockedByCardholder: 'BlockedByCardholder',
+                    BlockedByCardholderViaPhone: 'BlockedByCardholderViaPhone',
+                    BlockedByClient: 'BlockedByClient',
+                    BlockedByIssuer: 'BlockedByIssuer',
+                    Counterfeit: 'Counterfeit',
+                    Fraudulent: 'Fraudulent',
+                    Frozen: 'Frozen',
+                    Lost: 'Lost',
+                    MaxInvalidTriesCVV2: 'MaxInvalidTriesCVV2',
+                    MaxInvalidTriesPIN: 'MaxInvalidTriesPIN',
+                    NotDelivered: 'NotDelivered',
+                    Stolen: 'Stolen',
+                  }[blockType]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_blockedAt">Blocked At</label>
+          <div class="d-flex">
+            <input
+              id="field_blockedAt"
+              data-cy="blockedAt"
+              type="datetime-local"
+              class="form-control"
+              name="blockedAt"
+              formControlName="blockedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_blockedBy">Blocked By</label>
+          <input type="text" class="form-control" name="blockedBy" id="field_blockedBy" data-cy="blockedBy" formControlName="blockedBy" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null"></option>
+            @for (cardStatus of cardStatusValues; track $index) {
+              <option [value]="cardStatus">
+                {{
+                  {
+                    null: '',
+                    Active: 'Active',
+                    AwaitingRenewal: 'AwaitingRenewal',
+                    Blocked: 'Blocked',
+                    Closed: 'Closed',
+                    Closing: 'Closing',
+                    Created: 'Created',
+                    Dispatched: 'Dispatched',
+                    Expired: 'Expired',
+                    Ordered: 'Ordered',
+                    Personalized: 'Personalized',
+                  }[cardStatus]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingName">Embossing Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingName"
+            id="field_embossingName"
+            data-cy="embossingName"
+            formControlName="embossingName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingFirstName">Embossing First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingFirstName"
+            id="field_embossingFirstName"
+            data-cy="embossingFirstName"
+            formControlName="embossingFirstName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingLastName">Embossing Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingLastName"
+            id="field_embossingLastName"
+            data-cy="embossingLastName"
+            formControlName="embossingLastName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingCompanyName">Embossing Company Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingCompanyName"
+            id="field_embossingCompanyName"
+            data-cy="embossingCompanyName"
+            formControlName="embossingCompanyName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitDailyPurchase">Limit Daily Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitDailyPurchase"
+            id="field_limitDailyPurchase"
+            data-cy="limitDailyPurchase"
+            formControlName="limitDailyPurchase"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitDailyWithdrawal">Limit Daily Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitDailyWithdrawal"
+            id="field_limitDailyWithdrawal"
+            data-cy="limitDailyWithdrawal"
+            formControlName="limitDailyWithdrawal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitMonthlyPurchase">Limit Monthly Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitMonthlyPurchase"
+            id="field_limitMonthlyPurchase"
+            data-cy="limitMonthlyPurchase"
+            formControlName="limitMonthlyPurchase"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitMonthlyWithdrawal">Limit Monthly Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitMonthlyWithdrawal"
+            id="field_limitMonthlyWithdrawal"
+            data-cy="limitMonthlyWithdrawal"
+            formControlName="limitMonthlyWithdrawal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitTransactionPurchase">Limit Transaction Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitTransactionPurchase"
+            id="field_limitTransactionPurchase"
+            data-cy="limitTransactionPurchase"
+            formControlName="limitTransactionPurchase"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DType">Secure 3 D Type</label>
+          <select class="form-control" name="secure3DType" formControlName="secure3DType" id="field_secure3DType" data-cy="secure3DType">
+            <option [ngValue]="null"></option>
+            @for (secure3DType of secure3DTypeValues; track $index) {
+              <option [value]="secure3DType">
+                {{
+                  { null: '', SMSOTPAndStaticPassword: 'SMSOTPAndStaticPassword', AppBasedOTP: 'AppBasedOTP', None: 'None' }[secure3DType]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DMobile">Secure 3 D Mobile</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secure3DMobile"
+            id="field_secure3DMobile"
+            data-cy="secure3DMobile"
+            formControlName="secure3DMobile"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DEmail">Secure 3 D Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secure3DEmail"
+            id="field_secure3DEmail"
+            data-cy="secure3DEmail"
+            formControlName="secure3DEmail"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DLanguageCode">Secure 3 D Language Code</label>
+          <select
+            class="form-control"
+            name="secure3DLanguageCode"
+            formControlName="secure3DLanguageCode"
+            id="field_secure3DLanguageCode"
+            data-cy="secure3DLanguageCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (languageCode of languageCodeValues; track $index) {
+              <option [value]="languageCode">{{ { null: '', AAR: 'AAR', ENG: 'ENG' }[languageCode] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DOutOfBandEnabled">Secure 3 D Out Of Band Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="secure3DOutOfBandEnabled"
+            id="field_secure3DOutOfBandEnabled"
+            data-cy="secure3DOutOfBandEnabled"
+            formControlName="secure3DOutOfBandEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secure3DOutOfBandId">Secure 3 D Out Of Band Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secure3DOutOfBandId"
+            id="field_secure3DOutOfBandId"
+            data-cy="secure3DOutOfBandId"
+            formControlName="secure3DOutOfBandId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryFirstName">Delivery First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryFirstName"
+            id="field_deliveryFirstName"
+            data-cy="deliveryFirstName"
+            formControlName="deliveryFirstName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryLastName">Delivery Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryLastName"
+            id="field_deliveryLastName"
+            data-cy="deliveryLastName"
+            formControlName="deliveryLastName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryCompanyName">Delivery Company Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryCompanyName"
+            id="field_deliveryCompanyName"
+            data-cy="deliveryCompanyName"
+            formControlName="deliveryCompanyName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryAddress1">Delivery Address 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryAddress1"
+            id="field_deliveryAddress1"
+            data-cy="deliveryAddress1"
+            formControlName="deliveryAddress1"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryAddress2">Delivery Address 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryAddress2"
+            id="field_deliveryAddress2"
+            data-cy="deliveryAddress2"
+            formControlName="deliveryAddress2"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryPostalCode">Delivery Postal Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryPostalCode"
+            id="field_deliveryPostalCode"
+            data-cy="deliveryPostalCode"
+            formControlName="deliveryPostalCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryCity">Delivery City</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryCity"
+            id="field_deliveryCity"
+            data-cy="deliveryCity"
+            formControlName="deliveryCity"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryCountryCode">Delivery Country Code</label>
+          <select
+            class="form-control"
+            name="deliveryCountryCode"
+            formControlName="deliveryCountryCode"
+            id="field_deliveryCountryCode"
+            data-cy="deliveryCountryCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (countryCode of countryCodeValues; track $index) {
+              <option [value]="countryCode">
+                {{
+                  {
+                    null: '',
+                    ABW: 'ABW',
+                    AFG: 'AFG',
+                    AGO: 'AGO',
+                    AIA: 'AIA',
+                    ALA: 'ALA',
+                    ALB: 'ALB',
+                    AND: 'AND',
+                    ANT: 'ANT',
+                    ARE: 'ARE',
+                    ARG: 'ARG',
+                    ARM: 'ARM',
+                    ASM: 'ASM',
+                    ATA: 'ATA',
+                    ATF: 'ATF',
+                    ATG: 'ATG',
+                    AUS: 'AUS',
+                    AUT: 'AUT',
+                    AZE: 'AZE',
+                    BDI: 'BDI',
+                    BEL: 'BEL',
+                    BEN: 'BEN',
+                    BES: 'BES',
+                    BFA: 'BFA',
+                    BGD: 'BGD',
+                    BGR: 'BGR',
+                    BHR: 'BHR',
+                    BHS: 'BHS',
+                    BIH: 'BIH',
+                    BLM: 'BLM',
+                    BLR: 'BLR',
+                    BLZ: 'BLZ',
+                    BMU: 'BMU',
+                    BOL: 'BOL',
+                    BRA: 'BRA',
+                    BRB: 'BRB',
+                    BRN: 'BRN',
+                    BTN: 'BTN',
+                    BVT: 'BVT',
+                    BWA: 'BWA',
+                    CAF: 'CAF',
+                    CAN: 'CAN',
+                    CCK: 'CCK',
+                    CHE: 'CHE',
+                    CHL: 'CHL',
+                    CHN: 'CHN',
+                    CIV: 'CIV',
+                    CMR: 'CMR',
+                    COD: 'COD',
+                    COG: 'COG',
+                    COK: 'COK',
+                    COL: 'COL',
+                    COM: 'COM',
+                    CPV: 'CPV',
+                    CRI: 'CRI',
+                    CUB: 'CUB',
+                    CUW: 'CUW',
+                    CXR: 'CXR',
+                    CYM: 'CYM',
+                    CYP: 'CYP',
+                    CZE: 'CZE',
+                    DEU: 'DEU',
+                    DJI: 'DJI',
+                    DMA: 'DMA',
+                    DNK: 'DNK',
+                    DOM: 'DOM',
+                    DZA: 'DZA',
+                    ECU: 'ECU',
+                    EGY: 'EGY',
+                    ERI: 'ERI',
+                    ESH: 'ESH',
+                    ESP: 'ESP',
+                    EST: 'EST',
+                    ETH: 'ETH',
+                    FIN: 'FIN',
+                    FJI: 'FJI',
+                    FLK: 'FLK',
+                    FRA: 'FRA',
+                    FRO: 'FRO',
+                    FSM: 'FSM',
+                    GAB: 'GAB',
+                    GBR: 'GBR',
+                    GEO: 'GEO',
+                    GGY: 'GGY',
+                    GHA: 'GHA',
+                    GIB: 'GIB',
+                    GIN: 'GIN',
+                    GLP: 'GLP',
+                    GMB: 'GMB',
+                    GNB: 'GNB',
+                    GNQ: 'GNQ',
+                    GRC: 'GRC',
+                    GRD: 'GRD',
+                    GRL: 'GRL',
+                    GTM: 'GTM',
+                    GUF: 'GUF',
+                    GUM: 'GUM',
+                    GUY: 'GUY',
+                    HKG: 'HKG',
+                    HMD: 'HMD',
+                    HND: 'HND',
+                    HRV: 'HRV',
+                    HTI: 'HTI',
+                    HUN: 'HUN',
+                    IDN: 'IDN',
+                    IMN: 'IMN',
+                    IND: 'IND',
+                    IOT: 'IOT',
+                    IRL: 'IRL',
+                    IRN: 'IRN',
+                    IRQ: 'IRQ',
+                    ISL: 'ISL',
+                    ISR: 'ISR',
+                    ITA: 'ITA',
+                    JAM: 'JAM',
+                    JEY: 'JEY',
+                    JOR: 'JOR',
+                    JPN: 'JPN',
+                    KAZ: 'KAZ',
+                    KEN: 'KEN',
+                    KGZ: 'KGZ',
+                    KHM: 'KHM',
+                    KIR: 'KIR',
+                    KNA: 'KNA',
+                    KOR: 'KOR',
+                    KWT: 'KWT',
+                    LAO: 'LAO',
+                    LBN: 'LBN',
+                    LBR: 'LBR',
+                    LBY: 'LBY',
+                    LCA: 'LCA',
+                    LIE: 'LIE',
+                    LKA: 'LKA',
+                    LSO: 'LSO',
+                    LTU: 'LTU',
+                    LUX: 'LUX',
+                    LVA: 'LVA',
+                    MAC: 'MAC',
+                    MAF: 'MAF',
+                    MAR: 'MAR',
+                    MCO: 'MCO',
+                    MDA: 'MDA',
+                    MDG: 'MDG',
+                    MDV: 'MDV',
+                    MEX: 'MEX',
+                    MHL: 'MHL',
+                    MKD: 'MKD',
+                    MLI: 'MLI',
+                    MLT: 'MLT',
+                    MMR: 'MMR',
+                    MNE: 'MNE',
+                    MNG: 'MNG',
+                    MNP: 'MNP',
+                    MOZ: 'MOZ',
+                    MRT: 'MRT',
+                    MSR: 'MSR',
+                    MTQ: 'MTQ',
+                    MUS: 'MUS',
+                    MWI: 'MWI',
+                    MYS: 'MYS',
+                    MYT: 'MYT',
+                    NAM: 'NAM',
+                    NCL: 'NCL',
+                    NER: 'NER',
+                    NFK: 'NFK',
+                    NGA: 'NGA',
+                    NIC: 'NIC',
+                    NIU: 'NIU',
+                    NLD: 'NLD',
+                    NOR: 'NOR',
+                    NPL: 'NPL',
+                    NRU: 'NRU',
+                    NZL: 'NZL',
+                    OMR: 'OMR',
+                    PAK: 'PAK',
+                    PAN: 'PAN',
+                    PCN: 'PCN',
+                    PER: 'PER',
+                    PHL: 'PHL',
+                    PLW: 'PLW',
+                    PNG: 'PNG',
+                    POL: 'POL',
+                    PRI: 'PRI',
+                    PRK: 'PRK',
+                    PRT: 'PRT',
+                    PRY: 'PRY',
+                    PSE: 'PSE',
+                    PYF: 'PYF',
+                    QAT: 'QAT',
+                    REU: 'REU',
+                    ROU: 'ROU',
+                    RUS: 'RUS',
+                    RWA: 'RWA',
+                    SAU: 'SAU',
+                    SDN: 'SDN',
+                    SEN: 'SEN',
+                    SGP: 'SGP',
+                    SGS: 'SGS',
+                    SHN: 'SHN',
+                    SJM: 'SJM',
+                    SLB: 'SLB',
+                    SLE: 'SLE',
+                    SLV: 'SLV',
+                    SMR: 'SMR',
+                    SOM: 'SOM',
+                    SPM: 'SPM',
+                    SRB: 'SRB',
+                    SSD: 'SSD',
+                    STP: 'STP',
+                    SUR: 'SUR',
+                    SVK: 'SVK',
+                    SVN: 'SVN',
+                    SWE: 'SWE',
+                    SWZ: 'SWZ',
+                    SXM: 'SXM',
+                    SYC: 'SYC',
+                    SYR: 'SYR',
+                    TCA: 'TCA',
+                    TCD: 'TCD',
+                    TGO: 'TGO',
+                    THA: 'THA',
+                    TJK: 'TJK',
+                    TKL: 'TKL',
+                    TKM: 'TKM',
+                    TLS: 'TLS',
+                    TON: 'TON',
+                    TTO: 'TTO',
+                    TUN: 'TUN',
+                    TUR: 'TUR',
+                    TUV: 'TUV',
+                    TWN: 'TWN',
+                    TZA: 'TZA',
+                    UGA: 'UGA',
+                    UKR: 'UKR',
+                    UMI: 'UMI',
+                    UNK: 'UNK',
+                    URY: 'URY',
+                    USA: 'USA',
+                    UZS: 'UZS',
+                    VAT: 'VAT',
+                    VCT: 'VCT',
+                    VEN: 'VEN',
+                    VGB: 'VGB',
+                    VIR: 'VIR',
+                    VNM: 'VNM',
+                    VUT: 'VUT',
+                    WLF: 'WLF',
+                    WSM: 'WSM',
+                    XKX: 'XKX',
+                    YEM: 'YEM',
+                    ZAF: 'ZAF',
+                    ZMB: 'ZMB',
+                    ZWE: 'ZWE',
+                  }[countryCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryDispatchMethod">Delivery Dispatch Method</label>
+          <select
+            class="form-control"
+            name="deliveryDispatchMethod"
+            formControlName="deliveryDispatchMethod"
+            id="field_deliveryDispatchMethod"
+            data-cy="deliveryDispatchMethod"
+          >
+            <option [ngValue]="null"></option>
+            @for (dispatchMethod of dispatchMethodValues; track $index) {
+              <option [value]="dispatchMethod">
+                {{
+                  { null: '', StandardMail: 'StandardMail', DHLExpress: 'DHLExpress', FedEx: 'FedEx', Courier: 'Courier' }[dispatchMethod]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryPhone">Delivery Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryPhone"
+            id="field_deliveryPhone"
+            data-cy="deliveryPhone"
+            formControlName="deliveryPhone"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deliveryTrackingNumber">Delivery Tracking Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deliveryTrackingNumber"
+            id="field_deliveryTrackingNumber"
+            data-cy="deliveryTrackingNumber"
+            formControlName="deliveryTrackingNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isEnrolledFor3DSecure">Is Enrolled For 3 D Secure</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isEnrolledFor3DSecure"
+            id="field_isEnrolledFor3DSecure"
+            data-cy="isEnrolledFor3DSecure"
+            formControlName="isEnrolledFor3DSecure"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isCard3DSecureActivated">Is Card 3 D Secure Activated</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isCard3DSecureActivated"
+            id="field_isCard3DSecureActivated"
+            data-cy="isCard3DSecureActivated"
+            formControlName="isCard3DSecureActivated"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_renewAutomatically">Renew Automatically</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="renewAutomatically"
+            id="field_renewAutomatically"
+            data-cy="renewAutomatically"
+            formControlName="renewAutomatically"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isDisposable">Is Disposable</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isDisposable"
+            id="field_isDisposable"
+            data-cy="isDisposable"
+            formControlName="isDisposable"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_securityContactlessEnabled">Security Contactless Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="securityContactlessEnabled"
+            id="field_securityContactlessEnabled"
+            data-cy="securityContactlessEnabled"
+            formControlName="securityContactlessEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_securityWithdrawalEnabled">Security Withdrawal Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="securityWithdrawalEnabled"
+            id="field_securityWithdrawalEnabled"
+            data-cy="securityWithdrawalEnabled"
+            formControlName="securityWithdrawalEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_securityInternetPurchaseEnabled">Security Internet Purchase Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="securityInternetPurchaseEnabled"
+            id="field_securityInternetPurchaseEnabled"
+            data-cy="securityInternetPurchaseEnabled"
+            formControlName="securityInternetPurchaseEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_securityOverallLimitsEnabled">Security Overall Limits Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="securityOverallLimitsEnabled"
+            id="field_securityOverallLimitsEnabled"
+            data-cy="securityOverallLimitsEnabled"
+            formControlName="securityOverallLimitsEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_securityAllTimeLimitsEnabled">Security All Time Limits Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="securityAllTimeLimitsEnabled"
+            id="field_securityAllTimeLimitsEnabled"
+            data-cy="securityAllTimeLimitsEnabled"
+            formControlName="securityAllTimeLimitsEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_personalizationProductCode">Personalization Product Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="personalizationProductCode"
+            id="field_personalizationProductCode"
+            data-cy="personalizationProductCode"
+            formControlName="personalizationProductCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_carrierType">Carrier Type</label>
+          <select class="form-control" name="carrierType" formControlName="carrierType" id="field_carrierType" data-cy="carrierType">
+            <option [ngValue]="null"></option>
+            @for (carrierType of carrierTypeValues; track $index) {
+              <option [value]="carrierType">{{ { null: '', Standard: 'Standard', Custom: 'Custom' }[carrierType] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cardMetadataProfileId">Card Metadata Profile Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="cardMetadataProfileId"
+            id="field_cardMetadataProfileId"
+            data-cy="cardMetadataProfileId"
+            formControlName="cardMetadataProfileId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_activatedAt">Activated At</label>
+          <div class="d-flex">
+            <input
+              id="field_activatedAt"
+              data-cy="activatedAt"
+              type="datetime-local"
+              class="form-control"
+              name="activatedAt"
+              formControlName="activatedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdAt">Created At</label>
+          <div class="d-flex">
+            <input
+              id="field_createdAt"
+              data-cy="createdAt"
+              type="datetime-local"
+              class="form-control"
+              name="createdAt"
+              formControlName="createdAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_updatedAt">Updated At</label>
+          <div class="d-flex">
+            <input
+              id="field_updatedAt"
+              data-cy="updatedAt"
+              type="datetime-local"
+              class="form-control"
+              name="updatedAt"
+              formControlName="updatedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_closedAt">Closed At</label>
+          <div class="d-flex">
+            <input
+              id="field_closedAt"
+              data-cy="closedAt"
+              type="datetime-local"
+              class="form-control"
+              name="closedAt"
+              formControlName="closedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_closedBy">Closed By</label>
+          <input type="text" class="form-control" name="closedBy" id="field_closedBy" data-cy="closedBy" formControlName="closedBy" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_closeReason">Close Reason</label>
+          <select class="form-control" name="closeReason" formControlName="closeReason" id="field_closeReason" data-cy="closeReason">
+            <option [ngValue]="null"></option>
+            @for (cardCloseReason of cardCloseReasonValues; track $index) {
+              <option [value]="cardCloseReason">
+                {{
+                  {
+                    null: '',
+                    ClosedByCardholder: 'ClosedByCardholder',
+                    ClosedByClient: 'ClosedByClient',
+                    ClosedByIssuer: 'ClosedByIssuer',
+                    ClosedByRenewal: 'ClosedByRenewal',
+                    ClosedByReplace: 'ClosedByReplace',
+                    ClosedBySystem: 'ClosedBySystem',
+                  }[cardCloseReason]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_companyId">Company Id</label>
+          <input type="text" class="form-control" name="companyId" id="field_companyId" data-cy="companyId" formControlName="companyId" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dispatchedAt">Dispatched At</label>
+          <div class="d-flex">
+            <input
+              id="field_dispatchedAt"
+              data-cy="dispatchedAt"
+              type="datetime-local"
+              class="form-control"
+              name="dispatchedAt"
+              formControlName="dispatchedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_notificationReceiptsReminderEnabled">Notification Receipts Reminder Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="notificationReceiptsReminderEnabled"
+            id="field_notificationReceiptsReminderEnabled"
+            data-cy="notificationReceiptsReminderEnabled"
+            formControlName="notificationReceiptsReminderEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_notificationInstantSpendUpdateEnabled">Notification Instant Spend Update Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="notificationInstantSpendUpdateEnabled"
+            id="field_notificationInstantSpendUpdateEnabled"
+            data-cy="notificationInstantSpendUpdateEnabled"
+            formControlName="notificationInstantSpendUpdateEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_disposableType">Disposable Type</label>
+          <select
+            class="form-control"
+            name="disposableType"
+            formControlName="disposableType"
+            id="field_disposableType"
+            data-cy="disposableType"
+          >
+            <option [ngValue]="null"></option>
+            @for (disposableType of disposableTypeValues; track $index) {
+              <option [value]="disposableType">
+                {{ { null: '', SingleUse: 'SingleUse', CustomExpiryDate: 'CustomExpiryDate', None: 'None' }[disposableType] }}
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

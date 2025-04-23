@@ -1,0 +1,976 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-company-heading" data-cy="CompanyCreateUpdateHeading">Create or edit a Company</h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">Id</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_registrationNumber">Registration Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="registrationNumber"
+            id="field_registrationNumber"
+            data-cy="registrationNumber"
+            formControlName="registrationNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_regAddressCountryCode">Reg Address Country Code</label>
+          <select
+            class="form-control"
+            name="regAddressCountryCode"
+            formControlName="regAddressCountryCode"
+            id="field_regAddressCountryCode"
+            data-cy="regAddressCountryCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (countryCode of countryCodeValues; track $index) {
+              <option [value]="countryCode">
+                {{
+                  {
+                    null: '',
+                    ABW: 'ABW',
+                    AFG: 'AFG',
+                    AGO: 'AGO',
+                    AIA: 'AIA',
+                    ALA: 'ALA',
+                    ALB: 'ALB',
+                    AND: 'AND',
+                    ANT: 'ANT',
+                    ARE: 'ARE',
+                    ARG: 'ARG',
+                    ARM: 'ARM',
+                    ASM: 'ASM',
+                    ATA: 'ATA',
+                    ATF: 'ATF',
+                    ATG: 'ATG',
+                    AUS: 'AUS',
+                    AUT: 'AUT',
+                    AZE: 'AZE',
+                    BDI: 'BDI',
+                    BEL: 'BEL',
+                    BEN: 'BEN',
+                    BES: 'BES',
+                    BFA: 'BFA',
+                    BGD: 'BGD',
+                    BGR: 'BGR',
+                    BHR: 'BHR',
+                    BHS: 'BHS',
+                    BIH: 'BIH',
+                    BLM: 'BLM',
+                    BLR: 'BLR',
+                    BLZ: 'BLZ',
+                    BMU: 'BMU',
+                    BOL: 'BOL',
+                    BRA: 'BRA',
+                    BRB: 'BRB',
+                    BRN: 'BRN',
+                    BTN: 'BTN',
+                    BVT: 'BVT',
+                    BWA: 'BWA',
+                    CAF: 'CAF',
+                    CAN: 'CAN',
+                    CCK: 'CCK',
+                    CHE: 'CHE',
+                    CHL: 'CHL',
+                    CHN: 'CHN',
+                    CIV: 'CIV',
+                    CMR: 'CMR',
+                    COD: 'COD',
+                    COG: 'COG',
+                    COK: 'COK',
+                    COL: 'COL',
+                    COM: 'COM',
+                    CPV: 'CPV',
+                    CRI: 'CRI',
+                    CUB: 'CUB',
+                    CUW: 'CUW',
+                    CXR: 'CXR',
+                    CYM: 'CYM',
+                    CYP: 'CYP',
+                    CZE: 'CZE',
+                    DEU: 'DEU',
+                    DJI: 'DJI',
+                    DMA: 'DMA',
+                    DNK: 'DNK',
+                    DOM: 'DOM',
+                    DZA: 'DZA',
+                    ECU: 'ECU',
+                    EGY: 'EGY',
+                    ERI: 'ERI',
+                    ESH: 'ESH',
+                    ESP: 'ESP',
+                    EST: 'EST',
+                    ETH: 'ETH',
+                    FIN: 'FIN',
+                    FJI: 'FJI',
+                    FLK: 'FLK',
+                    FRA: 'FRA',
+                    FRO: 'FRO',
+                    FSM: 'FSM',
+                    GAB: 'GAB',
+                    GBR: 'GBR',
+                    GEO: 'GEO',
+                    GGY: 'GGY',
+                    GHA: 'GHA',
+                    GIB: 'GIB',
+                    GIN: 'GIN',
+                    GLP: 'GLP',
+                    GMB: 'GMB',
+                    GNB: 'GNB',
+                    GNQ: 'GNQ',
+                    GRC: 'GRC',
+                    GRD: 'GRD',
+                    GRL: 'GRL',
+                    GTM: 'GTM',
+                    GUF: 'GUF',
+                    GUM: 'GUM',
+                    GUY: 'GUY',
+                    HKG: 'HKG',
+                    HMD: 'HMD',
+                    HND: 'HND',
+                    HRV: 'HRV',
+                    HTI: 'HTI',
+                    HUN: 'HUN',
+                    IDN: 'IDN',
+                    IMN: 'IMN',
+                    IND: 'IND',
+                    IOT: 'IOT',
+                    IRL: 'IRL',
+                    IRN: 'IRN',
+                    IRQ: 'IRQ',
+                    ISL: 'ISL',
+                    ISR: 'ISR',
+                    ITA: 'ITA',
+                    JAM: 'JAM',
+                    JEY: 'JEY',
+                    JOR: 'JOR',
+                    JPN: 'JPN',
+                    KAZ: 'KAZ',
+                    KEN: 'KEN',
+                    KGZ: 'KGZ',
+                    KHM: 'KHM',
+                    KIR: 'KIR',
+                    KNA: 'KNA',
+                    KOR: 'KOR',
+                    KWT: 'KWT',
+                    LAO: 'LAO',
+                    LBN: 'LBN',
+                    LBR: 'LBR',
+                    LBY: 'LBY',
+                    LCA: 'LCA',
+                    LIE: 'LIE',
+                    LKA: 'LKA',
+                    LSO: 'LSO',
+                    LTU: 'LTU',
+                    LUX: 'LUX',
+                    LVA: 'LVA',
+                    MAC: 'MAC',
+                    MAF: 'MAF',
+                    MAR: 'MAR',
+                    MCO: 'MCO',
+                    MDA: 'MDA',
+                    MDG: 'MDG',
+                    MDV: 'MDV',
+                    MEX: 'MEX',
+                    MHL: 'MHL',
+                    MKD: 'MKD',
+                    MLI: 'MLI',
+                    MLT: 'MLT',
+                    MMR: 'MMR',
+                    MNE: 'MNE',
+                    MNG: 'MNG',
+                    MNP: 'MNP',
+                    MOZ: 'MOZ',
+                    MRT: 'MRT',
+                    MSR: 'MSR',
+                    MTQ: 'MTQ',
+                    MUS: 'MUS',
+                    MWI: 'MWI',
+                    MYS: 'MYS',
+                    MYT: 'MYT',
+                    NAM: 'NAM',
+                    NCL: 'NCL',
+                    NER: 'NER',
+                    NFK: 'NFK',
+                    NGA: 'NGA',
+                    NIC: 'NIC',
+                    NIU: 'NIU',
+                    NLD: 'NLD',
+                    NOR: 'NOR',
+                    NPL: 'NPL',
+                    NRU: 'NRU',
+                    NZL: 'NZL',
+                    OMR: 'OMR',
+                    PAK: 'PAK',
+                    PAN: 'PAN',
+                    PCN: 'PCN',
+                    PER: 'PER',
+                    PHL: 'PHL',
+                    PLW: 'PLW',
+                    PNG: 'PNG',
+                    POL: 'POL',
+                    PRI: 'PRI',
+                    PRK: 'PRK',
+                    PRT: 'PRT',
+                    PRY: 'PRY',
+                    PSE: 'PSE',
+                    PYF: 'PYF',
+                    QAT: 'QAT',
+                    REU: 'REU',
+                    ROU: 'ROU',
+                    RUS: 'RUS',
+                    RWA: 'RWA',
+                    SAU: 'SAU',
+                    SDN: 'SDN',
+                    SEN: 'SEN',
+                    SGP: 'SGP',
+                    SGS: 'SGS',
+                    SHN: 'SHN',
+                    SJM: 'SJM',
+                    SLB: 'SLB',
+                    SLE: 'SLE',
+                    SLV: 'SLV',
+                    SMR: 'SMR',
+                    SOM: 'SOM',
+                    SPM: 'SPM',
+                    SRB: 'SRB',
+                    SSD: 'SSD',
+                    STP: 'STP',
+                    SUR: 'SUR',
+                    SVK: 'SVK',
+                    SVN: 'SVN',
+                    SWE: 'SWE',
+                    SWZ: 'SWZ',
+                    SXM: 'SXM',
+                    SYC: 'SYC',
+                    SYR: 'SYR',
+                    TCA: 'TCA',
+                    TCD: 'TCD',
+                    TGO: 'TGO',
+                    THA: 'THA',
+                    TJK: 'TJK',
+                    TKL: 'TKL',
+                    TKM: 'TKM',
+                    TLS: 'TLS',
+                    TON: 'TON',
+                    TTO: 'TTO',
+                    TUN: 'TUN',
+                    TUR: 'TUR',
+                    TUV: 'TUV',
+                    TWN: 'TWN',
+                    TZA: 'TZA',
+                    UGA: 'UGA',
+                    UKR: 'UKR',
+                    UMI: 'UMI',
+                    UNK: 'UNK',
+                    URY: 'URY',
+                    USA: 'USA',
+                    UZS: 'UZS',
+                    VAT: 'VAT',
+                    VCT: 'VCT',
+                    VEN: 'VEN',
+                    VGB: 'VGB',
+                    VIR: 'VIR',
+                    VNM: 'VNM',
+                    VUT: 'VUT',
+                    WLF: 'WLF',
+                    WSM: 'WSM',
+                    XKX: 'XKX',
+                    YEM: 'YEM',
+                    ZAF: 'ZAF',
+                    ZMB: 'ZMB',
+                    ZWE: 'ZWE',
+                  }[countryCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_regAddress1">Reg Address 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="regAddress1"
+            id="field_regAddress1"
+            data-cy="regAddress1"
+            formControlName="regAddress1"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_regAddress2">Reg Address 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="regAddress2"
+            id="field_regAddress2"
+            data-cy="regAddress2"
+            formControlName="regAddress2"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_regAddressCity">Reg Address City</label>
+          <input
+            type="text"
+            class="form-control"
+            name="regAddressCity"
+            id="field_regAddressCity"
+            data-cy="regAddressCity"
+            formControlName="regAddressCity"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_regAddressPostalCode">Reg Address Postal Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="regAddressPostalCode"
+            id="field_regAddressPostalCode"
+            data-cy="regAddressPostalCode"
+            formControlName="regAddressPostalCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hqAddressCountryCode">Hq Address Country Code</label>
+          <select
+            class="form-control"
+            name="hqAddressCountryCode"
+            formControlName="hqAddressCountryCode"
+            id="field_hqAddressCountryCode"
+            data-cy="hqAddressCountryCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (countryCode of countryCodeValues; track $index) {
+              <option [value]="countryCode">
+                {{
+                  {
+                    null: '',
+                    ABW: 'ABW',
+                    AFG: 'AFG',
+                    AGO: 'AGO',
+                    AIA: 'AIA',
+                    ALA: 'ALA',
+                    ALB: 'ALB',
+                    AND: 'AND',
+                    ANT: 'ANT',
+                    ARE: 'ARE',
+                    ARG: 'ARG',
+                    ARM: 'ARM',
+                    ASM: 'ASM',
+                    ATA: 'ATA',
+                    ATF: 'ATF',
+                    ATG: 'ATG',
+                    AUS: 'AUS',
+                    AUT: 'AUT',
+                    AZE: 'AZE',
+                    BDI: 'BDI',
+                    BEL: 'BEL',
+                    BEN: 'BEN',
+                    BES: 'BES',
+                    BFA: 'BFA',
+                    BGD: 'BGD',
+                    BGR: 'BGR',
+                    BHR: 'BHR',
+                    BHS: 'BHS',
+                    BIH: 'BIH',
+                    BLM: 'BLM',
+                    BLR: 'BLR',
+                    BLZ: 'BLZ',
+                    BMU: 'BMU',
+                    BOL: 'BOL',
+                    BRA: 'BRA',
+                    BRB: 'BRB',
+                    BRN: 'BRN',
+                    BTN: 'BTN',
+                    BVT: 'BVT',
+                    BWA: 'BWA',
+                    CAF: 'CAF',
+                    CAN: 'CAN',
+                    CCK: 'CCK',
+                    CHE: 'CHE',
+                    CHL: 'CHL',
+                    CHN: 'CHN',
+                    CIV: 'CIV',
+                    CMR: 'CMR',
+                    COD: 'COD',
+                    COG: 'COG',
+                    COK: 'COK',
+                    COL: 'COL',
+                    COM: 'COM',
+                    CPV: 'CPV',
+                    CRI: 'CRI',
+                    CUB: 'CUB',
+                    CUW: 'CUW',
+                    CXR: 'CXR',
+                    CYM: 'CYM',
+                    CYP: 'CYP',
+                    CZE: 'CZE',
+                    DEU: 'DEU',
+                    DJI: 'DJI',
+                    DMA: 'DMA',
+                    DNK: 'DNK',
+                    DOM: 'DOM',
+                    DZA: 'DZA',
+                    ECU: 'ECU',
+                    EGY: 'EGY',
+                    ERI: 'ERI',
+                    ESH: 'ESH',
+                    ESP: 'ESP',
+                    EST: 'EST',
+                    ETH: 'ETH',
+                    FIN: 'FIN',
+                    FJI: 'FJI',
+                    FLK: 'FLK',
+                    FRA: 'FRA',
+                    FRO: 'FRO',
+                    FSM: 'FSM',
+                    GAB: 'GAB',
+                    GBR: 'GBR',
+                    GEO: 'GEO',
+                    GGY: 'GGY',
+                    GHA: 'GHA',
+                    GIB: 'GIB',
+                    GIN: 'GIN',
+                    GLP: 'GLP',
+                    GMB: 'GMB',
+                    GNB: 'GNB',
+                    GNQ: 'GNQ',
+                    GRC: 'GRC',
+                    GRD: 'GRD',
+                    GRL: 'GRL',
+                    GTM: 'GTM',
+                    GUF: 'GUF',
+                    GUM: 'GUM',
+                    GUY: 'GUY',
+                    HKG: 'HKG',
+                    HMD: 'HMD',
+                    HND: 'HND',
+                    HRV: 'HRV',
+                    HTI: 'HTI',
+                    HUN: 'HUN',
+                    IDN: 'IDN',
+                    IMN: 'IMN',
+                    IND: 'IND',
+                    IOT: 'IOT',
+                    IRL: 'IRL',
+                    IRN: 'IRN',
+                    IRQ: 'IRQ',
+                    ISL: 'ISL',
+                    ISR: 'ISR',
+                    ITA: 'ITA',
+                    JAM: 'JAM',
+                    JEY: 'JEY',
+                    JOR: 'JOR',
+                    JPN: 'JPN',
+                    KAZ: 'KAZ',
+                    KEN: 'KEN',
+                    KGZ: 'KGZ',
+                    KHM: 'KHM',
+                    KIR: 'KIR',
+                    KNA: 'KNA',
+                    KOR: 'KOR',
+                    KWT: 'KWT',
+                    LAO: 'LAO',
+                    LBN: 'LBN',
+                    LBR: 'LBR',
+                    LBY: 'LBY',
+                    LCA: 'LCA',
+                    LIE: 'LIE',
+                    LKA: 'LKA',
+                    LSO: 'LSO',
+                    LTU: 'LTU',
+                    LUX: 'LUX',
+                    LVA: 'LVA',
+                    MAC: 'MAC',
+                    MAF: 'MAF',
+                    MAR: 'MAR',
+                    MCO: 'MCO',
+                    MDA: 'MDA',
+                    MDG: 'MDG',
+                    MDV: 'MDV',
+                    MEX: 'MEX',
+                    MHL: 'MHL',
+                    MKD: 'MKD',
+                    MLI: 'MLI',
+                    MLT: 'MLT',
+                    MMR: 'MMR',
+                    MNE: 'MNE',
+                    MNG: 'MNG',
+                    MNP: 'MNP',
+                    MOZ: 'MOZ',
+                    MRT: 'MRT',
+                    MSR: 'MSR',
+                    MTQ: 'MTQ',
+                    MUS: 'MUS',
+                    MWI: 'MWI',
+                    MYS: 'MYS',
+                    MYT: 'MYT',
+                    NAM: 'NAM',
+                    NCL: 'NCL',
+                    NER: 'NER',
+                    NFK: 'NFK',
+                    NGA: 'NGA',
+                    NIC: 'NIC',
+                    NIU: 'NIU',
+                    NLD: 'NLD',
+                    NOR: 'NOR',
+                    NPL: 'NPL',
+                    NRU: 'NRU',
+                    NZL: 'NZL',
+                    OMR: 'OMR',
+                    PAK: 'PAK',
+                    PAN: 'PAN',
+                    PCN: 'PCN',
+                    PER: 'PER',
+                    PHL: 'PHL',
+                    PLW: 'PLW',
+                    PNG: 'PNG',
+                    POL: 'POL',
+                    PRI: 'PRI',
+                    PRK: 'PRK',
+                    PRT: 'PRT',
+                    PRY: 'PRY',
+                    PSE: 'PSE',
+                    PYF: 'PYF',
+                    QAT: 'QAT',
+                    REU: 'REU',
+                    ROU: 'ROU',
+                    RUS: 'RUS',
+                    RWA: 'RWA',
+                    SAU: 'SAU',
+                    SDN: 'SDN',
+                    SEN: 'SEN',
+                    SGP: 'SGP',
+                    SGS: 'SGS',
+                    SHN: 'SHN',
+                    SJM: 'SJM',
+                    SLB: 'SLB',
+                    SLE: 'SLE',
+                    SLV: 'SLV',
+                    SMR: 'SMR',
+                    SOM: 'SOM',
+                    SPM: 'SPM',
+                    SRB: 'SRB',
+                    SSD: 'SSD',
+                    STP: 'STP',
+                    SUR: 'SUR',
+                    SVK: 'SVK',
+                    SVN: 'SVN',
+                    SWE: 'SWE',
+                    SWZ: 'SWZ',
+                    SXM: 'SXM',
+                    SYC: 'SYC',
+                    SYR: 'SYR',
+                    TCA: 'TCA',
+                    TCD: 'TCD',
+                    TGO: 'TGO',
+                    THA: 'THA',
+                    TJK: 'TJK',
+                    TKL: 'TKL',
+                    TKM: 'TKM',
+                    TLS: 'TLS',
+                    TON: 'TON',
+                    TTO: 'TTO',
+                    TUN: 'TUN',
+                    TUR: 'TUR',
+                    TUV: 'TUV',
+                    TWN: 'TWN',
+                    TZA: 'TZA',
+                    UGA: 'UGA',
+                    UKR: 'UKR',
+                    UMI: 'UMI',
+                    UNK: 'UNK',
+                    URY: 'URY',
+                    USA: 'USA',
+                    UZS: 'UZS',
+                    VAT: 'VAT',
+                    VCT: 'VCT',
+                    VEN: 'VEN',
+                    VGB: 'VGB',
+                    VIR: 'VIR',
+                    VNM: 'VNM',
+                    VUT: 'VUT',
+                    WLF: 'WLF',
+                    WSM: 'WSM',
+                    XKX: 'XKX',
+                    YEM: 'YEM',
+                    ZAF: 'ZAF',
+                    ZMB: 'ZMB',
+                    ZWE: 'ZWE',
+                  }[countryCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hqAddress1">Hq Address 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="hqAddress1"
+            id="field_hqAddress1"
+            data-cy="hqAddress1"
+            formControlName="hqAddress1"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hqAddress2">Hq Address 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="hqAddress2"
+            id="field_hqAddress2"
+            data-cy="hqAddress2"
+            formControlName="hqAddress2"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hqAddressCity">Hq Address City</label>
+          <input
+            type="text"
+            class="form-control"
+            name="hqAddressCity"
+            id="field_hqAddressCity"
+            data-cy="hqAddressCity"
+            formControlName="hqAddressCity"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hqAddressPostalCode">Hq Address Postal Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="hqAddressPostalCode"
+            id="field_hqAddressPostalCode"
+            data-cy="hqAddressPostalCode"
+            formControlName="hqAddressPostalCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_riskProfile">Risk Profile</label>
+          <select class="form-control" name="riskProfile" formControlName="riskProfile" id="field_riskProfile" data-cy="riskProfile">
+            <option [ngValue]="null"></option>
+            @for (riskProfile of riskProfileValues; track $index) {
+              <option [value]="riskProfile">{{ { null: '', Low: 'Low', Medium: 'Medium', High: 'High' }[riskProfile] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_mobile">Mobile</label>
+          <input type="text" class="form-control" name="mobile" id="field_mobile" data-cy="mobile" formControlName="mobile" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdAt">Created At</label>
+          <div class="d-flex">
+            <input
+              id="field_createdAt"
+              data-cy="createdAt"
+              type="datetime-local"
+              class="form-control"
+              name="createdAt"
+              formControlName="createdAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdBy">Created By</label>
+          <input type="text" class="form-control" name="createdBy" id="field_createdBy" data-cy="createdBy" formControlName="createdBy" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_updatedAt">Updated At</label>
+          <div class="d-flex">
+            <input
+              id="field_updatedAt"
+              data-cy="updatedAt"
+              type="datetime-local"
+              class="form-control"
+              name="updatedAt"
+              formControlName="updatedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_updatedBy">Updated By</label>
+          <input type="text" class="form-control" name="updatedBy" id="field_updatedBy" data-cy="updatedBy" formControlName="updatedBy" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deletedAt">Deleted At</label>
+          <div class="d-flex">
+            <input
+              id="field_deletedAt"
+              data-cy="deletedAt"
+              type="datetime-local"
+              class="form-control"
+              name="deletedAt"
+              formControlName="deletedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_deletedBy">Deleted By</label>
+          <input type="text" class="form-control" name="deletedBy" id="field_deletedBy" data-cy="deletedBy" formControlName="deletedBy" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_industryType">Industry Type</label>
+          <input
+            type="text"
+            class="form-control"
+            name="industryType"
+            id="field_industryType"
+            data-cy="industryType"
+            formControlName="industryType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dateOfIncorporation">Date Of Incorporation</label>
+          <div class="d-flex">
+            <input
+              id="field_dateOfIncorporation"
+              data-cy="dateOfIncorporation"
+              type="datetime-local"
+              class="form-control"
+              name="dateOfIncorporation"
+              formControlName="dateOfIncorporation"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_businessRelationshipPurpose">Business Relationship Purpose</label>
+          <input
+            type="text"
+            class="form-control"
+            name="businessRelationshipPurpose"
+            id="field_businessRelationshipPurpose"
+            data-cy="businessRelationshipPurpose"
+            formControlName="businessRelationshipPurpose"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isSanctionsRelated">Is Sanctions Related</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isSanctionsRelated"
+            id="field_isSanctionsRelated"
+            data-cy="isSanctionsRelated"
+            formControlName="isSanctionsRelated"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isAdverseMediaInvolved">Is Adverse Media Involved</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isAdverseMediaInvolved"
+            id="field_isAdverseMediaInvolved"
+            data-cy="isAdverseMediaInvolved"
+            formControlName="isAdverseMediaInvolved"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_employeesQuantity">Employees Quantity</label>
+          <input
+            type="text"
+            class="form-control"
+            name="employeesQuantity"
+            id="field_employeesQuantity"
+            data-cy="employeesQuantity"
+            formControlName="employeesQuantity"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cardSpendingAmount">Card Spending Amount</label>
+          <input
+            type="text"
+            class="form-control"
+            name="cardSpendingAmount"
+            id="field_cardSpendingAmount"
+            data-cy="cardSpendingAmount"
+            formControlName="cardSpendingAmount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitDailyPurchase">Limit Daily Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitDailyPurchase"
+            id="field_limitDailyPurchase"
+            data-cy="limitDailyPurchase"
+            formControlName="limitDailyPurchase"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitDailyWithdrawal">Limit Daily Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitDailyWithdrawal"
+            id="field_limitDailyWithdrawal"
+            data-cy="limitDailyWithdrawal"
+            formControlName="limitDailyWithdrawal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitMonthlyPurchase">Limit Monthly Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitMonthlyPurchase"
+            id="field_limitMonthlyPurchase"
+            data-cy="limitMonthlyPurchase"
+            formControlName="limitMonthlyPurchase"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_limitMonthlyWithdrawal">Limit Monthly Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="limitMonthlyWithdrawal"
+            id="field_limitMonthlyWithdrawal"
+            data-cy="limitMonthlyWithdrawal"
+            formControlName="limitMonthlyWithdrawal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_kybStatus">Kyb Status</label>
+          <select class="form-control" name="kybStatus" formControlName="kybStatus" id="field_kybStatus" data-cy="kybStatus">
+            <option [ngValue]="null"></option>
+            @for (kybStatus of kybStatusValues; track $index) {
+              <option [value]="kybStatus">
+                {{
+                  {
+                    null: '',
+                    NotStarted: 'NotStarted',
+                    Pending: 'Pending',
+                    Approved: 'Approved',
+                    Rejected: 'Rejected',
+                    NotConfirmed: 'NotConfirmed',
+                  }[kybStatus]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null"></option>
+            @for (accountStatus of accountStatusValues; track $index) {
+              <option [value]="accountStatus">
+                {{ { null: '', Active: 'Active', Blocked: 'Blocked', Closed: 'Closed', Closing: 'Closing' }[accountStatus] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_pushNotificationsEnabled">Push Notifications Enabled</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="pushNotificationsEnabled"
+            id="field_pushNotificationsEnabled"
+            data-cy="pushNotificationsEnabled"
+            formControlName="pushNotificationsEnabled"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_preferredLanguageCode">Preferred Language Code</label>
+          <select
+            class="form-control"
+            name="preferredLanguageCode"
+            formControlName="preferredLanguageCode"
+            id="field_preferredLanguageCode"
+            data-cy="preferredLanguageCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (languageCode of languageCodeValues; track $index) {
+              <option [value]="languageCode">{{ { null: '', AAR: 'AAR', ENG: 'ENG' }[languageCode] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_vatNumber">Vat Number</label>
+          <input type="text" class="form-control" name="vatNumber" id="field_vatNumber" data-cy="vatNumber" formControlName="vatNumber" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

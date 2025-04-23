@@ -1,0 +1,701 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (company(); as companyRef) {
+      <div>
+        <h2 data-cy="companyDetailsHeading"><span>Company</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>Id</span></dt>
+          <dd>
+            <span>{{ companyRef.id }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ companyRef.name }}</span>
+          </dd>
+          <dt><span>Registration Number</span></dt>
+          <dd>
+            <span>{{ companyRef.registrationNumber }}</span>
+          </dd>
+          <dt><span>Reg Address Country Code</span></dt>
+          <dd>
+            <span>{{
+              {
+                null: '',
+                ABW: 'ABW',
+                AFG: 'AFG',
+                AGO: 'AGO',
+                AIA: 'AIA',
+                ALA: 'ALA',
+                ALB: 'ALB',
+                AND: 'AND',
+                ANT: 'ANT',
+                ARE: 'ARE',
+                ARG: 'ARG',
+                ARM: 'ARM',
+                ASM: 'ASM',
+                ATA: 'ATA',
+                ATF: 'ATF',
+                ATG: 'ATG',
+                AUS: 'AUS',
+                AUT: 'AUT',
+                AZE: 'AZE',
+                BDI: 'BDI',
+                BEL: 'BEL',
+                BEN: 'BEN',
+                BES: 'BES',
+                BFA: 'BFA',
+                BGD: 'BGD',
+                BGR: 'BGR',
+                BHR: 'BHR',
+                BHS: 'BHS',
+                BIH: 'BIH',
+                BLM: 'BLM',
+                BLR: 'BLR',
+                BLZ: 'BLZ',
+                BMU: 'BMU',
+                BOL: 'BOL',
+                BRA: 'BRA',
+                BRB: 'BRB',
+                BRN: 'BRN',
+                BTN: 'BTN',
+                BVT: 'BVT',
+                BWA: 'BWA',
+                CAF: 'CAF',
+                CAN: 'CAN',
+                CCK: 'CCK',
+                CHE: 'CHE',
+                CHL: 'CHL',
+                CHN: 'CHN',
+                CIV: 'CIV',
+                CMR: 'CMR',
+                COD: 'COD',
+                COG: 'COG',
+                COK: 'COK',
+                COL: 'COL',
+                COM: 'COM',
+                CPV: 'CPV',
+                CRI: 'CRI',
+                CUB: 'CUB',
+                CUW: 'CUW',
+                CXR: 'CXR',
+                CYM: 'CYM',
+                CYP: 'CYP',
+                CZE: 'CZE',
+                DEU: 'DEU',
+                DJI: 'DJI',
+                DMA: 'DMA',
+                DNK: 'DNK',
+                DOM: 'DOM',
+                DZA: 'DZA',
+                ECU: 'ECU',
+                EGY: 'EGY',
+                ERI: 'ERI',
+                ESH: 'ESH',
+                ESP: 'ESP',
+                EST: 'EST',
+                ETH: 'ETH',
+                FIN: 'FIN',
+                FJI: 'FJI',
+                FLK: 'FLK',
+                FRA: 'FRA',
+                FRO: 'FRO',
+                FSM: 'FSM',
+                GAB: 'GAB',
+                GBR: 'GBR',
+                GEO: 'GEO',
+                GGY: 'GGY',
+                GHA: 'GHA',
+                GIB: 'GIB',
+                GIN: 'GIN',
+                GLP: 'GLP',
+                GMB: 'GMB',
+                GNB: 'GNB',
+                GNQ: 'GNQ',
+                GRC: 'GRC',
+                GRD: 'GRD',
+                GRL: 'GRL',
+                GTM: 'GTM',
+                GUF: 'GUF',
+                GUM: 'GUM',
+                GUY: 'GUY',
+                HKG: 'HKG',
+                HMD: 'HMD',
+                HND: 'HND',
+                HRV: 'HRV',
+                HTI: 'HTI',
+                HUN: 'HUN',
+                IDN: 'IDN',
+                IMN: 'IMN',
+                IND: 'IND',
+                IOT: 'IOT',
+                IRL: 'IRL',
+                IRN: 'IRN',
+                IRQ: 'IRQ',
+                ISL: 'ISL',
+                ISR: 'ISR',
+                ITA: 'ITA',
+                JAM: 'JAM',
+                JEY: 'JEY',
+                JOR: 'JOR',
+                JPN: 'JPN',
+                KAZ: 'KAZ',
+                KEN: 'KEN',
+                KGZ: 'KGZ',
+                KHM: 'KHM',
+                KIR: 'KIR',
+                KNA: 'KNA',
+                KOR: 'KOR',
+                KWT: 'KWT',
+                LAO: 'LAO',
+                LBN: 'LBN',
+                LBR: 'LBR',
+                LBY: 'LBY',
+                LCA: 'LCA',
+                LIE: 'LIE',
+                LKA: 'LKA',
+                LSO: 'LSO',
+                LTU: 'LTU',
+                LUX: 'LUX',
+                LVA: 'LVA',
+                MAC: 'MAC',
+                MAF: 'MAF',
+                MAR: 'MAR',
+                MCO: 'MCO',
+                MDA: 'MDA',
+                MDG: 'MDG',
+                MDV: 'MDV',
+                MEX: 'MEX',
+                MHL: 'MHL',
+                MKD: 'MKD',
+                MLI: 'MLI',
+                MLT: 'MLT',
+                MMR: 'MMR',
+                MNE: 'MNE',
+                MNG: 'MNG',
+                MNP: 'MNP',
+                MOZ: 'MOZ',
+                MRT: 'MRT',
+                MSR: 'MSR',
+                MTQ: 'MTQ',
+                MUS: 'MUS',
+                MWI: 'MWI',
+                MYS: 'MYS',
+                MYT: 'MYT',
+                NAM: 'NAM',
+                NCL: 'NCL',
+                NER: 'NER',
+                NFK: 'NFK',
+                NGA: 'NGA',
+                NIC: 'NIC',
+                NIU: 'NIU',
+                NLD: 'NLD',
+                NOR: 'NOR',
+                NPL: 'NPL',
+                NRU: 'NRU',
+                NZL: 'NZL',
+                OMR: 'OMR',
+                PAK: 'PAK',
+                PAN: 'PAN',
+                PCN: 'PCN',
+                PER: 'PER',
+                PHL: 'PHL',
+                PLW: 'PLW',
+                PNG: 'PNG',
+                POL: 'POL',
+                PRI: 'PRI',
+                PRK: 'PRK',
+                PRT: 'PRT',
+                PRY: 'PRY',
+                PSE: 'PSE',
+                PYF: 'PYF',
+                QAT: 'QAT',
+                REU: 'REU',
+                ROU: 'ROU',
+                RUS: 'RUS',
+                RWA: 'RWA',
+                SAU: 'SAU',
+                SDN: 'SDN',
+                SEN: 'SEN',
+                SGP: 'SGP',
+                SGS: 'SGS',
+                SHN: 'SHN',
+                SJM: 'SJM',
+                SLB: 'SLB',
+                SLE: 'SLE',
+                SLV: 'SLV',
+                SMR: 'SMR',
+                SOM: 'SOM',
+                SPM: 'SPM',
+                SRB: 'SRB',
+                SSD: 'SSD',
+                STP: 'STP',
+                SUR: 'SUR',
+                SVK: 'SVK',
+                SVN: 'SVN',
+                SWE: 'SWE',
+                SWZ: 'SWZ',
+                SXM: 'SXM',
+                SYC: 'SYC',
+                SYR: 'SYR',
+                TCA: 'TCA',
+                TCD: 'TCD',
+                TGO: 'TGO',
+                THA: 'THA',
+                TJK: 'TJK',
+                TKL: 'TKL',
+                TKM: 'TKM',
+                TLS: 'TLS',
+                TON: 'TON',
+                TTO: 'TTO',
+                TUN: 'TUN',
+                TUR: 'TUR',
+                TUV: 'TUV',
+                TWN: 'TWN',
+                TZA: 'TZA',
+                UGA: 'UGA',
+                UKR: 'UKR',
+                UMI: 'UMI',
+                UNK: 'UNK',
+                URY: 'URY',
+                USA: 'USA',
+                UZS: 'UZS',
+                VAT: 'VAT',
+                VCT: 'VCT',
+                VEN: 'VEN',
+                VGB: 'VGB',
+                VIR: 'VIR',
+                VNM: 'VNM',
+                VUT: 'VUT',
+                WLF: 'WLF',
+                WSM: 'WSM',
+                XKX: 'XKX',
+                YEM: 'YEM',
+                ZAF: 'ZAF',
+                ZMB: 'ZMB',
+                ZWE: 'ZWE',
+              }[companyRef.regAddressCountryCode ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Reg Address 1</span></dt>
+          <dd>
+            <span>{{ companyRef.regAddress1 }}</span>
+          </dd>
+          <dt><span>Reg Address 2</span></dt>
+          <dd>
+            <span>{{ companyRef.regAddress2 }}</span>
+          </dd>
+          <dt><span>Reg Address City</span></dt>
+          <dd>
+            <span>{{ companyRef.regAddressCity }}</span>
+          </dd>
+          <dt><span>Reg Address Postal Code</span></dt>
+          <dd>
+            <span>{{ companyRef.regAddressPostalCode }}</span>
+          </dd>
+          <dt><span>Hq Address Country Code</span></dt>
+          <dd>
+            <span>{{
+              {
+                null: '',
+                ABW: 'ABW',
+                AFG: 'AFG',
+                AGO: 'AGO',
+                AIA: 'AIA',
+                ALA: 'ALA',
+                ALB: 'ALB',
+                AND: 'AND',
+                ANT: 'ANT',
+                ARE: 'ARE',
+                ARG: 'ARG',
+                ARM: 'ARM',
+                ASM: 'ASM',
+                ATA: 'ATA',
+                ATF: 'ATF',
+                ATG: 'ATG',
+                AUS: 'AUS',
+                AUT: 'AUT',
+                AZE: 'AZE',
+                BDI: 'BDI',
+                BEL: 'BEL',
+                BEN: 'BEN',
+                BES: 'BES',
+                BFA: 'BFA',
+                BGD: 'BGD',
+                BGR: 'BGR',
+                BHR: 'BHR',
+                BHS: 'BHS',
+                BIH: 'BIH',
+                BLM: 'BLM',
+                BLR: 'BLR',
+                BLZ: 'BLZ',
+                BMU: 'BMU',
+                BOL: 'BOL',
+                BRA: 'BRA',
+                BRB: 'BRB',
+                BRN: 'BRN',
+                BTN: 'BTN',
+                BVT: 'BVT',
+                BWA: 'BWA',
+                CAF: 'CAF',
+                CAN: 'CAN',
+                CCK: 'CCK',
+                CHE: 'CHE',
+                CHL: 'CHL',
+                CHN: 'CHN',
+                CIV: 'CIV',
+                CMR: 'CMR',
+                COD: 'COD',
+                COG: 'COG',
+                COK: 'COK',
+                COL: 'COL',
+                COM: 'COM',
+                CPV: 'CPV',
+                CRI: 'CRI',
+                CUB: 'CUB',
+                CUW: 'CUW',
+                CXR: 'CXR',
+                CYM: 'CYM',
+                CYP: 'CYP',
+                CZE: 'CZE',
+                DEU: 'DEU',
+                DJI: 'DJI',
+                DMA: 'DMA',
+                DNK: 'DNK',
+                DOM: 'DOM',
+                DZA: 'DZA',
+                ECU: 'ECU',
+                EGY: 'EGY',
+                ERI: 'ERI',
+                ESH: 'ESH',
+                ESP: 'ESP',
+                EST: 'EST',
+                ETH: 'ETH',
+                FIN: 'FIN',
+                FJI: 'FJI',
+                FLK: 'FLK',
+                FRA: 'FRA',
+                FRO: 'FRO',
+                FSM: 'FSM',
+                GAB: 'GAB',
+                GBR: 'GBR',
+                GEO: 'GEO',
+                GGY: 'GGY',
+                GHA: 'GHA',
+                GIB: 'GIB',
+                GIN: 'GIN',
+                GLP: 'GLP',
+                GMB: 'GMB',
+                GNB: 'GNB',
+                GNQ: 'GNQ',
+                GRC: 'GRC',
+                GRD: 'GRD',
+                GRL: 'GRL',
+                GTM: 'GTM',
+                GUF: 'GUF',
+                GUM: 'GUM',
+                GUY: 'GUY',
+                HKG: 'HKG',
+                HMD: 'HMD',
+                HND: 'HND',
+                HRV: 'HRV',
+                HTI: 'HTI',
+                HUN: 'HUN',
+                IDN: 'IDN',
+                IMN: 'IMN',
+                IND: 'IND',
+                IOT: 'IOT',
+                IRL: 'IRL',
+                IRN: 'IRN',
+                IRQ: 'IRQ',
+                ISL: 'ISL',
+                ISR: 'ISR',
+                ITA: 'ITA',
+                JAM: 'JAM',
+                JEY: 'JEY',
+                JOR: 'JOR',
+                JPN: 'JPN',
+                KAZ: 'KAZ',
+                KEN: 'KEN',
+                KGZ: 'KGZ',
+                KHM: 'KHM',
+                KIR: 'KIR',
+                KNA: 'KNA',
+                KOR: 'KOR',
+                KWT: 'KWT',
+                LAO: 'LAO',
+                LBN: 'LBN',
+                LBR: 'LBR',
+                LBY: 'LBY',
+                LCA: 'LCA',
+                LIE: 'LIE',
+                LKA: 'LKA',
+                LSO: 'LSO',
+                LTU: 'LTU',
+                LUX: 'LUX',
+                LVA: 'LVA',
+                MAC: 'MAC',
+                MAF: 'MAF',
+                MAR: 'MAR',
+                MCO: 'MCO',
+                MDA: 'MDA',
+                MDG: 'MDG',
+                MDV: 'MDV',
+                MEX: 'MEX',
+                MHL: 'MHL',
+                MKD: 'MKD',
+                MLI: 'MLI',
+                MLT: 'MLT',
+                MMR: 'MMR',
+                MNE: 'MNE',
+                MNG: 'MNG',
+                MNP: 'MNP',
+                MOZ: 'MOZ',
+                MRT: 'MRT',
+                MSR: 'MSR',
+                MTQ: 'MTQ',
+                MUS: 'MUS',
+                MWI: 'MWI',
+                MYS: 'MYS',
+                MYT: 'MYT',
+                NAM: 'NAM',
+                NCL: 'NCL',
+                NER: 'NER',
+                NFK: 'NFK',
+                NGA: 'NGA',
+                NIC: 'NIC',
+                NIU: 'NIU',
+                NLD: 'NLD',
+                NOR: 'NOR',
+                NPL: 'NPL',
+                NRU: 'NRU',
+                NZL: 'NZL',
+                OMR: 'OMR',
+                PAK: 'PAK',
+                PAN: 'PAN',
+                PCN: 'PCN',
+                PER: 'PER',
+                PHL: 'PHL',
+                PLW: 'PLW',
+                PNG: 'PNG',
+                POL: 'POL',
+                PRI: 'PRI',
+                PRK: 'PRK',
+                PRT: 'PRT',
+                PRY: 'PRY',
+                PSE: 'PSE',
+                PYF: 'PYF',
+                QAT: 'QAT',
+                REU: 'REU',
+                ROU: 'ROU',
+                RUS: 'RUS',
+                RWA: 'RWA',
+                SAU: 'SAU',
+                SDN: 'SDN',
+                SEN: 'SEN',
+                SGP: 'SGP',
+                SGS: 'SGS',
+                SHN: 'SHN',
+                SJM: 'SJM',
+                SLB: 'SLB',
+                SLE: 'SLE',
+                SLV: 'SLV',
+                SMR: 'SMR',
+                SOM: 'SOM',
+                SPM: 'SPM',
+                SRB: 'SRB',
+                SSD: 'SSD',
+                STP: 'STP',
+                SUR: 'SUR',
+                SVK: 'SVK',
+                SVN: 'SVN',
+                SWE: 'SWE',
+                SWZ: 'SWZ',
+                SXM: 'SXM',
+                SYC: 'SYC',
+                SYR: 'SYR',
+                TCA: 'TCA',
+                TCD: 'TCD',
+                TGO: 'TGO',
+                THA: 'THA',
+                TJK: 'TJK',
+                TKL: 'TKL',
+                TKM: 'TKM',
+                TLS: 'TLS',
+                TON: 'TON',
+                TTO: 'TTO',
+                TUN: 'TUN',
+                TUR: 'TUR',
+                TUV: 'TUV',
+                TWN: 'TWN',
+                TZA: 'TZA',
+                UGA: 'UGA',
+                UKR: 'UKR',
+                UMI: 'UMI',
+                UNK: 'UNK',
+                URY: 'URY',
+                USA: 'USA',
+                UZS: 'UZS',
+                VAT: 'VAT',
+                VCT: 'VCT',
+                VEN: 'VEN',
+                VGB: 'VGB',
+                VIR: 'VIR',
+                VNM: 'VNM',
+                VUT: 'VUT',
+                WLF: 'WLF',
+                WSM: 'WSM',
+                XKX: 'XKX',
+                YEM: 'YEM',
+                ZAF: 'ZAF',
+                ZMB: 'ZMB',
+                ZWE: 'ZWE',
+              }[companyRef.hqAddressCountryCode ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Hq Address 1</span></dt>
+          <dd>
+            <span>{{ companyRef.hqAddress1 }}</span>
+          </dd>
+          <dt><span>Hq Address 2</span></dt>
+          <dd>
+            <span>{{ companyRef.hqAddress2 }}</span>
+          </dd>
+          <dt><span>Hq Address City</span></dt>
+          <dd>
+            <span>{{ companyRef.hqAddressCity }}</span>
+          </dd>
+          <dt><span>Hq Address Postal Code</span></dt>
+          <dd>
+            <span>{{ companyRef.hqAddressPostalCode }}</span>
+          </dd>
+          <dt><span>Risk Profile</span></dt>
+          <dd>
+            <span>{{ { null: '', Low: 'Low', Medium: 'Medium', High: 'High' }[companyRef.riskProfile ?? 'null'] }}</span>
+          </dd>
+          <dt><span>Mobile</span></dt>
+          <dd>
+            <span>{{ companyRef.mobile }}</span>
+          </dd>
+          <dt><span>Email</span></dt>
+          <dd>
+            <span>{{ companyRef.email }}</span>
+          </dd>
+          <dt><span>Created At</span></dt>
+          <dd>
+            <span>{{ companyRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Created By</span></dt>
+          <dd>
+            <span>{{ companyRef.createdBy }}</span>
+          </dd>
+          <dt><span>Updated At</span></dt>
+          <dd>
+            <span>{{ companyRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Updated By</span></dt>
+          <dd>
+            <span>{{ companyRef.updatedBy }}</span>
+          </dd>
+          <dt><span>Deleted At</span></dt>
+          <dd>
+            <span>{{ companyRef.deletedAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Deleted By</span></dt>
+          <dd>
+            <span>{{ companyRef.deletedBy }}</span>
+          </dd>
+          <dt><span>Industry Type</span></dt>
+          <dd>
+            <span>{{ companyRef.industryType }}</span>
+          </dd>
+          <dt><span>Date Of Incorporation</span></dt>
+          <dd>
+            <span>{{ companyRef.dateOfIncorporation | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Business Relationship Purpose</span></dt>
+          <dd>
+            <span>{{ companyRef.businessRelationshipPurpose }}</span>
+          </dd>
+          <dt><span>Is Sanctions Related</span></dt>
+          <dd>
+            <span>{{ companyRef.isSanctionsRelated }}</span>
+          </dd>
+          <dt><span>Is Adverse Media Involved</span></dt>
+          <dd>
+            <span>{{ companyRef.isAdverseMediaInvolved }}</span>
+          </dd>
+          <dt><span>Employees Quantity</span></dt>
+          <dd>
+            <span>{{ companyRef.employeesQuantity }}</span>
+          </dd>
+          <dt><span>Card Spending Amount</span></dt>
+          <dd>
+            <span>{{ companyRef.cardSpendingAmount }}</span>
+          </dd>
+          <dt><span>Limit Daily Purchase</span></dt>
+          <dd>
+            <span>{{ companyRef.limitDailyPurchase }}</span>
+          </dd>
+          <dt><span>Limit Daily Withdrawal</span></dt>
+          <dd>
+            <span>{{ companyRef.limitDailyWithdrawal }}</span>
+          </dd>
+          <dt><span>Limit Monthly Purchase</span></dt>
+          <dd>
+            <span>{{ companyRef.limitMonthlyPurchase }}</span>
+          </dd>
+          <dt><span>Limit Monthly Withdrawal</span></dt>
+          <dd>
+            <span>{{ companyRef.limitMonthlyWithdrawal }}</span>
+          </dd>
+          <dt><span>Kyb Status</span></dt>
+          <dd>
+            <span>{{
+              {
+                null: '',
+                NotStarted: 'NotStarted',
+                Pending: 'Pending',
+                Approved: 'Approved',
+                Rejected: 'Rejected',
+                NotConfirmed: 'NotConfirmed',
+              }[companyRef.kybStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Status</span></dt>
+          <dd>
+            <span>{{
+              { null: '', Active: 'Active', Blocked: 'Blocked', Closed: 'Closed', Closing: 'Closing' }[companyRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span>Push Notifications Enabled</span></dt>
+          <dd>
+            <span>{{ companyRef.pushNotificationsEnabled }}</span>
+          </dd>
+          <dt><span>Preferred Language Code</span></dt>
+          <dd>
+            <span>{{ { null: '', AAR: 'AAR', ENG: 'ENG' }[companyRef.preferredLanguageCode ?? 'null'] }}</span>
+          </dd>
+          <dt><span>Vat Number</span></dt>
+          <dd>
+            <span>{{ companyRef.vatNumber }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/company', companyRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

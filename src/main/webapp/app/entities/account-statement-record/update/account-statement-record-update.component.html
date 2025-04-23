@@ -1,0 +1,1426 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-account-statement-record-heading" data-cy="AccountStatementRecordCreateUpdateHeading">
+        Create or edit a Account Statement Record
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">Id</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cardId">Card Id</label>
+          <input type="text" class="form-control" name="cardId" id="field_cardId" data-cy="cardId" formControlName="cardId" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordType of accountStatementRecordTypeValues; track $index) {
+              <option [value]="accountStatementRecordType">
+                {{
+                  {
+                    null: '',
+                    AccountAdjustment: 'AccountAdjustment',
+                    Authorization: 'Authorization',
+                    Fee: 'Fee',
+                    Transaction: 'Transaction',
+                  }[accountStatementRecordType]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_group">Group</label>
+          <select class="form-control" name="group" formControlName="group" id="field_group" data-cy="group">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordGroup of accountStatementRecordGroupValues; track $index) {
+              <option [value]="accountStatementRecordGroup">
+                {{
+                  {
+                    null: '',
+                    AccountClosureFee: 'AccountClosureFee',
+                    AccountTransferFee: 'AccountTransferFee',
+                    AdditionalBINConfigurationFee: 'AdditionalBINConfigurationFee',
+                    AdditionalBINMaintenanceFee: 'AdditionalBINMaintenanceFee',
+                    AdditionalVirtualCardsFee: 'AdditionalVirtualCardsFee',
+                    AuthorizationATMBalanceInquiryFixedFee: 'AuthorizationATMBalanceInquiryFixedFee',
+                    AuthorizationATMDeclinedFixedFee: 'AuthorizationATMDeclinedFixedFee',
+                    AuthorizationATMWithdrawalComplexFee: 'AuthorizationATMWithdrawalComplexFee',
+                    AuthorizationATMWithdrawalEEAComplexFee: 'AuthorizationATMWithdrawalEEAComplexFee',
+                    AuthorizationATMWithdrawalFixedFee: 'AuthorizationATMWithdrawalFixedFee',
+                    AuthorizationATMWithdrawalInternationalComplexFee: 'AuthorizationATMWithdrawalInternationalComplexFee',
+                    AuthorizationATMWithdrawalPercentageFee: 'AuthorizationATMWithdrawalPercentageFee',
+                    AuthorizationDeclinedFixedFee: 'AuthorizationDeclinedFixedFee',
+                    AuthorizationEEAFixedFee: 'AuthorizationEEAFixedFee',
+                    AuthorizationForeignExchangePercentageFee: 'AuthorizationForeignExchangePercentageFee',
+                    AuthorizationInternationalFixedFee: 'AuthorizationInternationalFixedFee',
+                    AvailableFundsRefundFee: 'AvailableFundsRefundFee',
+                    Card3DSecureAttemptFixedFee: 'Card3DSecureAttemptFixedFee',
+                    CardDeliveryFixedFee: 'CardDeliveryFixedFee',
+                    CardExpressDeliveryFixedFee: 'CardExpressDeliveryFixedFee',
+                    CardIssuanceFixedFee: 'CardIssuanceFixedFee',
+                    CardRenewalFixedFee: 'CardRenewalFixedFee',
+                    CardReplacementFixedFee: 'CardReplacementFixedFee',
+                    CardTopUpPercentageFee: 'CardTopUpPercentageFee',
+                    CardUsageFixedFee: 'CardUsageFixedFee',
+                    ChargebackProcessingFee: 'ChargebackProcessingFee',
+                    CurrencyExchangeFee: 'CurrencyExchangeFee',
+                    DedicatedBINRangeFee: 'DedicatedBINRangeFee',
+                    Deposit: 'Deposit',
+                    DisposableCardCreationFee: 'DisposableCardCreationFee',
+                    ExclusiveBINFee: 'ExclusiveBINFee',
+                    ExclusiveSharedBINFee: 'ExclusiveSharedBINFee',
+                    IncomingSEPAPaymentFixedFee: 'IncomingSEPAPaymentFixedFee',
+                    IncomingSEPAPaymentPercentageFee: 'IncomingSEPAPaymentPercentageFee',
+                    IndustryFee: 'IndustryFee',
+                    InternetPurchase: 'InternetPurchase',
+                    MerchantWhitelistFee: 'MerchantWhitelistFee',
+                    MonthlyFeePerEmployee: 'MonthlyFeePerEmployee',
+                    MonthlyServiceFee: 'MonthlyServiceFee',
+                    NewEmployeeAdditionFee: 'NewEmployeeAdditionFee',
+                    Other: 'Other',
+                    OtherAdministrativeRequestFee: 'OtherAdministrativeRequestFee',
+                    PINChangeFixedFee: 'PINChangeFixedFee',
+                    PINManagement: 'PINManagement',
+                    PaymentEEAComplexFee: 'PaymentEEAComplexFee',
+                    PaymentEEAFixedFee: 'PaymentEEAFixedFee',
+                    PaymentInternationalComplexFee: 'PaymentInternationalComplexFee',
+                    PaymentInternationalFixedFee: 'PaymentInternationalFixedFee',
+                    PaymentPercentageFee: 'PaymentPercentageFee',
+                    PricingPlanFee: 'PricingPlanFee',
+                    Purchase: 'Purchase',
+                    Refund: 'Refund',
+                    Remind3DSPasswordFixedFee: 'Remind3DSPasswordFixedFee',
+                    RemindPINFixedFee: 'RemindPINFixedFee',
+                    SharedBINRangeFee: 'SharedBINRangeFee',
+                    StablecoinTopUpPercentageFee: 'StablecoinTopUpPercentageFee',
+                    WireTransferDomesticFixedFee: 'WireTransferDomesticFixedFee',
+                    WireTransferInternationalFixedFee: 'WireTransferInternationalFixedFee',
+                    Withdraw: 'Withdraw',
+                    ZeroAuthorizationEEAFixedFee: 'ZeroAuthorizationEEAFixedFee',
+                    ZeroAuthorizationInternationalFixedFee: 'ZeroAuthorizationInternationalFixedFee',
+                  }[accountStatementRecordGroup]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_date">Date</label>
+          <div class="d-flex">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="datetime-local"
+              class="form-control"
+              name="date"
+              formControlName="date"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_transactionAmount">Transaction Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="transactionAmount"
+            id="field_transactionAmount"
+            data-cy="transactionAmount"
+            formControlName="transactionAmount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_transactionCurrencyCode">Transaction Currency Code</label>
+          <select
+            class="form-control"
+            name="transactionCurrencyCode"
+            formControlName="transactionCurrencyCode"
+            id="field_transactionCurrencyCode"
+            data-cy="transactionCurrencyCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (currencyCode of currencyCodeValues; track $index) {
+              <option [value]="currencyCode">
+                {{
+                  {
+                    null: '',
+                    AED: 'AED',
+                    AFN: 'AFN',
+                    ALL: 'ALL',
+                    AMD: 'AMD',
+                    ANG: 'ANG',
+                    AOA: 'AOA',
+                    ARS: 'ARS',
+                    AUD: 'AUD',
+                    AWG: 'AWG',
+                    AZN: 'AZN',
+                    BAM: 'BAM',
+                    BBD: 'BBD',
+                    BDT: 'BDT',
+                    BGN: 'BGN',
+                    BHD: 'BHD',
+                    BIF: 'BIF',
+                    BMD: 'BMD',
+                    BND: 'BND',
+                    BOB: 'BOB',
+                    BOV: 'BOV',
+                    BRL: 'BRL',
+                    BSD: 'BSD',
+                    BTN: 'BTN',
+                    BWP: 'BWP',
+                    BYN: 'BYN',
+                    BZD: 'BZD',
+                    CAD: 'CAD',
+                    CDF: 'CDF',
+                    CHE: 'CHE',
+                    CHF: 'CHF',
+                    CHW: 'CHW',
+                    CLF: 'CLF',
+                    CLP: 'CLP',
+                    CNY: 'CNY',
+                    COP: 'COP',
+                    COU: 'COU',
+                    CRC: 'CRC',
+                    CUC: 'CUC',
+                    CUP: 'CUP',
+                    CVE: 'CVE',
+                    CZK: 'CZK',
+                    DJF: 'DJF',
+                    DKK: 'DKK',
+                    DOP: 'DOP',
+                    DZD: 'DZD',
+                    EGP: 'EGP',
+                    ERN: 'ERN',
+                    ETB: 'ETB',
+                    EUR: 'EUR',
+                    FJD: 'FJD',
+                    FKP: 'FKP',
+                    GBP: 'GBP',
+                    GEL: 'GEL',
+                    GHS: 'GHS',
+                    GIP: 'GIP',
+                    GMD: 'GMD',
+                    GNF: 'GNF',
+                    GTQ: 'GTQ',
+                    GYD: 'GYD',
+                    HKD: 'HKD',
+                    HNL: 'HNL',
+                    HRK: 'HRK',
+                    HTG: 'HTG',
+                    HUF: 'HUF',
+                    IDR: 'IDR',
+                    ILS: 'ILS',
+                    INR: 'INR',
+                    IQD: 'IQD',
+                    IRR: 'IRR',
+                    ISK: 'ISK',
+                    JMD: 'JMD',
+                    JOD: 'JOD',
+                    JPY: 'JPY',
+                    KES: 'KES',
+                    KGS: 'KGS',
+                    KHR: 'KHR',
+                    KMF: 'KMF',
+                    KPW: 'KPW',
+                    KRW: 'KRW',
+                    KWD: 'KWD',
+                    KYD: 'KYD',
+                    KZT: 'KZT',
+                    LAK: 'LAK',
+                    LBP: 'LBP',
+                    LKR: 'LKR',
+                    LRD: 'LRD',
+                    LSL: 'LSL',
+                    LYD: 'LYD',
+                    MAD: 'MAD',
+                    MDL: 'MDL',
+                    MGA: 'MGA',
+                    MKD: 'MKD',
+                    MMK: 'MMK',
+                    MNT: 'MNT',
+                    MOP: 'MOP',
+                    MRU: 'MRU',
+                    MUR: 'MUR',
+                    MVR: 'MVR',
+                    MWK: 'MWK',
+                    MXN: 'MXN',
+                    MXV: 'MXV',
+                    MYR: 'MYR',
+                    MZN: 'MZN',
+                    NAD: 'NAD',
+                    NGN: 'NGN',
+                    NIO: 'NIO',
+                    NOK: 'NOK',
+                    NPR: 'NPR',
+                    NZD: 'NZD',
+                    OMR: 'OMR',
+                    PAB: 'PAB',
+                    PEN: 'PEN',
+                    PGK: 'PGK',
+                    PHP: 'PHP',
+                    PKR: 'PKR',
+                    PLN: 'PLN',
+                    PYG: 'PYG',
+                    QAR: 'QAR',
+                    RON: 'RON',
+                    RSD: 'RSD',
+                    RUB: 'RUB',
+                    RWF: 'RWF',
+                    SAR: 'SAR',
+                    SBD: 'SBD',
+                    SCR: 'SCR',
+                    SDG: 'SDG',
+                    SEK: 'SEK',
+                    SGD: 'SGD',
+                    SHP: 'SHP',
+                    SLL: 'SLL',
+                    SOS: 'SOS',
+                    SRD: 'SRD',
+                    SSP: 'SSP',
+                    STN: 'STN',
+                    SVC: 'SVC',
+                    SYP: 'SYP',
+                    SZL: 'SZL',
+                    THB: 'THB',
+                    TJS: 'TJS',
+                    TMT: 'TMT',
+                    TND: 'TND',
+                    TOP: 'TOP',
+                    TRY: 'TRY',
+                    TTD: 'TTD',
+                    TWD: 'TWD',
+                    TZA: 'TZA',
+                    UAH: 'UAH',
+                    UGX: 'UGX',
+                    USD: 'USD',
+                    USN: 'USN',
+                    UYI: 'UYI',
+                    UYU: 'UYU',
+                    UYW: 'UYW',
+                    UZS: 'UZS',
+                    VES: 'VES',
+                    VND: 'VND',
+                    VUV: 'VUV',
+                    WST: 'WST',
+                    XAF: 'XAF',
+                    XCD: 'XCD',
+                    XOF: 'XOF',
+                    XPF: 'XPF',
+                    YER: 'YER',
+                    ZAR: 'ZAR',
+                    ZMW: 'ZMW',
+                    ZWL: 'ZWL',
+                  }[currencyCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountAmount">Account Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="accountAmount"
+            id="field_accountAmount"
+            data-cy="accountAmount"
+            formControlName="accountAmount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountCurrencyCode">Account Currency Code</label>
+          <select
+            class="form-control"
+            name="accountCurrencyCode"
+            formControlName="accountCurrencyCode"
+            id="field_accountCurrencyCode"
+            data-cy="accountCurrencyCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (currencyCode of currencyCodeValues; track $index) {
+              <option [value]="currencyCode">
+                {{
+                  {
+                    null: '',
+                    AED: 'AED',
+                    AFN: 'AFN',
+                    ALL: 'ALL',
+                    AMD: 'AMD',
+                    ANG: 'ANG',
+                    AOA: 'AOA',
+                    ARS: 'ARS',
+                    AUD: 'AUD',
+                    AWG: 'AWG',
+                    AZN: 'AZN',
+                    BAM: 'BAM',
+                    BBD: 'BBD',
+                    BDT: 'BDT',
+                    BGN: 'BGN',
+                    BHD: 'BHD',
+                    BIF: 'BIF',
+                    BMD: 'BMD',
+                    BND: 'BND',
+                    BOB: 'BOB',
+                    BOV: 'BOV',
+                    BRL: 'BRL',
+                    BSD: 'BSD',
+                    BTN: 'BTN',
+                    BWP: 'BWP',
+                    BYN: 'BYN',
+                    BZD: 'BZD',
+                    CAD: 'CAD',
+                    CDF: 'CDF',
+                    CHE: 'CHE',
+                    CHF: 'CHF',
+                    CHW: 'CHW',
+                    CLF: 'CLF',
+                    CLP: 'CLP',
+                    CNY: 'CNY',
+                    COP: 'COP',
+                    COU: 'COU',
+                    CRC: 'CRC',
+                    CUC: 'CUC',
+                    CUP: 'CUP',
+                    CVE: 'CVE',
+                    CZK: 'CZK',
+                    DJF: 'DJF',
+                    DKK: 'DKK',
+                    DOP: 'DOP',
+                    DZD: 'DZD',
+                    EGP: 'EGP',
+                    ERN: 'ERN',
+                    ETB: 'ETB',
+                    EUR: 'EUR',
+                    FJD: 'FJD',
+                    FKP: 'FKP',
+                    GBP: 'GBP',
+                    GEL: 'GEL',
+                    GHS: 'GHS',
+                    GIP: 'GIP',
+                    GMD: 'GMD',
+                    GNF: 'GNF',
+                    GTQ: 'GTQ',
+                    GYD: 'GYD',
+                    HKD: 'HKD',
+                    HNL: 'HNL',
+                    HRK: 'HRK',
+                    HTG: 'HTG',
+                    HUF: 'HUF',
+                    IDR: 'IDR',
+                    ILS: 'ILS',
+                    INR: 'INR',
+                    IQD: 'IQD',
+                    IRR: 'IRR',
+                    ISK: 'ISK',
+                    JMD: 'JMD',
+                    JOD: 'JOD',
+                    JPY: 'JPY',
+                    KES: 'KES',
+                    KGS: 'KGS',
+                    KHR: 'KHR',
+                    KMF: 'KMF',
+                    KPW: 'KPW',
+                    KRW: 'KRW',
+                    KWD: 'KWD',
+                    KYD: 'KYD',
+                    KZT: 'KZT',
+                    LAK: 'LAK',
+                    LBP: 'LBP',
+                    LKR: 'LKR',
+                    LRD: 'LRD',
+                    LSL: 'LSL',
+                    LYD: 'LYD',
+                    MAD: 'MAD',
+                    MDL: 'MDL',
+                    MGA: 'MGA',
+                    MKD: 'MKD',
+                    MMK: 'MMK',
+                    MNT: 'MNT',
+                    MOP: 'MOP',
+                    MRU: 'MRU',
+                    MUR: 'MUR',
+                    MVR: 'MVR',
+                    MWK: 'MWK',
+                    MXN: 'MXN',
+                    MXV: 'MXV',
+                    MYR: 'MYR',
+                    MZN: 'MZN',
+                    NAD: 'NAD',
+                    NGN: 'NGN',
+                    NIO: 'NIO',
+                    NOK: 'NOK',
+                    NPR: 'NPR',
+                    NZD: 'NZD',
+                    OMR: 'OMR',
+                    PAB: 'PAB',
+                    PEN: 'PEN',
+                    PGK: 'PGK',
+                    PHP: 'PHP',
+                    PKR: 'PKR',
+                    PLN: 'PLN',
+                    PYG: 'PYG',
+                    QAR: 'QAR',
+                    RON: 'RON',
+                    RSD: 'RSD',
+                    RUB: 'RUB',
+                    RWF: 'RWF',
+                    SAR: 'SAR',
+                    SBD: 'SBD',
+                    SCR: 'SCR',
+                    SDG: 'SDG',
+                    SEK: 'SEK',
+                    SGD: 'SGD',
+                    SHP: 'SHP',
+                    SLL: 'SLL',
+                    SOS: 'SOS',
+                    SRD: 'SRD',
+                    SSP: 'SSP',
+                    STN: 'STN',
+                    SVC: 'SVC',
+                    SYP: 'SYP',
+                    SZL: 'SZL',
+                    THB: 'THB',
+                    TJS: 'TJS',
+                    TMT: 'TMT',
+                    TND: 'TND',
+                    TOP: 'TOP',
+                    TRY: 'TRY',
+                    TTD: 'TTD',
+                    TWD: 'TWD',
+                    TZA: 'TZA',
+                    UAH: 'UAH',
+                    UGX: 'UGX',
+                    USD: 'USD',
+                    USN: 'USN',
+                    UYI: 'UYI',
+                    UYU: 'UYU',
+                    UYW: 'UYW',
+                    UZS: 'UZS',
+                    VES: 'VES',
+                    VND: 'VND',
+                    VUV: 'VUV',
+                    WST: 'WST',
+                    XAF: 'XAF',
+                    XCD: 'XCD',
+                    XOF: 'XOF',
+                    XPF: 'XPF',
+                    YER: 'YER',
+                    ZAR: 'ZAR',
+                    ZMW: 'ZMW',
+                    ZWL: 'ZWL',
+                  }[currencyCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_merchantCategoryCode">Merchant Category Code</label>
+          <select
+            class="form-control"
+            name="merchantCategoryCode"
+            formControlName="merchantCategoryCode"
+            id="field_merchantCategoryCode"
+            data-cy="merchantCategoryCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (merchantCategoryCode of merchantCategoryCodeValues; track $index) {
+              <option [value]="merchantCategoryCode">
+                {{
+                  {
+                    null: '',
+                    MCC0742: 'MCC0742',
+                    MCC0763: 'MCC0763',
+                    MCC0780: 'MCC0780',
+                    MCC1520: 'MCC1520',
+                    MCC1711: 'MCC1711',
+                    MCC1731: 'MCC1731',
+                    MCC1740: 'MCC1740',
+                    MCC1750: 'MCC1750',
+                    MCC1761: 'MCC1761',
+                    MCC1771: 'MCC1771',
+                    MCC1799: 'MCC1799',
+                    MCC2842: 'MCC2842',
+                    MCC4011: 'MCC4011',
+                    MCC4111: 'MCC4111',
+                    MCC4112: 'MCC4112',
+                    MCC4119: 'MCC4119',
+                    MCC4121: 'MCC4121',
+                    MCC4131: 'MCC4131',
+                    MCC4214: 'MCC4214',
+                    MCC4215: 'MCC4215',
+                    MCC4225: 'MCC4225',
+                    MCC4411: 'MCC4411',
+                    MCC4457: 'MCC4457',
+                    MCC4468: 'MCC4468',
+                    MCC4511: 'MCC4511',
+                    MCC4582: 'MCC4582',
+                    MCC4722: 'MCC4722',
+                    MCC4784: 'MCC4784',
+                    MCC4789: 'MCC4789',
+                    MCC4812: 'MCC4812',
+                    MCC4814: 'MCC4814',
+                    MCC4816: 'MCC4816',
+                    MCC4821: 'MCC4821',
+                    MCC4829: 'MCC4829',
+                    MCC4899: 'MCC4899',
+                    MCC4900: 'MCC4900',
+                    MCC5013: 'MCC5013',
+                    MCC5137: 'MCC5137',
+                    MCC5139: 'MCC5139',
+                    MCC5200: 'MCC5200',
+                    MCC5211: 'MCC5211',
+                    MCC5231: 'MCC5231',
+                    MCC5251: 'MCC5251',
+                    MCC5261: 'MCC5261',
+                    MCC5271: 'MCC5271',
+                    MCC5300: 'MCC5300',
+                    MCC5309: 'MCC5309',
+                    MCC5310: 'MCC5310',
+                    MCC5311: 'MCC5311',
+                    MCC5331: 'MCC5331',
+                    MCC5411: 'MCC5411',
+                    MCC5422: 'MCC5422',
+                    MCC5441: 'MCC5441',
+                    MCC5451: 'MCC5451',
+                    MCC5462: 'MCC5462',
+                    MCC5499: 'MCC5499',
+                    MCC5511: 'MCC5511',
+                    MCC5521: 'MCC5521',
+                    MCC5532: 'MCC5532',
+                    MCC5533: 'MCC5533',
+                    MCC5541: 'MCC5541',
+                    MCC5542: 'MCC5542',
+                    MCC5561: 'MCC5561',
+                    MCC5571: 'MCC5571',
+                    MCC5592: 'MCC5592',
+                    MCC5598: 'MCC5598',
+                    MCC5599: 'MCC5599',
+                    MCC5611: 'MCC5611',
+                    MCC5621: 'MCC5621',
+                    MCC5631: 'MCC5631',
+                    MCC5641: 'MCC5641',
+                    MCC5651: 'MCC5651',
+                    MCC5655: 'MCC5655',
+                    MCC5661: 'MCC5661',
+                    MCC5681: 'MCC5681',
+                    MCC5691: 'MCC5691',
+                    MCC5697: 'MCC5697',
+                    MCC5699: 'MCC5699',
+                    MCC5712: 'MCC5712',
+                    MCC5713: 'MCC5713',
+                    MCC5714: 'MCC5714',
+                    MCC5718: 'MCC5718',
+                    MCC5719: 'MCC5719',
+                    MCC5722: 'MCC5722',
+                    MCC5732: 'MCC5732',
+                    MCC5733: 'MCC5733',
+                    MCC5735: 'MCC5735',
+                    MCC5811: 'MCC5811',
+                    MCC5812: 'MCC5812',
+                    MCC5813: 'MCC5813',
+                    MCC5814: 'MCC5814',
+                    MCC5912: 'MCC5912',
+                    MCC5931: 'MCC5931',
+                    MCC5932: 'MCC5932',
+                    MCC5933: 'MCC5933',
+                    MCC5937: 'MCC5937',
+                    MCC5940: 'MCC5940',
+                    MCC5941: 'MCC5941',
+                    MCC5942: 'MCC5942',
+                    MCC5943: 'MCC5943',
+                    MCC5945: 'MCC5945',
+                    MCC5946: 'MCC5946',
+                    MCC5947: 'MCC5947',
+                    MCC5948: 'MCC5948',
+                    MCC5949: 'MCC5949',
+                    MCC5950: 'MCC5950',
+                    MCC5962: 'MCC5962',
+                    MCC5967: 'MCC5967',
+                    MCC5970: 'MCC5970',
+                    MCC5971: 'MCC5971',
+                    MCC5972: 'MCC5972',
+                    MCC5973: 'MCC5973',
+                    MCC5975: 'MCC5975',
+                    MCC5976: 'MCC5976',
+                    MCC5977: 'MCC5977',
+                    MCC5978: 'MCC5978',
+                    MCC5983: 'MCC5983',
+                    MCC5992: 'MCC5992',
+                    MCC5993: 'MCC5993',
+                    MCC5994: 'MCC5994',
+                    MCC5995: 'MCC5995',
+                    MCC5996: 'MCC5996',
+                    MCC5997: 'MCC5997',
+                    MCC5998: 'MCC5998',
+                    MCC5999: 'MCC5999',
+                    MCC6010: 'MCC6010',
+                    MCC6011: 'MCC6011',
+                    MCC6051: 'MCC6051',
+                    MCC6300: 'MCC6300',
+                    MCC7011: 'MCC7011',
+                    MCC7012: 'MCC7012',
+                    MCC7032: 'MCC7032',
+                    MCC7033: 'MCC7033',
+                    MCC7210: 'MCC7210',
+                    MCC7211: 'MCC7211',
+                    MCC7216: 'MCC7216',
+                    MCC7217: 'MCC7217',
+                    MCC7221: 'MCC7221',
+                    MCC7230: 'MCC7230',
+                    MCC7251: 'MCC7251',
+                    MCC7261: 'MCC7261',
+                    MCC7273: 'MCC7273',
+                    MCC7276: 'MCC7276',
+                    MCC7277: 'MCC7277',
+                    MCC7278: 'MCC7278',
+                    MCC7296: 'MCC7296',
+                    MCC7297: 'MCC7297',
+                    MCC7298: 'MCC7298',
+                    MCC7299: 'MCC7299',
+                    MCC7311: 'MCC7311',
+                    MCC7321: 'MCC7321',
+                    MCC7322: 'MCC7322',
+                    MCC7333: 'MCC7333',
+                    MCC7338: 'MCC7338',
+                    MCC7339: 'MCC7339',
+                    MCC7342: 'MCC7342',
+                    MCC7349: 'MCC7349',
+                    MCC7361: 'MCC7361',
+                    MCC7372: 'MCC7372',
+                    MCC7375: 'MCC7375',
+                    MCC7379: 'MCC7379',
+                    MCC7392: 'MCC7392',
+                    MCC7393: 'MCC7393',
+                    MCC7394: 'MCC7394',
+                    MCC7395: 'MCC7395',
+                    MCC7399: 'MCC7399',
+                    MCC7512: 'MCC7512',
+                    MCC7513: 'MCC7513',
+                    MCC7519: 'MCC7519',
+                    MCC7523: 'MCC7523',
+                    MCC7531: 'MCC7531',
+                    MCC7538: 'MCC7538',
+                    MCC7829: 'MCC7829',
+                    MCC7832: 'MCC7832',
+                    MCC7841: 'MCC7841',
+                    MCC7911: 'MCC7911',
+                    MCC7922: 'MCC7922',
+                    MCC7929: 'MCC7929',
+                    MCC7932: 'MCC7932',
+                    MCC7933: 'MCC7933',
+                    MCC7941: 'MCC7941',
+                    MCC7991: 'MCC7991',
+                    MCC7992: 'MCC7992',
+                    MCC7993: 'MCC7993',
+                    MCC7994: 'MCC7994',
+                    MCC7995: 'MCC7995',
+                    MCC7996: 'MCC7996',
+                    MCC7997: 'MCC7997',
+                    MCC7998: 'MCC7998',
+                    MCC7999: 'MCC7999',
+                    MCC8011: 'MCC8011',
+                    MCC8021: 'MCC8021',
+                    MCC8031: 'MCC8031',
+                    MCC8041: 'MCC8041',
+                    MCC8042: 'MCC8042',
+                    MCC8043: 'MCC8043',
+                    MCC8049: 'MCC8049',
+                    MCC8050: 'MCC8050',
+                    MCC8062: 'MCC8062',
+                    MCC8071: 'MCC8071',
+                    MCC8099: 'MCC8099',
+                    MCC8111: 'MCC8111',
+                    MCC8351: 'MCC8351',
+                    MCC8911: 'MCC8911',
+                    MCC8931: 'MCC8931',
+                    MCC8999: 'MCC8999',
+                    MCC9223: 'MCC9223',
+                    MCC9402: 'MCC9402',
+                  }[merchantCategoryCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_merchantId">Merchant Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="merchantId"
+            id="field_merchantId"
+            data-cy="merchantId"
+            formControlName="merchantId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_terminalId">Terminal Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="terminalId"
+            id="field_terminalId"
+            data-cy="terminalId"
+            formControlName="terminalId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_merchantName">Merchant Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="merchantName"
+            id="field_merchantName"
+            data-cy="merchantName"
+            formControlName="merchantName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_merchantCity">Merchant City</label>
+          <input
+            type="text"
+            class="form-control"
+            name="merchantCity"
+            id="field_merchantCity"
+            data-cy="merchantCity"
+            formControlName="merchantCity"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_merchantCountryCode">Merchant Country Code</label>
+          <select
+            class="form-control"
+            name="merchantCountryCode"
+            formControlName="merchantCountryCode"
+            id="field_merchantCountryCode"
+            data-cy="merchantCountryCode"
+          >
+            <option [ngValue]="null"></option>
+            @for (countryCode of countryCodeValues; track $index) {
+              <option [value]="countryCode">
+                {{
+                  {
+                    null: '',
+                    ABW: 'ABW',
+                    AFG: 'AFG',
+                    AGO: 'AGO',
+                    AIA: 'AIA',
+                    ALA: 'ALA',
+                    ALB: 'ALB',
+                    AND: 'AND',
+                    ANT: 'ANT',
+                    ARE: 'ARE',
+                    ARG: 'ARG',
+                    ARM: 'ARM',
+                    ASM: 'ASM',
+                    ATA: 'ATA',
+                    ATF: 'ATF',
+                    ATG: 'ATG',
+                    AUS: 'AUS',
+                    AUT: 'AUT',
+                    AZE: 'AZE',
+                    BDI: 'BDI',
+                    BEL: 'BEL',
+                    BEN: 'BEN',
+                    BES: 'BES',
+                    BFA: 'BFA',
+                    BGD: 'BGD',
+                    BGR: 'BGR',
+                    BHR: 'BHR',
+                    BHS: 'BHS',
+                    BIH: 'BIH',
+                    BLM: 'BLM',
+                    BLR: 'BLR',
+                    BLZ: 'BLZ',
+                    BMU: 'BMU',
+                    BOL: 'BOL',
+                    BRA: 'BRA',
+                    BRB: 'BRB',
+                    BRN: 'BRN',
+                    BTN: 'BTN',
+                    BVT: 'BVT',
+                    BWA: 'BWA',
+                    CAF: 'CAF',
+                    CAN: 'CAN',
+                    CCK: 'CCK',
+                    CHE: 'CHE',
+                    CHL: 'CHL',
+                    CHN: 'CHN',
+                    CIV: 'CIV',
+                    CMR: 'CMR',
+                    COD: 'COD',
+                    COG: 'COG',
+                    COK: 'COK',
+                    COL: 'COL',
+                    COM: 'COM',
+                    CPV: 'CPV',
+                    CRI: 'CRI',
+                    CUB: 'CUB',
+                    CUW: 'CUW',
+                    CXR: 'CXR',
+                    CYM: 'CYM',
+                    CYP: 'CYP',
+                    CZE: 'CZE',
+                    DEU: 'DEU',
+                    DJI: 'DJI',
+                    DMA: 'DMA',
+                    DNK: 'DNK',
+                    DOM: 'DOM',
+                    DZA: 'DZA',
+                    ECU: 'ECU',
+                    EGY: 'EGY',
+                    ERI: 'ERI',
+                    ESH: 'ESH',
+                    ESP: 'ESP',
+                    EST: 'EST',
+                    ETH: 'ETH',
+                    FIN: 'FIN',
+                    FJI: 'FJI',
+                    FLK: 'FLK',
+                    FRA: 'FRA',
+                    FRO: 'FRO',
+                    FSM: 'FSM',
+                    GAB: 'GAB',
+                    GBR: 'GBR',
+                    GEO: 'GEO',
+                    GGY: 'GGY',
+                    GHA: 'GHA',
+                    GIB: 'GIB',
+                    GIN: 'GIN',
+                    GLP: 'GLP',
+                    GMB: 'GMB',
+                    GNB: 'GNB',
+                    GNQ: 'GNQ',
+                    GRC: 'GRC',
+                    GRD: 'GRD',
+                    GRL: 'GRL',
+                    GTM: 'GTM',
+                    GUF: 'GUF',
+                    GUM: 'GUM',
+                    GUY: 'GUY',
+                    HKG: 'HKG',
+                    HMD: 'HMD',
+                    HND: 'HND',
+                    HRV: 'HRV',
+                    HTI: 'HTI',
+                    HUN: 'HUN',
+                    IDN: 'IDN',
+                    IMN: 'IMN',
+                    IND: 'IND',
+                    IOT: 'IOT',
+                    IRL: 'IRL',
+                    IRN: 'IRN',
+                    IRQ: 'IRQ',
+                    ISL: 'ISL',
+                    ISR: 'ISR',
+                    ITA: 'ITA',
+                    JAM: 'JAM',
+                    JEY: 'JEY',
+                    JOR: 'JOR',
+                    JPN: 'JPN',
+                    KAZ: 'KAZ',
+                    KEN: 'KEN',
+                    KGZ: 'KGZ',
+                    KHM: 'KHM',
+                    KIR: 'KIR',
+                    KNA: 'KNA',
+                    KOR: 'KOR',
+                    KWT: 'KWT',
+                    LAO: 'LAO',
+                    LBN: 'LBN',
+                    LBR: 'LBR',
+                    LBY: 'LBY',
+                    LCA: 'LCA',
+                    LIE: 'LIE',
+                    LKA: 'LKA',
+                    LSO: 'LSO',
+                    LTU: 'LTU',
+                    LUX: 'LUX',
+                    LVA: 'LVA',
+                    MAC: 'MAC',
+                    MAF: 'MAF',
+                    MAR: 'MAR',
+                    MCO: 'MCO',
+                    MDA: 'MDA',
+                    MDG: 'MDG',
+                    MDV: 'MDV',
+                    MEX: 'MEX',
+                    MHL: 'MHL',
+                    MKD: 'MKD',
+                    MLI: 'MLI',
+                    MLT: 'MLT',
+                    MMR: 'MMR',
+                    MNE: 'MNE',
+                    MNG: 'MNG',
+                    MNP: 'MNP',
+                    MOZ: 'MOZ',
+                    MRT: 'MRT',
+                    MSR: 'MSR',
+                    MTQ: 'MTQ',
+                    MUS: 'MUS',
+                    MWI: 'MWI',
+                    MYS: 'MYS',
+                    MYT: 'MYT',
+                    NAM: 'NAM',
+                    NCL: 'NCL',
+                    NER: 'NER',
+                    NFK: 'NFK',
+                    NGA: 'NGA',
+                    NIC: 'NIC',
+                    NIU: 'NIU',
+                    NLD: 'NLD',
+                    NOR: 'NOR',
+                    NPL: 'NPL',
+                    NRU: 'NRU',
+                    NZL: 'NZL',
+                    OMR: 'OMR',
+                    PAK: 'PAK',
+                    PAN: 'PAN',
+                    PCN: 'PCN',
+                    PER: 'PER',
+                    PHL: 'PHL',
+                    PLW: 'PLW',
+                    PNG: 'PNG',
+                    POL: 'POL',
+                    PRI: 'PRI',
+                    PRK: 'PRK',
+                    PRT: 'PRT',
+                    PRY: 'PRY',
+                    PSE: 'PSE',
+                    PYF: 'PYF',
+                    QAT: 'QAT',
+                    REU: 'REU',
+                    ROU: 'ROU',
+                    RUS: 'RUS',
+                    RWA: 'RWA',
+                    SAU: 'SAU',
+                    SDN: 'SDN',
+                    SEN: 'SEN',
+                    SGP: 'SGP',
+                    SGS: 'SGS',
+                    SHN: 'SHN',
+                    SJM: 'SJM',
+                    SLB: 'SLB',
+                    SLE: 'SLE',
+                    SLV: 'SLV',
+                    SMR: 'SMR',
+                    SOM: 'SOM',
+                    SPM: 'SPM',
+                    SRB: 'SRB',
+                    SSD: 'SSD',
+                    STP: 'STP',
+                    SUR: 'SUR',
+                    SVK: 'SVK',
+                    SVN: 'SVN',
+                    SWE: 'SWE',
+                    SWZ: 'SWZ',
+                    SXM: 'SXM',
+                    SYC: 'SYC',
+                    SYR: 'SYR',
+                    TCA: 'TCA',
+                    TCD: 'TCD',
+                    TGO: 'TGO',
+                    THA: 'THA',
+                    TJK: 'TJK',
+                    TKL: 'TKL',
+                    TKM: 'TKM',
+                    TLS: 'TLS',
+                    TON: 'TON',
+                    TTO: 'TTO',
+                    TUN: 'TUN',
+                    TUR: 'TUR',
+                    TUV: 'TUV',
+                    TWN: 'TWN',
+                    TZA: 'TZA',
+                    UGA: 'UGA',
+                    UKR: 'UKR',
+                    UMI: 'UMI',
+                    UNK: 'UNK',
+                    URY: 'URY',
+                    USA: 'USA',
+                    UZS: 'UZS',
+                    VAT: 'VAT',
+                    VCT: 'VCT',
+                    VEN: 'VEN',
+                    VGB: 'VGB',
+                    VIR: 'VIR',
+                    VNM: 'VNM',
+                    VUT: 'VUT',
+                    WLF: 'WLF',
+                    WSM: 'WSM',
+                    XKX: 'XKX',
+                    YEM: 'YEM',
+                    ZAF: 'ZAF',
+                    ZMB: 'ZMB',
+                    ZWE: 'ZWE',
+                  }[countryCode]
+                }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_originalAuthorizationId">Original Authorization Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="originalAuthorizationId"
+            id="field_originalAuthorizationId"
+            data-cy="originalAuthorizationId"
+            formControlName="originalAuthorizationId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isReversal">Is Reversal</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isReversal"
+            id="field_isReversal"
+            data-cy="isReversal"
+            formControlName="isReversal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isDeclined">Is Declined</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isDeclined"
+            id="field_isDeclined"
+            data-cy="isDeclined"
+            formControlName="isDeclined"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isCleared">Is Cleared</label>
+          <input type="checkbox" class="form-check" name="isCleared" id="field_isCleared" data-cy="isCleared" formControlName="isCleared" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_markedForDisputeAt">Marked For Dispute At</label>
+          <div class="d-flex">
+            <input
+              id="field_markedForDisputeAt"
+              data-cy="markedForDisputeAt"
+              type="datetime-local"
+              class="form-control"
+              name="markedForDisputeAt"
+              formControlName="markedForDisputeAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_markedForDisputeBy">Marked For Dispute By</label>
+          <input
+            type="text"
+            class="form-control"
+            name="markedForDisputeBy"
+            id="field_markedForDisputeBy"
+            data-cy="markedForDisputeBy"
+            formControlName="markedForDisputeBy"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordStatus of accountStatementRecordStatusValues; track $index) {
+              <option [value]="accountStatementRecordStatus">
+                {{ { null: '', Canceled: 'Canceled', Completed: 'Completed', Pending: 'Pending' }[accountStatementRecordStatus] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_response">Response</label>
+          <select class="form-control" name="response" formControlName="response" id="field_response" data-cy="response">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordResponse of accountStatementRecordResponseValues; track $index) {
+              <option [value]="accountStatementRecordResponse">
+                {{ { null: '', Approved: 'Approved', Declined: 'Declined' }[accountStatementRecordResponse] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_responseCode">Response Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="responseCode"
+            id="field_responseCode"
+            data-cy="responseCode"
+            formControlName="responseCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_accountExternalId">Account External Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="accountExternalId"
+            id="field_accountExternalId"
+            data-cy="accountExternalId"
+            formControlName="accountExternalId"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_maskedCardNumber">Masked Card Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="maskedCardNumber"
+            id="field_maskedCardNumber"
+            data-cy="maskedCardNumber"
+            formControlName="maskedCardNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hasPaymentDocumentFiles">Has Payment Document Files</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="hasPaymentDocumentFiles"
+            id="field_hasPaymentDocumentFiles"
+            data-cy="hasPaymentDocumentFiles"
+            formControlName="hasPaymentDocumentFiles"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hasPaymentNotes">Has Payment Notes</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="hasPaymentNotes"
+            id="field_hasPaymentNotes"
+            data-cy="hasPaymentNotes"
+            formControlName="hasPaymentNotes"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cardName">Card Name</label>
+          <input type="text" class="form-control" name="cardName" id="field_cardName" data-cy="cardName" formControlName="cardName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingName">Embossing Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingName"
+            id="field_embossingName"
+            data-cy="embossingName"
+            formControlName="embossingName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingFirstName">Embossing First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingFirstName"
+            id="field_embossingFirstName"
+            data-cy="embossingFirstName"
+            formControlName="embossingFirstName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingLastName">Embossing Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingLastName"
+            id="field_embossingLastName"
+            data-cy="embossingLastName"
+            formControlName="embossingLastName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_embossingCompanyName">Embossing Company Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="embossingCompanyName"
+            id="field_embossingCompanyName"
+            data-cy="embossingCompanyName"
+            formControlName="embossingCompanyName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_subType">Sub Type</label>
+          <input type="text" class="form-control" name="subType" id="field_subType" data-cy="subType" formControlName="subType" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_purchaseDate">Purchase Date</label>
+          <div class="d-flex">
+            <input
+              id="field_purchaseDate"
+              data-cy="purchaseDate"
+              type="datetime-local"
+              class="form-control"
+              name="purchaseDate"
+              formControlName="purchaseDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_exchangeRate">Exchange Rate</label>
+          <input
+            type="number"
+            class="form-control"
+            name="exchangeRate"
+            id="field_exchangeRate"
+            data-cy="exchangeRate"
+            formControlName="exchangeRate"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_enrichedMerchantName">Enriched Merchant Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="enrichedMerchantName"
+            id="field_enrichedMerchantName"
+            data-cy="enrichedMerchantName"
+            formControlName="enrichedMerchantName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_enrichedMerchantUrl">Enriched Merchant Url</label>
+          <input
+            type="text"
+            class="form-control"
+            name="enrichedMerchantUrl"
+            id="field_enrichedMerchantUrl"
+            data-cy="enrichedMerchantUrl"
+            formControlName="enrichedMerchantUrl"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_enrichedMerchantDomain">Enriched Merchant Domain</label>
+          <input
+            type="text"
+            class="form-control"
+            name="enrichedMerchantDomain"
+            id="field_enrichedMerchantDomain"
+            data-cy="enrichedMerchantDomain"
+            formControlName="enrichedMerchantDomain"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_enrichedMerchantTelephone">Enriched Merchant Telephone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="enrichedMerchantTelephone"
+            id="field_enrichedMerchantTelephone"
+            data-cy="enrichedMerchantTelephone"
+            formControlName="enrichedMerchantTelephone"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_enrichedMerchantIconUrl">Enriched Merchant Icon Url</label>
+          <input
+            type="text"
+            class="form-control"
+            name="enrichedMerchantIconUrl"
+            id="field_enrichedMerchantIconUrl"
+            data-cy="enrichedMerchantIconUrl"
+            formControlName="enrichedMerchantIconUrl"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_totalAmount">Total Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="totalAmount"
+            id="field_totalAmount"
+            data-cy="totalAmount"
+            formControlName="totalAmount"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
