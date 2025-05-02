@@ -25,6 +25,12 @@ public class WallesterRestApi {
         this.companyService = companyService;
     }
 
+    @ExceptionHandler(WallesterApiException.class)
+    public ResponseEntity<WallesterRestError> handleWallesterRestError(WallesterApiException error) {
+        log.error("Wallester API exception: {}", error.getMessage());
+        return ResponseEntity.status(error.getHttpStatus()).body(new WallesterRestError(error));
+    }
+
     @Operation(summary = "Ping endpoint", description = "Returns the input string with '-pong' suffix")
     @GetMapping("/ping")
     public ResponseEntity<String> ping(@RequestParam String request) {
