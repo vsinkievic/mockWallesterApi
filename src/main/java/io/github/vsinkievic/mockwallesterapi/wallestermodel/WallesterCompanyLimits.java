@@ -1,5 +1,6 @@
 package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WallesterCompanyLimits {
 
     @JsonProperty("daily_purchase")

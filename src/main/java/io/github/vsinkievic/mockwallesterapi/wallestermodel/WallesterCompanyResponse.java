@@ -1,12 +1,23 @@
 package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.RiskProfile;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WallesterCompanyResponse {
 
     @JsonProperty("id")
@@ -25,7 +36,7 @@ public class WallesterCompanyResponse {
     private WallesterAddress headquarterAddress;
 
     @JsonProperty("risk_profile")
-    private String riskProfile;
+    private RiskProfile riskProfile;
 
     @JsonProperty("mobile")
     private String mobile;
@@ -34,19 +45,19 @@ public class WallesterCompanyResponse {
     private String email;
 
     @JsonProperty("created_at")
-    private String createdAt;
+    private Instant createdAt;
 
     @JsonProperty("created_by")
     private String createdBy;
 
     @JsonProperty("updated_at")
-    private String updatedAt;
+    private Instant updatedAt;
 
     @JsonProperty("updated_by")
     private String updatedBy;
 
     @JsonProperty("deleted_at")
-    private String deletedAt;
+    private Instant deletedAt;
 
     @JsonProperty("deleted_by")
     private String deletedBy;
@@ -55,7 +66,7 @@ public class WallesterCompanyResponse {
     private String industryType;
 
     @JsonProperty("date_of_incorporation")
-    private String dateOfIncorporation;
+    private LocalDate dateOfIncorporation;
 
     @JsonProperty("business_relationship_purpose")
     private String businessRelationshipPurpose;
@@ -76,16 +87,16 @@ public class WallesterCompanyResponse {
     private WallesterCompanyLimits limits;
 
     @JsonProperty("kyb_status")
-    private String kybStatus;
+    private KybStatus kybStatus;
 
     @JsonProperty("status")
-    private String status;
+    private CompanyStatus status;
 
     @JsonProperty("push_notifications_enabled")
     private Boolean pushNotificationsEnabled;
 
     @JsonProperty("preferred_language_code")
-    private String preferredLanguageCode;
+    private LanguageCode preferredLanguageCode;
 
     @JsonProperty("vat_number")
     private String vatNumber;
@@ -95,30 +106,30 @@ public class WallesterCompanyResponse {
         this.name = companyDTO.getName();
         this.registrationNumber = companyDTO.getRegistrationNumber();
         this.registrationAddress = WallesterAddress.builder()
-            .countryCode(companyDTO.getRegAddressCountryCode().name())
+            .countryCode(companyDTO.getRegAddressCountryCode())
             .address1(companyDTO.getRegAddress1())
             .address2(companyDTO.getRegAddress2())
             .city(companyDTO.getRegAddressCity())
             .postalCode(companyDTO.getRegAddressPostalCode())
             .build();
         this.headquarterAddress = WallesterAddress.builder()
-            .countryCode(companyDTO.getHqAddressCountryCode().name())
+            .countryCode(companyDTO.getHqAddressCountryCode())
             .address1(companyDTO.getHqAddress1())
             .address2(companyDTO.getHqAddress2())
             .city(companyDTO.getHqAddressCity())
             .postalCode(companyDTO.getHqAddressPostalCode())
             .build();
-        this.riskProfile = companyDTO.getRiskProfile().name();
+        this.riskProfile = companyDTO.getRiskProfile();
         this.mobile = companyDTO.getMobile();
         this.email = companyDTO.getEmail();
-        this.createdAt = companyDTO.getCreatedAt().toString();
+        this.createdAt = companyDTO.getCreatedAt();
         this.createdBy = companyDTO.getCreatedBy();
-        this.updatedAt = companyDTO.getUpdatedAt().toString();
+        this.updatedAt = companyDTO.getUpdatedAt();
         this.updatedBy = companyDTO.getUpdatedBy();
-        this.deletedAt = companyDTO.getDeletedAt().toString();
+        this.deletedAt = companyDTO.getDeletedAt();
         this.deletedBy = companyDTO.getDeletedBy();
         this.industryType = companyDTO.getIndustryType();
-        this.dateOfIncorporation = companyDTO.getDateOfIncorporation().toString();
+        this.dateOfIncorporation = companyDTO.getDateOfIncorporation() != null ? LocalDate.ofInstant(companyDTO.getDateOfIncorporation(), ZoneId.of("UTC")) : null;
         this.businessRelationshipPurpose = companyDTO.getBusinessRelationshipPurpose();
         this.isSanctionsRelated = companyDTO.getIsSanctionsRelated();
         this.isAdverseMediaInvolved = companyDTO.getIsAdverseMediaInvolved();
@@ -138,10 +149,10 @@ public class WallesterCompanyResponse {
             //            .monthlyInternetPurchase(companyDTO.getLimitMonthlyInternetPurchase())
             //            .monthlyContactlessPurchase(companyDTO.getLimitMonthlyContactlessPurchase())
             .build();
-        this.kybStatus = companyDTO.getKybStatus().name();
-        this.status = companyDTO.getStatus().name();
+        this.kybStatus = companyDTO.getKybStatus();
+        this.status = companyDTO.getStatus();
         this.pushNotificationsEnabled = companyDTO.getPushNotificationsEnabled();
-        this.preferredLanguageCode = companyDTO.getPreferredLanguageCode().name();
+        this.preferredLanguageCode = companyDTO.getPreferredLanguageCode();
         this.vatNumber = companyDTO.getVatNumber();
     }
 }

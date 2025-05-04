@@ -1,6 +1,6 @@
 package io.github.vsinkievic.mockwallesterapi.service.dto;
 
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
@@ -87,7 +87,7 @@ public class CompanyDTO implements Serializable {
 
     private KybStatus kybStatus;
 
-    private AccountStatus status;
+    private CompanyStatus status;
 
     private Boolean pushNotificationsEnabled;
 
@@ -367,11 +367,11 @@ public class CompanyDTO implements Serializable {
         this.kybStatus = kybStatus;
     }
 
-    public AccountStatus getStatus() {
+    public CompanyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(AccountStatus status) {
+    public void setStatus(CompanyStatus status) {
         this.status = status;
     }
 

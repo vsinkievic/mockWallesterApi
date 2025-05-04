@@ -17,7 +17,7 @@ import java.util.UUID;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class CardAccountDTO implements Serializable {
 
-    @NotNull
+//    @NotNull
     private UUID id;
 
     @NotNull

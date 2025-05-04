@@ -59,6 +59,7 @@ class MailServiceIT {
     void setup() {
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
         when(javaMailSender.createMimeMessage()).thenReturn(new MimeMessage((Session) null));
+//        when(javaMailSender.createMimeMessage()).thenReturn(new MimeMessage(Session.getDefaultInstance(new Properties())));
     }
 
     @Test
@@ -143,6 +144,7 @@ class MailServiceIT {
         user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
         user.setEmail("john.doe@example.com");
+        user.setActivationKey("activationKey");
         mailService.sendActivationEmail(user);
         verify(javaMailSender).send(messageCaptor.capture());
         MimeMessage message = messageCaptor.getValue();
@@ -158,6 +160,7 @@ class MailServiceIT {
         user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
         user.setEmail("john.doe@example.com");
+        user.setResetKey("resetKey");
         mailService.sendCreationEmail(user);
         verify(javaMailSender).send(messageCaptor.capture());
         MimeMessage message = messageCaptor.getValue();

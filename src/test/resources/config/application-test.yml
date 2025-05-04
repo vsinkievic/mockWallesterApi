@@ -1,0 +1,91 @@
+spring:
+  application:
+    name: MockWallesterApi
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:MockWallesterApiTest;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  jpa:
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.timezone.default_storage: NORMALIZE
+      hibernate.type.preferred_instant_jdbc_type: TIMESTAMP
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      # modify batch size as necessary
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase
+    contexts: test
+    url: jdbc:h2:mem:MockWallesterApi;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    user: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    enabled: true
+    change-log: classpath:config/liquibase/master.xml
+  messages:
+    basename: i18n/messages
+  mail:
+    host: localhost
+    port: 25
+    username: 
+    password: 
+    protocol: smtp
+    tls: false
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+            required: false
+        transport:
+          protocol: smtp
+          rset: true
+  security:
+    jwt:
+      base64-secret: dGVzdC1zZWNyZXQtdGhhdC1zaG91bGQtYmUtYXQtbGVhc3QtMzItY2hhcmFjdGVycy1sb25n
+      token-validity-in-seconds: 86400
+      token-validity-in-seconds-for-remember-me: 2592000
+  thymeleaf:
+    cache: false
+#    prefix: classpath:/templates
+    mode: HTML
+    encoding: UTF-8
+#    check-template-location: true
+
+server:
+  port: 10344
+  address: localhost
+
+management:
+  health:
+    mail:
+      enabled: false
+
+jhipster:
+  clientApp:
+    name: MockWallesterApi
+  security:
+    authentication:
+      jwt:
+        base64-secret: dGVzdC1zZWNyZXQtdGhhdC1zaG91bGQtYmUtYXQtbGVhc3QtMzItY2hhcmFjdGVycy1sb25n
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
+  mail:
+    from: MockWallesterApi@localhost 
+    base-url: http://127.0.0.1:8080
+    

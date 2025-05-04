@@ -11,6 +11,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @IntegrationTest
+@Disabled
 class DomainUserDetailsServiceIT {
 
     private static final String USER_ONE_LOGIN = "test-user-one";

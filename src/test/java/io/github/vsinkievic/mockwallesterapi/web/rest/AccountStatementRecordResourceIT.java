@@ -17,7 +17,6 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatement
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.MerchantCategoryCode;
 import io.github.vsinkievic.mockwallesterapi.repository.AccountStatementRecordRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.AccountStatementRecordDTO;

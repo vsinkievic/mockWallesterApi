@@ -1,6 +1,6 @@
 package io.github.vsinkievic.mockwallesterapi.domain;
 
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
@@ -131,7 +131,7 @@ public class Company implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private AccountStatus status;
+    private CompanyStatus status;
 
     @Column(name = "push_notifications_enabled")
     private Boolean pushNotificationsEnabled;
@@ -587,16 +587,16 @@ public class Company implements Serializable {
         this.kybStatus = kybStatus;
     }
 
-    public AccountStatus getStatus() {
+    public CompanyStatus getStatus() {
         return this.status;
     }
 
-    public Company status(AccountStatus status) {
+    public Company status(CompanyStatus status) {
         this.setStatus(status);
         return this;
     }
 
-    public void setStatus(AccountStatus status) {
+    public void setStatus(CompanyStatus status) {
         this.status = status;
     }
 

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vsinkievic.mockwallesterapi.IntegrationTest;
 import io.github.vsinkievic.mockwallesterapi.domain.Authority;
 import io.github.vsinkievic.mockwallesterapi.repository.AuthorityRepository;
-import jakarta.persistence.EntityManager;
+//import jakarta.persistence.EntityManager;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +39,8 @@ class AuthorityResourceIT {
     @Autowired
     private AuthorityRepository authorityRepository;
 
-    @Autowired
-    private EntityManager em;
+ //   @Autowired
+//    private EntityManager em;
 
     @Autowired
     private MockMvc restAuthorityMockMvc;
