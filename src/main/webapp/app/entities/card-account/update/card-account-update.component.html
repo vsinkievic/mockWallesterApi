@@ -387,6 +387,496 @@
             </div>
           }
         </div>
+
+        <!-- Additional fields -->
+        @let cardsCountRef = editForm.get('cardsCount')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_cardsCount">Cards Count</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cardsCount"
+            id="field_cardsCount"
+            data-cy="cardsCount"
+            formControlName="cardsCount"
+          />
+          @if (cardsCountRef.invalid && (cardsCountRef.dirty || cardsCountRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('cardsCount')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let closeReasonRef = editForm.get('closeReason')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_closeReason">Close Reason</label>
+          <input
+            type="text"
+            class="form-control"
+            name="closeReason"
+            id="field_closeReason"
+            data-cy="closeReason"
+            formControlName="closeReason"
+          />
+        </div>
+
+        @let closedAtRef = editForm.get('closedAt')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_closedAt">Closed At</label>
+          <div class="d-flex">
+            <input
+              id="field_closedAt"
+              data-cy="closedAt"
+              type="datetime-local"
+              class="form-control"
+              name="closedAt"
+              formControlName="closedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (closedAtRef.invalid && (closedAtRef.dirty || closedAtRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('closedAt')?.errors?.datetimelocal"
+                >This field should be a date and time.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let closedByRef = editForm.get('closedBy')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_closedBy">Closed By</label>
+          <input type="text" class="form-control" name="closedBy" id="field_closedBy" data-cy="closedBy" formControlName="closedBy" />
+        </div>
+
+        @let companyIdRef = editForm.get('companyId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_companyId">Company ID</label>
+          <input type="text" class="form-control" name="companyId" id="field_companyId" data-cy="companyId" formControlName="companyId" />
+        </div>
+
+        @let creditLimitRef = editForm.get('creditLimit')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_creditLimit">Credit Limit</label>
+          <input
+            type="number"
+            class="form-control"
+            name="creditLimit"
+            id="field_creditLimit"
+            data-cy="creditLimit"
+            formControlName="creditLimit"
+          />
+          @if (creditLimitRef.invalid && (creditLimitRef.dirty || creditLimitRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('creditLimit')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let currencyCodeRef = editForm.get('currencyCode')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_currencyCode">Currency Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="currencyCode"
+            id="field_currencyCode"
+            data-cy="currencyCode"
+            formControlName="currencyCode"
+          />
+        </div>
+
+        @let externalIdRef = editForm.get('externalId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_externalId">External ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="externalId"
+            id="field_externalId"
+            data-cy="externalId"
+            formControlName="externalId"
+          />
+        </div>
+
+        @let isMainRef = editForm.get('isMain')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_isMain">Is Main</label>
+          <input type="checkbox" class="form-check-input" name="isMain" id="field_isMain" data-cy="isMain" formControlName="isMain" />
+        </div>
+
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        @let personIdRef = editForm.get('personId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_personId">Person ID</label>
+          <input type="text" class="form-control" name="personId" id="field_personId" data-cy="personId" formControlName="personId" />
+        </div>
+
+        @let productIdRef = editForm.get('productId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_productId">Product ID</label>
+          <input type="text" class="form-control" name="productId" id="field_productId" data-cy="productId" formControlName="productId" />
+        </div>
+
+        @let referenceNumberRef = editForm.get('referenceNumber')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_referenceNumber">Reference Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="referenceNumber"
+            id="field_referenceNumber"
+            data-cy="referenceNumber"
+            formControlName="referenceNumber"
+          />
+        </div>
+
+        @let usedCreditRef = editForm.get('usedCredit')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_usedCredit">Used Credit</label>
+          <input
+            type="number"
+            class="form-control"
+            name="usedCredit"
+            id="field_usedCredit"
+            data-cy="usedCredit"
+            formControlName="usedCredit"
+          />
+          @if (usedCreditRef.invalid && (usedCreditRef.dirty || usedCreditRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('usedCredit')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let vibanRef = editForm.get('viban')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_viban">VIBAN</label>
+          <input type="text" class="form-control" name="viban" id="field_viban" data-cy="viban" formControlName="viban" />
+        </div>
+
+        <!-- Limits -->
+        @let dailyContactlessPurchaseRef = editForm.get('dailyContactlessPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_dailyContactlessPurchase">Daily Contactless Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="dailyContactlessPurchase"
+            id="field_dailyContactlessPurchase"
+            data-cy="dailyContactlessPurchase"
+            formControlName="dailyContactlessPurchase"
+          />
+          @if (dailyContactlessPurchaseRef.invalid && (dailyContactlessPurchaseRef.dirty || dailyContactlessPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('dailyContactlessPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let dailyInternetPurchaseRef = editForm.get('dailyInternetPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_dailyInternetPurchase">Daily Internet Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="dailyInternetPurchase"
+            id="field_dailyInternetPurchase"
+            data-cy="dailyInternetPurchase"
+            formControlName="dailyInternetPurchase"
+          />
+          @if (dailyInternetPurchaseRef.invalid && (dailyInternetPurchaseRef.dirty || dailyInternetPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('dailyInternetPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let dailyPurchaseRef = editForm.get('dailyPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_dailyPurchase">Daily Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="dailyPurchase"
+            id="field_dailyPurchase"
+            data-cy="dailyPurchase"
+            formControlName="dailyPurchase"
+          />
+          @if (dailyPurchaseRef.invalid && (dailyPurchaseRef.dirty || dailyPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('dailyPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let dailyWithdrawalRef = editForm.get('dailyWithdrawal')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_dailyWithdrawal">Daily Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="dailyWithdrawal"
+            id="field_dailyWithdrawal"
+            data-cy="dailyWithdrawal"
+            formControlName="dailyWithdrawal"
+          />
+          @if (dailyWithdrawalRef.invalid && (dailyWithdrawalRef.dirty || dailyWithdrawalRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('dailyWithdrawal')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let monthlyContactlessPurchaseRef = editForm.get('monthlyContactlessPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_monthlyContactlessPurchase">Monthly Contactless Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="monthlyContactlessPurchase"
+            id="field_monthlyContactlessPurchase"
+            data-cy="monthlyContactlessPurchase"
+            formControlName="monthlyContactlessPurchase"
+          />
+          @if (monthlyContactlessPurchaseRef.invalid && (monthlyContactlessPurchaseRef.dirty || monthlyContactlessPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('monthlyContactlessPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let monthlyInternetPurchaseRef = editForm.get('monthlyInternetPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_monthlyInternetPurchase">Monthly Internet Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="monthlyInternetPurchase"
+            id="field_monthlyInternetPurchase"
+            data-cy="monthlyInternetPurchase"
+            formControlName="monthlyInternetPurchase"
+          />
+          @if (monthlyInternetPurchaseRef.invalid && (monthlyInternetPurchaseRef.dirty || monthlyInternetPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('monthlyInternetPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let monthlyPurchaseRef = editForm.get('monthlyPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_monthlyPurchase">Monthly Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="monthlyPurchase"
+            id="field_monthlyPurchase"
+            data-cy="monthlyPurchase"
+            formControlName="monthlyPurchase"
+          />
+          @if (monthlyPurchaseRef.invalid && (monthlyPurchaseRef.dirty || monthlyPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('monthlyPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let monthlyWithdrawalRef = editForm.get('monthlyWithdrawal')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_monthlyWithdrawal">Monthly Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="monthlyWithdrawal"
+            id="field_monthlyWithdrawal"
+            data-cy="monthlyWithdrawal"
+            formControlName="monthlyWithdrawal"
+          />
+          @if (monthlyWithdrawalRef.invalid && (monthlyWithdrawalRef.dirty || monthlyWithdrawalRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('monthlyWithdrawal')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let weeklyContactlessPurchaseRef = editForm.get('weeklyContactlessPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_weeklyContactlessPurchase">Weekly Contactless Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="weeklyContactlessPurchase"
+            id="field_weeklyContactlessPurchase"
+            data-cy="weeklyContactlessPurchase"
+            formControlName="weeklyContactlessPurchase"
+          />
+          @if (weeklyContactlessPurchaseRef.invalid && (weeklyContactlessPurchaseRef.dirty || weeklyContactlessPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('weeklyContactlessPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let weeklyInternetPurchaseRef = editForm.get('weeklyInternetPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_weeklyInternetPurchase">Weekly Internet Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="weeklyInternetPurchase"
+            id="field_weeklyInternetPurchase"
+            data-cy="weeklyInternetPurchase"
+            formControlName="weeklyInternetPurchase"
+          />
+          @if (weeklyInternetPurchaseRef.invalid && (weeklyInternetPurchaseRef.dirty || weeklyInternetPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('weeklyInternetPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let weeklyPurchaseRef = editForm.get('weeklyPurchase')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_weeklyPurchase">Weekly Purchase</label>
+          <input
+            type="number"
+            class="form-control"
+            name="weeklyPurchase"
+            id="field_weeklyPurchase"
+            data-cy="weeklyPurchase"
+            formControlName="weeklyPurchase"
+          />
+          @if (weeklyPurchaseRef.invalid && (weeklyPurchaseRef.dirty || weeklyPurchaseRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('weeklyPurchase')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let weeklyWithdrawalRef = editForm.get('weeklyWithdrawal')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_weeklyWithdrawal">Weekly Withdrawal</label>
+          <input
+            type="number"
+            class="form-control"
+            name="weeklyWithdrawal"
+            id="field_weeklyWithdrawal"
+            data-cy="weeklyWithdrawal"
+            formControlName="weeklyWithdrawal"
+          />
+          @if (weeklyWithdrawalRef.invalid && (weeklyWithdrawalRef.dirty || weeklyWithdrawalRef.touched)) {
+            <div>
+              <small class="form-text text-danger" [hidden]="!editForm.get('weeklyWithdrawal')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        <!-- Top-up details -->
+        @let bankAddressRef = editForm.get('bankAddress')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_bankAddress">Bank Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="bankAddress"
+            id="field_bankAddress"
+            data-cy="bankAddress"
+            formControlName="bankAddress"
+          />
+        </div>
+
+        @let bankNameRef = editForm.get('bankName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_bankName">Bank Name</label>
+          <input type="text" class="form-control" name="bankName" id="field_bankName" data-cy="bankName" formControlName="bankName" />
+        </div>
+
+        @let ibanRef = editForm.get('iban')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_iban">IBAN</label>
+          <input type="text" class="form-control" name="iban" id="field_iban" data-cy="iban" formControlName="iban" />
+        </div>
+
+        @let paymentDetailsRef = editForm.get('paymentDetails')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_paymentDetails">Payment Details</label>
+          <input
+            type="text"
+            class="form-control"
+            name="paymentDetails"
+            id="field_paymentDetails"
+            data-cy="paymentDetails"
+            formControlName="paymentDetails"
+          />
+        </div>
+
+        @let receiverNameRef = editForm.get('receiverName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_receiverName">Receiver Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="receiverName"
+            id="field_receiverName"
+            data-cy="receiverName"
+            formControlName="receiverName"
+          />
+        </div>
+
+        @let registrationNumberRef = editForm.get('registrationNumber')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_registrationNumber">Registration Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="registrationNumber"
+            id="field_registrationNumber"
+            data-cy="registrationNumber"
+            formControlName="registrationNumber"
+          />
+        </div>
+
+        @let swiftCodeRef = editForm.get('swiftCode')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_swiftCode">Swift Code</label>
+          <input type="text" class="form-control" name="swiftCode" id="field_swiftCode" data-cy="swiftCode" formControlName="swiftCode" />
+        </div>
       </div>
 
       <div>

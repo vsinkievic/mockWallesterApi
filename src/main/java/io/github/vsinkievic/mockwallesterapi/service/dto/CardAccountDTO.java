@@ -9,15 +9,16 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.Data;
 
 /**
  * A DTO for the {@link io.github.vsinkievic.mockwallesterapi.domain.CardAccount} entity.
  */
 @Schema(description = "Represents a customer Account.")
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Data
 public class CardAccountDTO implements Serializable {
 
-//    @NotNull
     private UUID id;
 
     @NotNull
@@ -47,85 +48,44 @@ public class CardAccountDTO implements Serializable {
     @NotNull
     private Instant updatedAt;
 
-    public UUID getId() {
-        return id;
-    }
+    private Integer cardsCount;
+    private String closeReason;
+    private Instant closedAt;
+    private String closedBy;
+    private UUID companyId;
+    private BigDecimal creditLimit;
+    private String currencyCode;
+    private String externalId;
+    private Boolean isMain;
+    private String name;
+    private UUID personId;
+    private UUID productId;
+    private String referenceNumber;
+    private BigDecimal usedCredit;
+    private String viban;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    // Limits
+    private BigDecimal dailyContactlessPurchase;
+    private BigDecimal dailyInternetPurchase;
+    private BigDecimal dailyPurchase;
+    private BigDecimal dailyWithdrawal;
+    private BigDecimal monthlyContactlessPurchase;
+    private BigDecimal monthlyInternetPurchase;
+    private BigDecimal monthlyPurchase;
+    private BigDecimal monthlyWithdrawal;
+    private BigDecimal weeklyContactlessPurchase;
+    private BigDecimal weeklyInternetPurchase;
+    private BigDecimal weeklyPurchase;
+    private BigDecimal weeklyWithdrawal;
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public CurrencyCode getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(CurrencyCode currency) {
-        this.currency = currency;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public BigDecimal getReservedAmount() {
-        return reservedAmount;
-    }
-
-    public void setReservedAmount(BigDecimal reservedAmount) {
-        this.reservedAmount = reservedAmount;
-    }
-
-    public BigDecimal getAvailableAmount() {
-        return availableAmount;
-    }
-
-    public void setAvailableAmount(BigDecimal availableAmount) {
-        this.availableAmount = availableAmount;
-    }
-
-    public BigDecimal getBlockedAmount() {
-        return blockedAmount;
-    }
-
-    public void setBlockedAmount(BigDecimal blockedAmount) {
-        this.blockedAmount = blockedAmount;
-    }
-
-    public AccountStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AccountStatus status) {
-        this.status = status;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    // Top-up details
+    private String bankAddress;
+    private String bankName;
+    private String iban;
+    private String paymentDetails;
+    private String receiverName;
+    private String registrationNumber;
+    private String swiftCode;
 
     @Override
     public boolean equals(Object o) {

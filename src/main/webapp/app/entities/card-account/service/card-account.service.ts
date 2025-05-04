@@ -14,6 +14,7 @@ export type PartialUpdateCardAccount = Partial<ICardAccount> & Pick<ICardAccount
 type RestOf<T extends ICardAccount | NewCardAccount> = Omit<T, 'createdAt' | 'updatedAt'> & {
   createdAt?: string | null;
   updatedAt?: string | null;
+  closedAt?: string | null;
 };
 
 export type RestCardAccount = RestOf<ICardAccount>;
@@ -103,6 +104,7 @@ export class CardAccountService {
       ...cardAccount,
       createdAt: cardAccount.createdAt?.toJSON() ?? null,
       updatedAt: cardAccount.updatedAt?.toJSON() ?? null,
+      closedAt: cardAccount.closedAt?.toJSON() ?? null,
     };
   }
 
@@ -111,6 +113,7 @@ export class CardAccountService {
       ...restCardAccount,
       createdAt: restCardAccount.createdAt ? dayjs(restCardAccount.createdAt) : undefined,
       updatedAt: restCardAccount.updatedAt ? dayjs(restCardAccount.updatedAt) : undefined,
+      closedAt: restCardAccount.closedAt ? dayjs(restCardAccount.closedAt) : undefined,
     };
   }
 

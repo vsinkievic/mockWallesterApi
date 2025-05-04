@@ -47,6 +47,50 @@
         <dropDefaultValue tableName="card_account" columnName="updated_at" columnDataType="${datetimeType}"/>
     </changeSet>
 
+    <changeSet id="20250504104303-2" author="jhipster">
+        <addColumn tableName="card_account">
+            <column name="cards_count" type="integer"/>
+            <column name="close_reason" type="varchar(255)"/>
+            <column name="closed_at" type="${datetimeType}"/>
+            <column name="closed_by" type="varchar(255)"/>
+            <column name="company_id" type="${uuidType}"/>
+            <column name="credit_limit" type="decimal(21,2)"/>
+            <column name="currency_code" type="varchar(255)"/>
+            <column name="external_id" type="varchar(255)"/>
+            <column name="is_main" type="boolean"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="person_id" type="${uuidType}"/>
+            <column name="product_id" type="${uuidType}"/>
+            <column name="reference_number" type="varchar(255)"/>
+            <column name="used_credit" type="decimal(21,2)"/>
+            <column name="viban" type="varchar(255)"/>
+            
+            <!-- Limits -->
+            <column name="daily_contactless_purchase" type="decimal(21,2)"/>
+            <column name="daily_internet_purchase" type="decimal(21,2)"/>
+            <column name="daily_purchase" type="decimal(21,2)"/>
+            <column name="daily_withdrawal" type="decimal(21,2)"/>
+            <column name="monthly_contactless_purchase" type="decimal(21,2)"/>
+            <column name="monthly_internet_purchase" type="decimal(21,2)"/>
+            <column name="monthly_purchase" type="decimal(21,2)"/>
+            <column name="monthly_withdrawal" type="decimal(21,2)"/>
+            <column name="weekly_contactless_purchase" type="decimal(21,2)"/>
+            <column name="weekly_internet_purchase" type="decimal(21,2)"/>
+            <column name="weekly_purchase" type="decimal(21,2)"/>
+            <column name="weekly_withdrawal" type="decimal(21,2)"/>
+            
+            <!-- Top-up details -->
+            <column name="bank_address" type="varchar(255)"/>
+            <column name="bank_name" type="varchar(255)"/>
+            <column name="iban" type="varchar(255)"/>
+            <column name="payment_details" type="varchar(255)"/>
+            <column name="receiver_name" type="varchar(255)"/>
+            <column name="registration_number" type="varchar(255)"/>
+            <column name="swift_code" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

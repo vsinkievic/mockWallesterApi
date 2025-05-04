@@ -1,7 +1,9 @@
 package io.github.vsinkievic.mockwallesterapi.web.rest;
 
+import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
@@ -28,9 +30,11 @@ import org.springframework.web.bind.annotation.*;
 public class WallesterRestApi {
 
     private final CompanyService companyService;
+    private final CardAccountService accountService;
 
-    public WallesterRestApi(CompanyService companyService) {
+    public WallesterRestApi(CompanyService companyService, CardAccountService accountService) {
         this.companyService = companyService;
+        this.accountService = accountService;
     }
 
     @ExceptionHandler(WallesterApiException.class)
@@ -60,6 +64,17 @@ public class WallesterRestApi {
         return companyService
             .findOne(UUID.fromString(companyId))
             .map(companyDTO -> ResponseEntity.ok(new WallesterCompanyResponse(companyDTO)))
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Operation(tags = { "Account" }, summary = "Get Account by ID", description = "Returns Account information by its ID")
+    @GetMapping("/v1/accounts/{account_id}")
+    public ResponseEntity<WallesterAccount> getAccountById(@PathVariable("account_id") String accountId) {
+        log.info("GET /v1/accounts/{}", accountId);
+
+        return accountService
+            .findOne(UUID.fromString(accountId))
+            .map(accountDTO -> ResponseEntity.ok(new WallesterAccount(accountDTO)))
             .orElse(ResponseEntity.notFound().build());
     }
 

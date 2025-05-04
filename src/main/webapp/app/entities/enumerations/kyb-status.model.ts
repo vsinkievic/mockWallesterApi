@@ -1,11 +1,11 @@
 export enum KybStatus {
-  NotStarted = 'NotStarted',
+  NotConfirmed = 'NotConfirmed',
 
   Pending = 'Pending',
 
-  Approved = 'Approved',
+  PendingManual = 'PendingManual',
 
   Rejected = 'Rejected',
 
-  NotConfirmed = 'NotConfirmed',
+  Verified = 'Verified',
 }

@@ -13,6 +13,46 @@ export interface ICardAccount {
   status?: keyof typeof AccountStatus | null;
   createdAt?: dayjs.Dayjs | null;
   updatedAt?: dayjs.Dayjs | null;
+
+  // Additional fields
+  cardsCount?: number | null;
+  closeReason?: string | null;
+  closedAt?: dayjs.Dayjs | null;
+  closedBy?: string | null;
+  companyId?: string | null;
+  creditLimit?: number | null;
+  currencyCode?: string | null;
+  externalId?: string | null;
+  isMain?: boolean | null;
+  name?: string | null;
+  personId?: string | null;
+  productId?: string | null;
+  referenceNumber?: string | null;
+  usedCredit?: number | null;
+  viban?: string | null;
+
+  // Limits
+  dailyContactlessPurchase?: number | null;
+  dailyInternetPurchase?: number | null;
+  dailyPurchase?: number | null;
+  dailyWithdrawal?: number | null;
+  monthlyContactlessPurchase?: number | null;
+  monthlyInternetPurchase?: number | null;
+  monthlyPurchase?: number | null;
+  monthlyWithdrawal?: number | null;
+  weeklyContactlessPurchase?: number | null;
+  weeklyInternetPurchase?: number | null;
+  weeklyPurchase?: number | null;
+  weeklyWithdrawal?: number | null;
+
+  // Top-up details
+  bankAddress?: string | null;
+  bankName?: string | null;
+  iban?: string | null;
+  paymentDetails?: string | null;
+  receiverName?: string | null;
+  registrationNumber?: string | null;
+  swiftCode?: string | null;
 }
 
 export type NewCardAccount = Omit<ICardAccount, 'id'> & { id: null };

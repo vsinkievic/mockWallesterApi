@@ -11,7 +11,7 @@
         <jhi-alert />
 
         <dl class="row-md jh-entity-details">
-          <dt><span>Id</span></dt>
+          <dt><span>ID</span></dt>
           <dd>
             <span>{{ cardAccountRef.id }}</span>
           </dd>
@@ -222,6 +222,148 @@
           <dt><span>Updated At</span></dt>
           <dd>
             <span>{{ cardAccountRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+
+          <!-- Additional fields -->
+          <dt><span>Cards Count</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.cardsCount }}</span>
+          </dd>
+          <dt><span>Close Reason</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.closeReason }}</span>
+          </dd>
+          <dt><span>Closed At</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.closedAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Closed By</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.closedBy }}</span>
+          </dd>
+          <dt><span>Company ID</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.companyId }}</span>
+          </dd>
+          <dt><span>Credit Limit</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.creditLimit }}</span>
+          </dd>
+          <dt><span>Currency Code</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.currencyCode }}</span>
+          </dd>
+          <dt><span>External ID</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.externalId }}</span>
+          </dd>
+          <dt><span>Is Main</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.isMain }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.name }}</span>
+          </dd>
+          <dt><span>Person ID</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.personId }}</span>
+          </dd>
+          <dt><span>Product ID</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.productId }}</span>
+          </dd>
+          <dt><span>Reference Number</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.referenceNumber }}</span>
+          </dd>
+          <dt><span>Used Credit</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.usedCredit }}</span>
+          </dd>
+          <dt><span>VIBAN</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.viban }}</span>
+          </dd>
+
+          <!-- Limits -->
+          <dt><span>Daily Contactless Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.dailyContactlessPurchase }}</span>
+          </dd>
+          <dt><span>Daily Internet Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.dailyInternetPurchase }}</span>
+          </dd>
+          <dt><span>Daily Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.dailyPurchase }}</span>
+          </dd>
+          <dt><span>Daily Withdrawal</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.dailyWithdrawal }}</span>
+          </dd>
+          <dt><span>Monthly Contactless Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.monthlyContactlessPurchase }}</span>
+          </dd>
+          <dt><span>Monthly Internet Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.monthlyInternetPurchase }}</span>
+          </dd>
+          <dt><span>Monthly Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.monthlyPurchase }}</span>
+          </dd>
+          <dt><span>Monthly Withdrawal</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.monthlyWithdrawal }}</span>
+          </dd>
+          <dt><span>Weekly Contactless Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.weeklyContactlessPurchase }}</span>
+          </dd>
+          <dt><span>Weekly Internet Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.weeklyInternetPurchase }}</span>
+          </dd>
+          <dt><span>Weekly Purchase</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.weeklyPurchase }}</span>
+          </dd>
+          <dt><span>Weekly Withdrawal</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.weeklyWithdrawal }}</span>
+          </dd>
+
+          <!-- Top-up details -->
+          <dt><span>Bank Address</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.bankAddress }}</span>
+          </dd>
+          <dt><span>Bank Name</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.bankName }}</span>
+          </dd>
+          <dt><span>IBAN</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.iban }}</span>
+          </dd>
+          <dt><span>Payment Details</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.paymentDetails }}</span>
+          </dd>
+          <dt><span>Receiver Name</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.receiverName }}</span>
+          </dd>
+          <dt><span>Registration Number</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.registrationNumber }}</span>
+          </dd>
+          <dt><span>Swift Code</span></dt>
+          <dd>
+            <span>{{ cardAccountRef.swiftCode }}</span>
           </dd>
         </dl>
 
