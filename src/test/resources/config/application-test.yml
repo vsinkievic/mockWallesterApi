@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:MockWallesterApiTest;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
     username: sa
-    password: 
+    password:
     driver-class-name: org.h2.Driver
   jpa:
     properties:
@@ -28,11 +28,11 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
-  liquibase
+  liquibase:
     contexts: test
     url: jdbc:h2:mem:MockWallesterApi;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
     user: sa
-    password: 
+    password:
     driver-class-name: org.h2.Driver
     enabled: true
     change-log: classpath:config/liquibase/master.xml
@@ -41,8 +41,8 @@ spring:
   mail:
     host: localhost
     port: 25
-    username: 
-    password: 
+    username:
+    password:
     protocol: smtp
     tls: false
     properties:
@@ -62,7 +62,7 @@ spring:
       token-validity-in-seconds-for-remember-me: 2592000
   thymeleaf:
     cache: false
-#    prefix: classpath:/templates
+    #    prefix: classpath:/templates
     mode: HTML
     encoding: UTF-8
 #    check-template-location: true
@@ -86,6 +86,5 @@ jhipster:
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail:
-    from: MockWallesterApi@localhost 
+    from: MockWallesterApi@localhost
     base-url: http://127.0.0.1:8080
-    

@@ -9,7 +9,6 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.time.ZoneOffset;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * REST controller for Wallester API endpoints.
  */
-@Tag(name = "wallester-api", description = "Wallester API endpoints")
+// @Tag(name = "wallester-api", description = "Wallester API endpoints")
 @RestController
 @RequestMapping("/wallester/api")
 @Slf4j
@@ -39,13 +38,14 @@ public class WallesterRestApi {
         log.error("Wallester API exception: {}", error.getMessage());
         return ResponseEntity.status(error.getHttpStatus()).body(new WallesterRestError(error));
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<WallesterRestError> handleException(Exception error) {
         log.error("Wallester API exception: {}", error.getMessage());
         return ResponseEntity.status(500).body(new WallesterRestError(error.getMessage()).errorText(error.getClass().getSimpleName()));
     }
 
-    @Operation(summary = "Ping endpoint", description = "Returns the input string with '-pong' suffix")
+    @Operation(tags = { "Testing" }, summary = "Ping endpoint", description = "Returns the input string with '-pong' suffix")
     @GetMapping("/ping")
     public ResponseEntity<String> ping(@RequestParam String request) {
         log.info("Ping request: {}", request);
@@ -108,15 +108,13 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Company" }, summary = "Create company", description = "Creates a new company")
     @PostMapping("/v1/companies")
-    public ResponseEntity<WallesterCompanyResponse> createCompany(
-        @RequestBody WallesterCompanyRequest request
-    ) {
+    public ResponseEntity<WallesterCompanyResponse> createCompany(@RequestBody WallesterCompanyRequest request) {
         log.info("POST /v1/companies with request: {}", request);
 
         CompanyDTO companyDTO = new CompanyDTO();
         companyDTO.setName(request.getName());
         companyDTO.setRegistrationNumber(request.getRegistrationNumber());
-        
+
         if (request.getRegistrationAddress() != null) {
             companyDTO.setRegAddressCountryCode(request.getRegistrationAddress().getCountryCode());
             companyDTO.setRegAddress1(request.getRegistrationAddress().getAddress1());
@@ -124,7 +122,7 @@ public class WallesterRestApi {
             companyDTO.setRegAddressCity(request.getRegistrationAddress().getCity());
             companyDTO.setRegAddressPostalCode(request.getRegistrationAddress().getPostalCode());
         }
-        
+
         if (request.getHeadquarterAddress() != null) {
             companyDTO.setHqAddressCountryCode(request.getHeadquarterAddress().getCountryCode());
             companyDTO.setHqAddress1(request.getHeadquarterAddress().getAddress1());
@@ -132,35 +130,35 @@ public class WallesterRestApi {
             companyDTO.setHqAddressCity(request.getHeadquarterAddress().getCity());
             companyDTO.setHqAddressPostalCode(request.getHeadquarterAddress().getPostalCode());
         }
-        
+
         if (request.getRiskProfile() != null) {
             companyDTO.setRiskProfile(request.getRiskProfile());
         }
-        
+
         companyDTO.setMobile(request.getMobile());
         companyDTO.setEmail(request.getEmail());
         companyDTO.setIndustryType(request.getIndustryType());
-        
+
         if (request.getDateOfIncorporation() != null) {
             companyDTO.setDateOfIncorporation(request.getDateOfIncorporation().atStartOfDay(ZoneOffset.UTC).toInstant());
         }
-        
+
         companyDTO.setBusinessRelationshipPurpose(request.getBusinessRelationshipPurpose());
         companyDTO.setIsSanctionsRelated(request.getIsSanctionsRelated());
         companyDTO.setIsAdverseMediaInvolved(request.getIsAdverseMediaInvolved());
         companyDTO.setEmployeesQuantity(request.getEmployeesQuantity());
         companyDTO.setCardSpendingAmount(request.getCardSpendingAmount());
-        
+
         if (request.getLimits() != null) {
             companyDTO.setLimitDailyPurchase(request.getLimits().getDailyPurchase());
             companyDTO.setLimitDailyWithdrawal(request.getLimits().getDailyWithdrawal());
             companyDTO.setLimitMonthlyPurchase(request.getLimits().getMonthlyPurchase());
             companyDTO.setLimitMonthlyWithdrawal(request.getLimits().getMonthlyWithdrawal());
         }
-        
+
         companyDTO.setKybStatus(request.getKybStatus());
         companyDTO.setStatus(request.getStatus());
-        
+
         companyDTO.setPushNotificationsEnabled(request.getPushNotificationsEnabled());
         companyDTO.setPreferredLanguageCode(request.getPreferredLanguageCode());
         companyDTO.setVatNumber(request.getVatNumber());
