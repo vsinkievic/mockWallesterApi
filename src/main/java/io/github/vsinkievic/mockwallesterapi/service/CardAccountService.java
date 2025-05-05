@@ -1,6 +1,7 @@
 package io.github.vsinkievic.mockwallesterapi.service;
 
 import io.github.vsinkievic.mockwallesterapi.domain.CardAccount;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
 import io.github.vsinkievic.mockwallesterapi.repository.CardAccountRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CardAccountMapper;
@@ -121,5 +122,72 @@ public class CardAccountService {
     public void delete(UUID id) {
         LOG.debug("Request to delete CardAccount : {}", id);
         cardAccountRepository.deleteById(id);
+    }
+
+    /**
+     * Get accounts by company ID.
+     *
+     * @param companyId the company ID.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CardAccountDTO> findByCompanyId(UUID companyId, Pageable pageable) {
+        LOG.debug("Request to get CardAccounts by company ID: {}", companyId);
+        return cardAccountRepository.findByCompanyId(companyId, pageable).map(cardAccountMapper::toDto);
+    }
+
+    /**
+     * Get accounts by person ID.
+     *
+     * @param personId the person ID.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CardAccountDTO> findByPersonId(UUID personId, Pageable pageable) {
+        LOG.debug("Request to get CardAccounts by person ID: {}", personId);
+        return cardAccountRepository.findByPersonId(personId, pageable).map(cardAccountMapper::toDto);
+    }
+
+    /**
+     * Get accounts by status.
+     *
+     * @param status the account status.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CardAccountDTO> findByStatus(AccountStatus status, Pageable pageable) {
+        LOG.debug("Request to get CardAccounts by status: {}", status);
+        return cardAccountRepository.findByStatus(status, pageable).map(cardAccountMapper::toDto);
+    }
+
+    /**
+     * Get accounts by company ID and status.
+     *
+     * @param companyId the company ID.
+     * @param status the account status.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CardAccountDTO> findByCompanyIdAndStatus(UUID companyId, AccountStatus status, Pageable pageable) {
+        LOG.debug("Request to get CardAccounts by company ID: {} and status: {}", companyId, status);
+        return cardAccountRepository.findByCompanyIdAndStatus(companyId, status, pageable).map(cardAccountMapper::toDto);
+    }
+
+    /**
+     * Get accounts by person ID and status.
+     *
+     * @param personId the person ID.
+     * @param status the account status.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<CardAccountDTO> findByPersonIdAndStatus(UUID personId, AccountStatus status, Pageable pageable) {
+        LOG.debug("Request to get CardAccounts by person ID: {} and status: {}", personId, status);
+        return cardAccountRepository.findByPersonIdAndStatus(personId, status, pageable).map(cardAccountMapper::toDto);
     }
 }

@@ -409,7 +409,6 @@
           }
         </div>
 
-        @let closeReasonRef = editForm.get('closeReason')!;
         <div class="mb-3">
           <label class="form-label" for="field_closeReason">Close Reason</label>
           <input
@@ -445,13 +444,11 @@
           }
         </div>
 
-        @let closedByRef = editForm.get('closedBy')!;
         <div class="mb-3">
           <label class="form-label" for="field_closedBy">Closed By</label>
           <input type="text" class="form-control" name="closedBy" id="field_closedBy" data-cy="closedBy" formControlName="closedBy" />
         </div>
 
-        @let companyIdRef = editForm.get('companyId')!;
         <div class="mb-3">
           <label class="form-label" for="field_companyId">Company ID</label>
           <input type="text" class="form-control" name="companyId" id="field_companyId" data-cy="companyId" formControlName="companyId" />
@@ -487,10 +484,16 @@
             id="field_currencyCode"
             data-cy="currencyCode"
             formControlName="currencyCode"
+            [ngClass]="{ 'is-invalid': currencyCodeRef.invalid && (currencyCodeRef.dirty || currencyCodeRef.touched) }"
           />
+          <div *ngIf="currencyCodeRef.invalid && (currencyCodeRef.dirty || currencyCodeRef.touched)" class="invalid-feedback">
+            <div *ngIf="currencyCodeRef.errors?.['required']">Currency code is required.</div>
+            <div *ngIf="currencyCodeRef.errors?.['minlength']">Currency code must be exactly 3 characters.</div>
+            <div *ngIf="currencyCodeRef.errors?.['maxlength']">Currency code must be exactly 3 characters.</div>
+            <div *ngIf="currencyCodeRef.errors?.['pattern']">Currency code must contain only uppercase letters.</div>
+          </div>
         </div>
 
-        @let externalIdRef = editForm.get('externalId')!;
         <div class="mb-3">
           <label class="form-label" for="field_externalId">External ID</label>
           <input
@@ -503,31 +506,26 @@
           />
         </div>
 
-        @let isMainRef = editForm.get('isMain')!;
         <div class="mb-3">
           <label class="form-label" for="field_isMain">Is Main</label>
           <input type="checkbox" class="form-check-input" name="isMain" id="field_isMain" data-cy="isMain" formControlName="isMain" />
         </div>
 
-        @let nameRef = editForm.get('name')!;
         <div class="mb-3">
           <label class="form-label" for="field_name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
         </div>
 
-        @let personIdRef = editForm.get('personId')!;
         <div class="mb-3">
           <label class="form-label" for="field_personId">Person ID</label>
           <input type="text" class="form-control" name="personId" id="field_personId" data-cy="personId" formControlName="personId" />
         </div>
 
-        @let productIdRef = editForm.get('productId')!;
         <div class="mb-3">
           <label class="form-label" for="field_productId">Product ID</label>
           <input type="text" class="form-control" name="productId" id="field_productId" data-cy="productId" formControlName="productId" />
         </div>
 
-        @let referenceNumberRef = editForm.get('referenceNumber')!;
         <div class="mb-3">
           <label class="form-label" for="field_referenceNumber">Reference Number</label>
           <input
@@ -560,7 +558,6 @@
           }
         </div>
 
-        @let vibanRef = editForm.get('viban')!;
         <div class="mb-3">
           <label class="form-label" for="field_viban">VIBAN</label>
           <input type="text" class="form-control" name="viban" id="field_viban" data-cy="viban" formControlName="viban" />
@@ -808,7 +805,6 @@
         </div>
 
         <!-- Top-up details -->
-        @let bankAddressRef = editForm.get('bankAddress')!;
         <div class="mb-3">
           <label class="form-label" for="field_bankAddress">Bank Address</label>
           <input
@@ -821,19 +817,16 @@
           />
         </div>
 
-        @let bankNameRef = editForm.get('bankName')!;
         <div class="mb-3">
           <label class="form-label" for="field_bankName">Bank Name</label>
           <input type="text" class="form-control" name="bankName" id="field_bankName" data-cy="bankName" formControlName="bankName" />
         </div>
 
-        @let ibanRef = editForm.get('iban')!;
         <div class="mb-3">
           <label class="form-label" for="field_iban">IBAN</label>
           <input type="text" class="form-control" name="iban" id="field_iban" data-cy="iban" formControlName="iban" />
         </div>
 
-        @let paymentDetailsRef = editForm.get('paymentDetails')!;
         <div class="mb-3">
           <label class="form-label" for="field_paymentDetails">Payment Details</label>
           <input
@@ -846,7 +839,6 @@
           />
         </div>
 
-        @let receiverNameRef = editForm.get('receiverName')!;
         <div class="mb-3">
           <label class="form-label" for="field_receiverName">Receiver Name</label>
           <input
@@ -859,7 +851,6 @@
           />
         </div>
 
-        @let registrationNumberRef = editForm.get('registrationNumber')!;
         <div class="mb-3">
           <label class="form-label" for="field_registrationNumber">Registration Number</label>
           <input
@@ -872,7 +863,6 @@
           />
         </div>
 
-        @let swiftCodeRef = editForm.get('swiftCode')!;
         <div class="mb-3">
           <label class="form-label" for="field_swiftCode">Swift Code</label>
           <input type="text" class="form-control" name="swiftCode" id="field_swiftCode" data-cy="swiftCode" formControlName="swiftCode" />

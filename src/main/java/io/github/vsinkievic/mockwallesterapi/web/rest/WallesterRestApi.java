@@ -1,30 +1,32 @@
 package io.github.vsinkievic.mockwallesterapi.web.rest;
 
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
 import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
+import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountSearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.ZoneOffset;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for Wallester API endpoints.
  */
-// @Tag(name = "wallester-api", description = "Wallester API endpoints")
 @RestController
 @RequestMapping("/wallester/api")
 @Slf4j
@@ -192,5 +194,92 @@ public class WallesterRestApi {
 
         CompanyDTO savedCompany = companyService.save(companyDTO);
         return ResponseEntity.ok(new WallesterCompanyResponse(savedCompany));
+    }
+
+    @Operation(tags = { "Account" }, summary = "Search accounts", description = "Returns a list of accounts matching the search criteria")
+    @GetMapping("/v1/accounts")
+    public ResponseEntity<WallesterAccountSearchResponse> searchAccounts(
+        @RequestParam(value = "from_record", required = true) int fromRecord,
+        @RequestParam(value = "records_count", required = true) int recordsCount,
+        @RequestParam(value = "order_field", required = false) String orderField,
+        @RequestParam(value = "order_direction", required = false) String orderDirection
+    ) {
+        log.info(
+            String.format(
+                "GET /v1/accounts with params: from_record=%d, records_count=%d, order_field=%s, order_direction=%s",
+                fromRecord,
+                recordsCount,
+                orderField,
+                orderDirection
+            )
+        );
+
+        // Validate and set default values
+        if (recordsCount <= 0 || recordsCount > 500) {
+            recordsCount = 500;
+        }
+        if (StringUtils.isBlank(orderDirection)) {
+            orderDirection = "asc";
+        }
+        if (!orderDirection.equals("asc") && !orderDirection.equals("desc")) {
+            throw new WallesterApiException(422, "Invalid order direction");
+        }
+
+        if (StringUtils.isBlank(orderField)) {
+            orderField = "created_at";
+        }
+
+        // Validate order field
+        if (!isValidAccountOrderField(orderField)) {
+            throw new WallesterApiException(422, "Invalid order field");
+        }
+
+        // Create sort object
+        Sort sort = Sort.by(orderDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, convertToCamelCase(orderField));
+
+        // Create page request with sorting
+        PageRequest pageRequest = PageRequest.of(fromRecord / recordsCount, recordsCount, sort);
+
+        // Get accounts
+        Page<CardAccountDTO> accounts = accountService.findAll(pageRequest);
+        Page<WallesterAccount> accountsPage = accounts.map(accountDTO -> new WallesterAccount(accountDTO));
+
+        // Create response
+        WallesterAccountSearchResponse response = new WallesterAccountSearchResponse();
+        response.setAccounts(accountsPage.getContent());
+        response.setTotalRecordsNumber((int) accountsPage.getTotalElements());
+
+        return ResponseEntity.ok(response);
+    }
+
+    private boolean isValidAccountOrderField(String orderField) {
+        return switch (orderField) {
+            case "created_at", "updated_at", "balance", "blocked_amount", "available_amount", "name", "status" -> true;
+            default -> false;
+        };
+    }
+
+    private String convertToCamelCase(String snakeCase) {
+        if (snakeCase == null || snakeCase.isEmpty()) {
+            return snakeCase;
+        }
+
+        StringBuilder result = new StringBuilder();
+        boolean capitalizeNext = false;
+
+        for (char c : snakeCase.toCharArray()) {
+            if (c == '_') {
+                capitalizeNext = true;
+            } else {
+                if (capitalizeNext) {
+                    result.append(Character.toUpperCase(c));
+                    capitalizeNext = false;
+                } else {
+                    result.append(c);
+                }
+            }
+        }
+
+        return result.toString();
     }
 }

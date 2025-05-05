@@ -54,7 +54,12 @@ public class CardAccountDTO implements Serializable {
     private String closedBy;
     private UUID companyId;
     private BigDecimal creditLimit;
+
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be exactly 3 uppercase letters")
+    @Size(min = 3, max = 3, message = "Currency code must be exactly 3 characters")
+    @NotBlank(message = "Currency code is required")
     private String currencyCode;
+
     private String externalId;
     private Boolean isMain;
     private String name;
