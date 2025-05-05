@@ -48,16 +48,10 @@ public class CardAccountAsserts {
     public static void assertCardAccountUpdatableFieldsEquals(CardAccount expected, CardAccount actual) {
         assertThat(actual)
             .as("Verify CardAccount relevant properties")
-            .satisfies(a -> assertThat(a.getAccountNumber()).as("check accountNumber").isEqualTo(expected.getAccountNumber()))
-            .satisfies(a -> assertThat(a.getCurrency()).as("check currency").isEqualTo(expected.getCurrency()))
+            .satisfies(a -> assertThat(a.getExternalId()).as("check externalId").isEqualTo(expected.getExternalId()))
+            .satisfies(a -> assertThat(a.getCurrencyCode()).as("check currencyCode").isEqualTo(expected.getCurrencyCode()))
             .satisfies(a ->
                 assertThat(a.getBalance()).as("check balance").usingComparator(bigDecimalCompareTo).isEqualTo(expected.getBalance())
-            )
-            .satisfies(a ->
-                assertThat(a.getReservedAmount())
-                    .as("check reservedAmount")
-                    .usingComparator(bigDecimalCompareTo)
-                    .isEqualTo(expected.getReservedAmount())
             )
             .satisfies(a ->
                 assertThat(a.getAvailableAmount())

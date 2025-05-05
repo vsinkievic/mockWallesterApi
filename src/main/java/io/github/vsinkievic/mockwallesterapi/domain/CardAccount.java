@@ -29,21 +29,13 @@ public class CardAccount implements Serializable {
     private UUID id;
 
     @NotNull
-    @Column(name = "account_number", nullable = false)
-    private String accountNumber;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "currency", nullable = false)
-    private CurrencyCode currency;
+    @Column(name = "currency_code", nullable = false)
+    private CurrencyCode currencyCode;
 
     @NotNull
     @Column(name = "balance", precision = 21, scale = 2, nullable = false)
     private BigDecimal balance;
-
-    @NotNull
-    @Column(name = "reserved_amount", precision = 21, scale = 2, nullable = false)
-    private BigDecimal reservedAmount;
 
     @NotNull
     @Column(name = "available_amount", precision = 21, scale = 2, nullable = false)
@@ -85,10 +77,7 @@ public class CardAccount implements Serializable {
     @Column(name = "credit_limit", precision = 21, scale = 2)
     private BigDecimal creditLimit;
 
-    @Column(name = "currency_code")
-    private String currencyCode;
-
-    @Column(name = "external_id")
+    @Column(name = "external_id", unique = true)
     private String externalId;
 
     @Column(name = "is_main")
@@ -178,34 +167,19 @@ public class CardAccount implements Serializable {
         return this;
     }
 
-    public String getAccountNumber() {
-        return this.accountNumber;
-    }
-
-    public CardAccount accountNumber(String accountNumber) {
-        this.setAccountNumber(accountNumber);
+    public CardAccount companyId(UUID companyId) {
+        this.setCompanyId(companyId);
         return this;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public CurrencyCode getCurrency() {
-        return this.currency;
-    }
-
-    public CardAccount currency(CurrencyCode currency) {
-        this.setCurrency(currency);
+    public CardAccount externalId(String externalId) {
+        this.setExternalId(externalId);
         return this;
     }
 
-    public void setCurrency(CurrencyCode currency) {
-        this.currency = currency;
-    }
-
-    public BigDecimal getBalance() {
-        return this.balance;
+    public CardAccount currencyCode(CurrencyCode currencyCode) {
+        this.setCurrencyCode(currencyCode);
+        return this;
     }
 
     public CardAccount balance(BigDecimal balance) {
@@ -213,47 +187,14 @@ public class CardAccount implements Serializable {
         return this;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public BigDecimal getReservedAmount() {
-        return this.reservedAmount;
-    }
-
-    public CardAccount reservedAmount(BigDecimal reservedAmount) {
-        this.setReservedAmount(reservedAmount);
-        return this;
-    }
-
-    public void setReservedAmount(BigDecimal reservedAmount) {
-        this.reservedAmount = reservedAmount;
-    }
-
-    public BigDecimal getAvailableAmount() {
-        return this.availableAmount;
-    }
-
     public CardAccount availableAmount(BigDecimal availableAmount) {
         this.setAvailableAmount(availableAmount);
         return this;
     }
 
-    public void setAvailableAmount(BigDecimal availableAmount) {
-        this.availableAmount = availableAmount;
-    }
-
-    public BigDecimal getBlockedAmount() {
-        return this.blockedAmount;
-    }
-
     public CardAccount blockedAmount(BigDecimal blockedAmount) {
         this.setBlockedAmount(blockedAmount);
         return this;
-    }
-
-    public void setBlockedAmount(BigDecimal blockedAmount) {
-        this.blockedAmount = blockedAmount;
     }
 
     public AccountStatus getStatus() {
@@ -265,34 +206,14 @@ public class CardAccount implements Serializable {
         return this;
     }
 
-    public void setStatus(AccountStatus status) {
-        this.status = status;
-    }
-
-    public Instant getCreatedAt() {
-        return this.createdAt;
-    }
-
     public CardAccount createdAt(Instant createdAt) {
         this.setCreatedAt(createdAt);
         return this;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return this.updatedAt;
-    }
-
     public CardAccount updatedAt(Instant updatedAt) {
         this.setUpdatedAt(updatedAt);
         return this;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -319,13 +240,12 @@ public class CardAccount implements Serializable {
     public String toString() {
         return "CardAccount{" +
             "id=" + getId() +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", currency='" + getCurrency() + "'" +
+            ", externalId='" + getExternalId() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", currencyCode='" + getCurrencyCode() + "'" +
             ", balance=" + getBalance() +
-            ", reservedAmount=" + getReservedAmount() +
             ", availableAmount=" + getAvailableAmount() +
             ", blockedAmount=" + getBlockedAmount() +
-            ", status='" + getStatus() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             "}";

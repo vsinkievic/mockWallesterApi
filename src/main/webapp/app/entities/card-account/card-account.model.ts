@@ -4,12 +4,12 @@ import { AccountStatus } from 'app/entities/enumerations/account-status.model';
 
 export interface ICardAccount {
   id: string;
-  accountNumber?: string | null;
-  currency?: keyof typeof CurrencyCode | null;
+  externalId?: string | null;
+  name?: string | null;
+  currencyCode?: keyof typeof CurrencyCode | null;
   balance?: number | null;
-  reservedAmount?: number | null;
-  availableAmount?: number | null;
   blockedAmount?: number | null;
+  availableAmount?: number | null;
   status?: keyof typeof AccountStatus | null;
   createdAt?: dayjs.Dayjs | null;
   updatedAt?: dayjs.Dayjs | null;
@@ -21,10 +21,7 @@ export interface ICardAccount {
   closedBy?: string | null;
   companyId?: string | null;
   creditLimit?: number | null;
-  currencyCode?: string | null;
-  externalId?: string | null;
   isMain?: boolean | null;
-  name?: string | null;
   personId?: string | null;
   productId?: string | null;
   referenceNumber?: string | null;

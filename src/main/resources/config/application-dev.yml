@@ -37,7 +37,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/MockWallesterApi;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:./target/h2db/db/mock_wallester_api;DB_CLOSE_DELAY=-1
     username: MockWallesterApi
     password:
     hikari:

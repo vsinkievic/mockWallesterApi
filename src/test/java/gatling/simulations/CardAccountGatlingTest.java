@@ -68,10 +68,9 @@ public class CardAccountGatlingTest extends Simulation {
                         .body(
                             StringBody(
                                 "{" +
-                                "\"accountNumber\": \"SAMPLE_TEXT\"" +
-                                ", \"currency\": \"AED\"" +
+                                "\"externalId\": \"SAMPLE_TEXT\"" +
+                                ", \"currencyCode\": \"AED\"" +
                                 ", \"balance\": 0" +
-                                ", \"reservedAmount\": 0" +
                                 ", \"availableAmount\": 0" +
                                 ", \"blockedAmount\": 0" +
                                 ", \"status\": \"Active\"" +

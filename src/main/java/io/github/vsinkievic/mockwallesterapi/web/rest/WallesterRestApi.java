@@ -6,6 +6,7 @@ import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountSearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
@@ -14,6 +15,8 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySear
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import io.swagger.v3.oas.annotations.Operation;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -250,6 +253,49 @@ public class WallesterRestApi {
         response.setTotalRecordsNumber((int) accountsPage.getTotalElements());
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(tags = { "Account" }, summary = "Create account", description = "Creates a new account")
+    @PostMapping("/v1/accounts")
+    public ResponseEntity<WallesterAccountResponse> createAccount(@RequestBody WallesterAccountRequest request) {
+        log.info("POST /v1/accounts with request: {}", request);
+
+        CardAccountDTO accountDTO = new CardAccountDTO();
+        accountDTO.setCompanyId(request.getCompanyId());
+        accountDTO.setPersonId(request.getPersonId());
+        accountDTO.setName(request.getName());
+        accountDTO.setCurrencyCode(request.getCurrencyCode());
+        accountDTO.setExternalId(request.getExternalId());
+        accountDTO.setCreditLimit(request.getCreditLimit());
+        accountDTO.setUsedCredit(request.getUsedCredit());
+
+        if (request.getLimits() != null) {
+            accountDTO.setDailyContactlessPurchase(request.getLimits().getDailyContactlessPurchase());
+            accountDTO.setDailyInternetPurchase(request.getLimits().getDailyInternetPurchase());
+            accountDTO.setDailyPurchase(request.getLimits().getDailyPurchase());
+            accountDTO.setDailyWithdrawal(request.getLimits().getDailyWithdrawal());
+            accountDTO.setMonthlyContactlessPurchase(request.getLimits().getMonthlyContactlessPurchase());
+            accountDTO.setMonthlyInternetPurchase(request.getLimits().getMonthlyInternetPurchase());
+            accountDTO.setMonthlyPurchase(request.getLimits().getMonthlyPurchase());
+            accountDTO.setMonthlyWithdrawal(request.getLimits().getMonthlyWithdrawal());
+            accountDTO.setWeeklyContactlessPurchase(request.getLimits().getWeeklyContactlessPurchase());
+            accountDTO.setWeeklyInternetPurchase(request.getLimits().getWeeklyInternetPurchase());
+            accountDTO.setWeeklyPurchase(request.getLimits().getWeeklyPurchase());
+            accountDTO.setWeeklyWithdrawal(request.getLimits().getWeeklyWithdrawal());
+        }
+
+        if (request.getTopUpDetails() != null) {
+            accountDTO.setBankAddress(request.getTopUpDetails().getBankAddress());
+            accountDTO.setBankName(request.getTopUpDetails().getBankName());
+            accountDTO.setIban(request.getTopUpDetails().getIban());
+            accountDTO.setPaymentDetails(request.getTopUpDetails().getPaymentDetails());
+            accountDTO.setReceiverName(request.getTopUpDetails().getReceiverName());
+            accountDTO.setRegistrationNumber(request.getTopUpDetails().getRegistrationNumber());
+            accountDTO.setSwiftCode(request.getTopUpDetails().getSwiftCode());
+        }
+
+        CardAccountDTO savedAccount = accountService.save(accountDTO);
+        return ResponseEntity.ok(new WallesterAccountResponse(new WallesterAccount(savedAccount)));
     }
 
     private boolean isValidAccountOrderField(String orderField) {

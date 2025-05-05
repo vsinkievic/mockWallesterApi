@@ -19,16 +19,16 @@ spring:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
-    url: jdbc:h2:mem:MockWallesterApi;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    url: jdbc:h2:mem:mock_wallester_api;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
     user: sa
-    password: 
+    password:
     driver-class-name: org.h2.Driver
     enabled: true
     change-log: classpath:config/liquibase/master.xml
   datasource:
-    url: jdbc:h2:mem:MockWallesterApi;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
+    url: jdbc:h2:mem:mock_wallester_api;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE
     username: sa
-    password: 
+    password:
     driver-class-name: org.h2.Driver
   jpa:
     properties:

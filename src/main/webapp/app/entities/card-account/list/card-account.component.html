@@ -40,14 +40,14 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="accountNumber">
+            <th scope="col" jhiSortBy="externalId">
               <div class="d-flex">
-                <span>Account Number</span>
+                <span>External ID</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="currency">
+            <th scope="col" jhiSortBy="currencyCode">
               <div class="d-flex">
                 <span>Currency</span>
 
@@ -61,9 +61,9 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="reservedAmount">
+            <th scope="col" jhiSortBy="blockedAmount">
               <div class="d-flex">
-                <span>Reserved Amount</span>
+                <span>Blocked Amount</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -71,13 +71,6 @@
             <th scope="col" jhiSortBy="availableAmount">
               <div class="d-flex">
                 <span>Available Amount</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="blockedAmount">
-              <div class="d-flex">
-                <span>Blocked Amount</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -112,7 +105,7 @@
               <td>
                 <a [routerLink]="['/card-account', cardAccount.id, 'view']">{{ cardAccount.id }}</a>
               </td>
-              <td>{{ cardAccount.accountNumber }}</td>
+              <td>{{ cardAccount.externalId }}</td>
               <td>
                 {{
                   {
@@ -283,13 +276,12 @@
                     ZAR: 'ZAR',
                     ZMW: 'ZMW',
                     ZWL: 'ZWL',
-                  }[cardAccount.currency ?? 'null']
+                  }[cardAccount.currencyCode ?? 'null']
                 }}
               </td>
               <td>{{ cardAccount.balance }}</td>
-              <td>{{ cardAccount.reservedAmount }}</td>
-              <td>{{ cardAccount.availableAmount }}</td>
               <td>{{ cardAccount.blockedAmount }}</td>
+              <td>{{ cardAccount.availableAmount }}</td>
               <td>
                 {{ { null: '', Active: 'Active', Blocked: 'Blocked', Closed: 'Closed', Closing: 'Closing' }[cardAccount.status ?? 'null'] }}
               </td>

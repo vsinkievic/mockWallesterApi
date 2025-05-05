@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 public interface CardAccountRepository extends JpaRepository<CardAccount, UUID> {
     Optional<CardAccount> findByExternalId(String externalId);
 
+    Optional<CardAccount> findByExternalIdAndIdNot(String externalId, UUID id);
+
     Page<CardAccount> findByCompanyId(UUID companyId, Pageable pageable);
 
     Page<CardAccount> findByPersonId(UUID personId, Pageable pageable);

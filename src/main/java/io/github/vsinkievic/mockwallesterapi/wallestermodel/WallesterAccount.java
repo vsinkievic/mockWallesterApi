@@ -2,13 +2,23 @@ package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 import lombok.Data;
 
 @Data
 public class WallesterAccount {
+
+    private UUID id;
+
+    @JsonProperty("company_id")
+    private UUID companyId;
+
+    @JsonProperty("person_id")
+    private UUID personId;
 
     @JsonProperty("available_amount")
     private BigDecimal availableAmount;
@@ -30,9 +40,6 @@ public class WallesterAccount {
     @JsonProperty("closed_by")
     private String closedBy;
 
-    @JsonProperty("company_id")
-    private String companyId;
-
     @JsonProperty("created_at")
     private Instant createdAt;
 
@@ -40,12 +47,10 @@ public class WallesterAccount {
     private BigDecimal creditLimit;
 
     @JsonProperty("currency_code")
-    private String currencyCode;
+    private CurrencyCode currencyCode;
 
     @JsonProperty("external_id")
     private String externalId;
-
-    private String id;
 
     @JsonProperty("is_main")
     private Boolean isMain;
@@ -53,9 +58,6 @@ public class WallesterAccount {
     private WallesterAccountLimits limits;
 
     private String name;
-
-    @JsonProperty("person_id")
-    private String personId;
 
     @JsonProperty("product_id")
     private String productId;
@@ -84,15 +86,15 @@ public class WallesterAccount {
         this.closeReason = dto.getCloseReason();
         this.closedAt = dto.getClosedAt();
         this.closedBy = dto.getClosedBy();
-        this.companyId = dto.getCompanyId() != null ? dto.getCompanyId().toString() : null;
+        this.companyId = dto.getCompanyId();
         this.createdAt = dto.getCreatedAt();
         this.creditLimit = dto.getCreditLimit();
         this.currencyCode = dto.getCurrencyCode();
         this.externalId = dto.getExternalId();
-        this.id = dto.getId() != null ? dto.getId().toString() : null;
+        this.id = dto.getId();
         this.isMain = dto.getIsMain();
         this.name = dto.getName();
-        this.personId = dto.getPersonId() != null ? dto.getPersonId().toString() : null;
+        this.personId = dto.getPersonId();
         this.productId = dto.getProductId() != null ? dto.getProductId().toString() : null;
         this.referenceNumber = dto.getReferenceNumber();
         this.status = dto.getStatus();

@@ -11,9 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vsinkievic.mockwallesterapi.IntegrationTest;
 import io.github.vsinkievic.mockwallesterapi.domain.CardAccount;
+import io.github.vsinkievic.mockwallesterapi.domain.Company;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
 import io.github.vsinkievic.mockwallesterapi.repository.CardAccountRepository;
+import io.github.vsinkievic.mockwallesterapi.repository.CompanyRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CardAccountMapper;
 import jakarta.persistence.EntityManager;
@@ -39,17 +42,16 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class CardAccountResourceIT {
 
-    private static final String DEFAULT_ACCOUNT_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_ACCOUNT_NUMBER = "BBBBBBBBBB";
+    private static UUID DEFAULT_COMPANY_ID = null;
+
+    private static final String DEFAULT_EXTERNAL_ID = "AAAAAAAAAA";
+    private static final String UPDATED_EXTERNAL_ID = "BBBBBBBBBB";
 
     private static final CurrencyCode DEFAULT_CURRENCY = CurrencyCode.AED;
     private static final CurrencyCode UPDATED_CURRENCY = CurrencyCode.AFN;
 
     private static final BigDecimal DEFAULT_BALANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_BALANCE = new BigDecimal(2);
-
-    private static final BigDecimal DEFAULT_RESERVED_AMOUNT = new BigDecimal(1);
-    private static final BigDecimal UPDATED_RESERVED_AMOUNT = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_AVAILABLE_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AVAILABLE_AMOUNT = new BigDecimal(2);
@@ -76,6 +78,9 @@ class CardAccountResourceIT {
     private CardAccountRepository cardAccountRepository;
 
     @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
     private CardAccountMapper cardAccountMapper;
 
     @Autowired
@@ -96,10 +101,10 @@ class CardAccountResourceIT {
      */
     public static CardAccount createEntity() {
         return new CardAccount()
-            .accountNumber(DEFAULT_ACCOUNT_NUMBER)
-            .currency(DEFAULT_CURRENCY)
+            .companyId(DEFAULT_COMPANY_ID)
+            .externalId(DEFAULT_EXTERNAL_ID)
+            .currencyCode(DEFAULT_CURRENCY)
             .balance(DEFAULT_BALANCE)
-            .reservedAmount(DEFAULT_RESERVED_AMOUNT)
             .availableAmount(DEFAULT_AVAILABLE_AMOUNT)
             .blockedAmount(DEFAULT_BLOCKED_AMOUNT)
             .status(DEFAULT_STATUS)
@@ -115,10 +120,10 @@ class CardAccountResourceIT {
      */
     public static CardAccount createUpdatedEntity() {
         return new CardAccount()
-            .accountNumber(UPDATED_ACCOUNT_NUMBER)
-            .currency(UPDATED_CURRENCY)
+            .companyId(DEFAULT_COMPANY_ID)
+            .externalId(UPDATED_EXTERNAL_ID)
+            .currencyCode(UPDATED_CURRENCY)
             .balance(UPDATED_BALANCE)
-            .reservedAmount(UPDATED_RESERVED_AMOUNT)
             .availableAmount(UPDATED_AVAILABLE_AMOUNT)
             .blockedAmount(UPDATED_BLOCKED_AMOUNT)
             .status(UPDATED_STATUS)
@@ -128,15 +133,30 @@ class CardAccountResourceIT {
 
     @BeforeEach
     void initTest() {
+        cardAccountRepository.deleteAll();
+        companyRepository.deleteAll();
+
+        // Create test company
+        Company company = new Company()
+            .name("Test Company")
+            .registrationNumber("123456")
+            .status(CompanyStatus.Active)
+            .limitDailyPurchase(new BigDecimal("1000"))
+            .limitDailyWithdrawal(new BigDecimal("500"))
+            .limitMonthlyPurchase(new BigDecimal("10000"))
+            .limitMonthlyWithdrawal(new BigDecimal("5000"));
+        company = companyRepository.saveAndFlush(company);
+
+        // Update the DEFAULT_COMPANY_ID to match the generated company ID
+        DEFAULT_COMPANY_ID = company.getId();
+
         cardAccount = createEntity();
     }
 
     @AfterEach
     void cleanup() {
-        if (insertedCardAccount != null) {
-            cardAccountRepository.delete(insertedCardAccount);
-            insertedCardAccount = null;
-        }
+        cardAccountRepository.deleteAll();
+        companyRepository.deleteAll();
     }
 
     @Test
@@ -145,6 +165,7 @@ class CardAccountResourceIT {
         long databaseSizeBeforeCreate = getRepositoryCount();
         // Create the CardAccount
         CardAccountDTO cardAccountDTO = cardAccountMapper.toDto(cardAccount);
+        cardAccountDTO.setExternalId(UUID.randomUUID().toString());
         var returnedCardAccountDTO = om.readValue(
             restCardAccountMockMvc
                 .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(cardAccountDTO)))
@@ -183,27 +204,10 @@ class CardAccountResourceIT {
 
     @Test
     @Transactional
-    void checkAccountNumberIsRequired() throws Exception {
+    void checkCurrencyCodeIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        cardAccount.setAccountNumber(null);
-
-        // Create the CardAccount, which fails.
-        CardAccountDTO cardAccountDTO = cardAccountMapper.toDto(cardAccount);
-
-        restCardAccountMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(cardAccountDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkCurrencyIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        cardAccount.setCurrency(null);
+        cardAccount.setCurrencyCode(null);
 
         // Create the CardAccount, which fails.
         CardAccountDTO cardAccountDTO = cardAccountMapper.toDto(cardAccount);
@@ -221,23 +225,6 @@ class CardAccountResourceIT {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         cardAccount.setBalance(null);
-
-        // Create the CardAccount, which fails.
-        CardAccountDTO cardAccountDTO = cardAccountMapper.toDto(cardAccount);
-
-        restCardAccountMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(cardAccountDTO)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkReservedAmountIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        cardAccount.setReservedAmount(null);
 
         // Create the CardAccount, which fails.
         CardAccountDTO cardAccountDTO = cardAccountMapper.toDto(cardAccount);
@@ -346,10 +333,9 @@ class CardAccountResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(cardAccount.getId().toString())))
-            .andExpect(jsonPath("$.[*].accountNumber").value(hasItem(DEFAULT_ACCOUNT_NUMBER)))
-            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
+            .andExpect(jsonPath("$.[*].externalId").value(hasItem(DEFAULT_EXTERNAL_ID)))
+            .andExpect(jsonPath("$.[*].currencyCode").value(hasItem(DEFAULT_CURRENCY.toString())))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(sameNumber(DEFAULT_BALANCE))))
-            .andExpect(jsonPath("$.[*].reservedAmount").value(hasItem(sameNumber(DEFAULT_RESERVED_AMOUNT))))
             .andExpect(jsonPath("$.[*].availableAmount").value(hasItem(sameNumber(DEFAULT_AVAILABLE_AMOUNT))))
             .andExpect(jsonPath("$.[*].blockedAmount").value(hasItem(sameNumber(DEFAULT_BLOCKED_AMOUNT))))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
@@ -369,10 +355,9 @@ class CardAccountResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(cardAccount.getId().toString()))
-            .andExpect(jsonPath("$.accountNumber").value(DEFAULT_ACCOUNT_NUMBER))
-            .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY.toString()))
+            .andExpect(jsonPath("$.externalId").value(DEFAULT_EXTERNAL_ID))
+            .andExpect(jsonPath("$.currencyCode").value(DEFAULT_CURRENCY.toString()))
             .andExpect(jsonPath("$.balance").value(sameNumber(DEFAULT_BALANCE)))
-            .andExpect(jsonPath("$.reservedAmount").value(sameNumber(DEFAULT_RESERVED_AMOUNT)))
             .andExpect(jsonPath("$.availableAmount").value(sameNumber(DEFAULT_AVAILABLE_AMOUNT)))
             .andExpect(jsonPath("$.blockedAmount").value(sameNumber(DEFAULT_BLOCKED_AMOUNT)))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
@@ -400,10 +385,9 @@ class CardAccountResourceIT {
         // Disconnect from session so that the updates on updatedCardAccount are not directly saved in db
         em.detach(updatedCardAccount);
         updatedCardAccount
-            .accountNumber(UPDATED_ACCOUNT_NUMBER)
-            .currency(UPDATED_CURRENCY)
+            .externalId(UPDATED_EXTERNAL_ID)
+            .currencyCode(UPDATED_CURRENCY)
             .balance(UPDATED_BALANCE)
-            .reservedAmount(UPDATED_RESERVED_AMOUNT)
             .availableAmount(UPDATED_AVAILABLE_AMOUNT)
             .blockedAmount(UPDATED_BLOCKED_AMOUNT)
             .status(UPDATED_STATUS)
@@ -500,7 +484,7 @@ class CardAccountResourceIT {
 
         partialUpdatedCardAccount
             .balance(UPDATED_BALANCE)
-            .reservedAmount(UPDATED_RESERVED_AMOUNT)
+            .blockedAmount(UPDATED_BLOCKED_AMOUNT)
             .availableAmount(UPDATED_AVAILABLE_AMOUNT)
             .updatedAt(UPDATED_UPDATED_AT);
 
@@ -534,10 +518,9 @@ class CardAccountResourceIT {
         partialUpdatedCardAccount.setId(cardAccount.getId());
 
         partialUpdatedCardAccount
-            .accountNumber(UPDATED_ACCOUNT_NUMBER)
-            .currency(UPDATED_CURRENCY)
+            .externalId(UPDATED_EXTERNAL_ID)
+            .currencyCode(UPDATED_CURRENCY)
             .balance(UPDATED_BALANCE)
-            .reservedAmount(UPDATED_RESERVED_AMOUNT)
             .availableAmount(UPDATED_AVAILABLE_AMOUNT)
             .blockedAmount(UPDATED_BLOCKED_AMOUNT)
             .status(UPDATED_STATUS)

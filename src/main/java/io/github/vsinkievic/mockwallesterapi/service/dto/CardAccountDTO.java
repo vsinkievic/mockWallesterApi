@@ -22,16 +22,10 @@ public class CardAccountDTO implements Serializable {
     private UUID id;
 
     @NotNull
-    private String accountNumber;
-
-    @NotNull
-    private CurrencyCode currency;
+    private CurrencyCode currencyCode;
 
     @NotNull
     private BigDecimal balance;
-
-    @NotNull
-    private BigDecimal reservedAmount;
 
     @NotNull
     private BigDecimal availableAmount;
@@ -54,11 +48,6 @@ public class CardAccountDTO implements Serializable {
     private String closedBy;
     private UUID companyId;
     private BigDecimal creditLimit;
-
-    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency code must be exactly 3 uppercase letters")
-    @Size(min = 3, max = 3, message = "Currency code must be exactly 3 characters")
-    @NotBlank(message = "Currency code is required")
-    private String currencyCode;
 
     private String externalId;
     private Boolean isMain;
@@ -118,10 +107,9 @@ public class CardAccountDTO implements Serializable {
     public String toString() {
         return "CardAccountDTO{" +
             "id='" + getId() + "'" +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", currency='" + getCurrency() + "'" +
+            ", externalId='" + getExternalId() + "'" +
+            ", currencyCode='" + getCurrencyCode() + "'" +
             ", balance=" + getBalance() +
-            ", reservedAmount=" + getReservedAmount() +
             ", availableAmount=" + getAvailableAmount() +
             ", blockedAmount=" + getBlockedAmount() +
             ", status='" + getStatus() + "'" +

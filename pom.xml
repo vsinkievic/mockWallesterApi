@@ -972,7 +972,7 @@
                 <liquibase-plugin.driver>org.h2.Driver</liquibase-plugin.driver>
                 <liquibase-plugin.hibernate-dialect>org.hibernate.dialect.H2Dialect</liquibase-plugin.hibernate-dialect>
                 <liquibase-plugin.password/>
-                <liquibase-plugin.url>jdbc:h2:file:${project.build.directory}/h2db/db/MockWallesterApi</liquibase-plugin.url>
+                <liquibase-plugin.url>jdbc:h2:file:${project.build.directory}/h2db/db/mock_wallester_api</liquibase-plugin.url>
                 <liquibase-plugin.username>MockWallesterApi</liquibase-plugin.username>
                 <profile.test>test,testdev</profile.test>
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
@@ -1099,7 +1099,7 @@
                 <liquibase-plugin.driver>org.h2.Driver</liquibase-plugin.driver>
                 <liquibase-plugin.hibernate-dialect>org.hibernate.dialect.H2Dialect</liquibase-plugin.hibernate-dialect>
                 <liquibase-plugin.password/>
-                <liquibase-plugin.url>jdbc:h2:file:${project.build.directory}/h2db/db/MockWallesterApi</liquibase-plugin.url>
+                <liquibase-plugin.url>jdbc:h2:file:${project.build.directory}/h2db/db/mock_wallester_api</liquibase-plugin.url>
                 <liquibase-plugin.username>MockWallesterApi</liquibase-plugin.username>
                 <profile.test>test,testprod</profile.test>
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}${profile.no-liquibase}</spring.profiles.active>

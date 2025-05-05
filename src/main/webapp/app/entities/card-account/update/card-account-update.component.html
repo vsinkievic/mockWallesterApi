@@ -21,30 +21,22 @@
           </div>
         }
 
-        @let accountNumberRef = editForm.get('accountNumber')!;
         <div class="mb-3">
-          <label class="form-label" for="field_accountNumber">Account Number</label>
+          <label class="form-label" for="field_externalId">External ID</label>
           <input
             type="text"
             class="form-control"
-            name="accountNumber"
-            id="field_accountNumber"
-            data-cy="accountNumber"
-            formControlName="accountNumber"
+            name="externalId"
+            id="field_externalId"
+            data-cy="externalId"
+            formControlName="externalId"
           />
-          @if (accountNumberRef.invalid && (accountNumberRef.dirty || accountNumberRef.touched)) {
-            <div>
-              @if (editForm.get('accountNumber')?.errors?.required) {
-                <small class="form-text text-danger">This field is required.</small>
-              }
-            </div>
-          }
         </div>
 
-        @let currencyRef = editForm.get('currency')!;
+        @let currencyCodeRef = editForm.get('currencyCode')!;
         <div class="mb-3">
-          <label class="form-label" for="field_currency">Currency</label>
-          <select class="form-control" name="currency" formControlName="currency" id="field_currency" data-cy="currency">
+          <label class="form-label" for="field_currencyCode">Currency Code</label>
+          <select class="form-control" name="currencyCode" formControlName="currencyCode" id="field_currencyCode" data-cy="currencyCode">
             <option [ngValue]="null"></option>
             @for (currencyCode of currencyCodeValues; track $index) {
               <option [value]="currencyCode">
@@ -222,9 +214,9 @@
               </option>
             }
           </select>
-          @if (currencyRef.invalid && (currencyRef.dirty || currencyRef.touched)) {
+          @if (currencyCodeRef.invalid && (currencyCodeRef.dirty || currencyCodeRef.touched)) {
             <div>
-              @if (editForm.get('currency')?.errors?.required) {
+              @if (editForm.get('currencyCode')?.errors?.required) {
                 <small class="form-text text-danger">This field is required.</small>
               }
             </div>
@@ -241,52 +233,6 @@
                 <small class="form-text text-danger">This field is required.</small>
               }
               <small class="form-text text-danger" [hidden]="!editForm.get('balance')?.errors?.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let reservedAmountRef = editForm.get('reservedAmount')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_reservedAmount">Reserved Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="reservedAmount"
-            id="field_reservedAmount"
-            data-cy="reservedAmount"
-            formControlName="reservedAmount"
-          />
-          @if (reservedAmountRef.invalid && (reservedAmountRef.dirty || reservedAmountRef.touched)) {
-            <div>
-              @if (editForm.get('reservedAmount')?.errors?.required) {
-                <small class="form-text text-danger">This field is required.</small>
-              }
-              <small class="form-text text-danger" [hidden]="!editForm.get('reservedAmount')?.errors?.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let availableAmountRef = editForm.get('availableAmount')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_availableAmount">Available Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="availableAmount"
-            id="field_availableAmount"
-            data-cy="availableAmount"
-            formControlName="availableAmount"
-          />
-          @if (availableAmountRef.invalid && (availableAmountRef.dirty || availableAmountRef.touched)) {
-            <div>
-              @if (editForm.get('availableAmount')?.errors?.required) {
-                <small class="form-text text-danger">This field is required.</small>
-              }
-              <small class="form-text text-danger" [hidden]="!editForm.get('availableAmount')?.errors?.number"
                 >This field should be a number.</small
               >
             </div>
@@ -310,6 +256,29 @@
                 <small class="form-text text-danger">This field is required.</small>
               }
               <small class="form-text text-danger" [hidden]="!editForm.get('blockedAmount')?.errors?.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let availableAmountRef = editForm.get('availableAmount')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_availableAmount">Available Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="availableAmount"
+            id="field_availableAmount"
+            data-cy="availableAmount"
+            formControlName="availableAmount"
+          />
+          @if (availableAmountRef.invalid && (availableAmountRef.dirty || availableAmountRef.touched)) {
+            <div>
+              @if (editForm.get('availableAmount')?.errors?.required) {
+                <small class="form-text text-danger">This field is required.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('availableAmount')?.errors?.number"
                 >This field should be a number.</small
               >
             </div>
@@ -472,38 +441,6 @@
               >
             </div>
           }
-        </div>
-
-        @let currencyCodeRef = editForm.get('currencyCode')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_currencyCode">Currency Code</label>
-          <input
-            type="text"
-            class="form-control"
-            name="currencyCode"
-            id="field_currencyCode"
-            data-cy="currencyCode"
-            formControlName="currencyCode"
-            [ngClass]="{ 'is-invalid': currencyCodeRef.invalid && (currencyCodeRef.dirty || currencyCodeRef.touched) }"
-          />
-          <div *ngIf="currencyCodeRef.invalid && (currencyCodeRef.dirty || currencyCodeRef.touched)" class="invalid-feedback">
-            <div *ngIf="currencyCodeRef.errors?.['required']">Currency code is required.</div>
-            <div *ngIf="currencyCodeRef.errors?.['minlength']">Currency code must be exactly 3 characters.</div>
-            <div *ngIf="currencyCodeRef.errors?.['maxlength']">Currency code must be exactly 3 characters.</div>
-            <div *ngIf="currencyCodeRef.errors?.['pattern']">Currency code must contain only uppercase letters.</div>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_externalId">External ID</label>
-          <input
-            type="text"
-            class="form-control"
-            name="externalId"
-            id="field_externalId"
-            data-cy="externalId"
-            formControlName="externalId"
-          />
         </div>
 
         <div class="mb-3">

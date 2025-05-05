@@ -15,11 +15,11 @@
           <dd>
             <span>{{ cardAccountRef.id }}</span>
           </dd>
-          <dt><span>Account Number</span></dt>
+          <dt><span>External ID</span></dt>
           <dd>
-            <span>{{ cardAccountRef.accountNumber }}</span>
+            <span>{{ cardAccountRef.externalId }}</span>
           </dd>
-          <dt><span>Currency</span></dt>
+          <dt><span>Currency Code</span></dt>
           <dd>
             <span>{{
               {
@@ -190,24 +190,20 @@
                 ZAR: 'ZAR',
                 ZMW: 'ZMW',
                 ZWL: 'ZWL',
-              }[cardAccountRef.currency ?? 'null']
+              }[cardAccountRef.currencyCode ?? 'null']
             }}</span>
           </dd>
           <dt><span>Balance</span></dt>
           <dd>
             <span>{{ cardAccountRef.balance }}</span>
           </dd>
-          <dt><span>Reserved Amount</span></dt>
+          <dt><span>Blocked Amount</span></dt>
           <dd>
-            <span>{{ cardAccountRef.reservedAmount }}</span>
+            <span>{{ cardAccountRef.blockedAmount }}</span>
           </dd>
           <dt><span>Available Amount</span></dt>
           <dd>
             <span>{{ cardAccountRef.availableAmount }}</span>
-          </dd>
-          <dt><span>Blocked Amount</span></dt>
-          <dd>
-            <span>{{ cardAccountRef.blockedAmount }}</span>
           </dd>
           <dt><span>Status</span></dt>
           <dd>
@@ -248,14 +244,6 @@
           <dt><span>Credit Limit</span></dt>
           <dd>
             <span>{{ cardAccountRef.creditLimit }}</span>
-          </dd>
-          <dt><span>Currency Code</span></dt>
-          <dd>
-            <span>{{ cardAccountRef.currencyCode }}</span>
-          </dd>
-          <dt><span>External ID</span></dt>
-          <dd>
-            <span>{{ cardAccountRef.externalId }}</span>
           </dd>
           <dt><span>Is Main</span></dt>
           <dd>

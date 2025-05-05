@@ -33,10 +33,8 @@ type CardAccountFormDefaults = Pick<NewCardAccount, 'id' | 'createdAt' | 'update
 
 type CardAccountFormGroupContent = {
   id: FormControl<CardAccountFormRawValue['id'] | NewCardAccount['id']>;
-  accountNumber: FormControl<CardAccountFormRawValue['accountNumber']>;
-  currency: FormControl<CardAccountFormRawValue['currency']>;
+  currencyCode: FormControl<CardAccountFormRawValue['currencyCode']>;
   balance: FormControl<CardAccountFormRawValue['balance']>;
-  reservedAmount: FormControl<CardAccountFormRawValue['reservedAmount']>;
   availableAmount: FormControl<CardAccountFormRawValue['availableAmount']>;
   blockedAmount: FormControl<CardAccountFormRawValue['blockedAmount']>;
   status: FormControl<CardAccountFormRawValue['status']>;
@@ -50,7 +48,6 @@ type CardAccountFormGroupContent = {
   closedBy: FormControl<CardAccountFormRawValue['closedBy']>;
   companyId: FormControl<CardAccountFormRawValue['companyId']>;
   creditLimit: FormControl<CardAccountFormRawValue['creditLimit']>;
-  currencyCode: FormControl<CardAccountFormRawValue['currencyCode']>;
   externalId: FormControl<CardAccountFormRawValue['externalId']>;
   isMain: FormControl<CardAccountFormRawValue['isMain']>;
   name: FormControl<CardAccountFormRawValue['name']>;
@@ -101,16 +98,10 @@ export class CardAccountFormService {
           validators: [Validators.required],
         },
       ),
-      accountNumber: new FormControl(cardAccountRawValue.accountNumber, {
-        validators: [Validators.required],
-      }),
-      currency: new FormControl(cardAccountRawValue.currency, {
+      currencyCode: new FormControl(cardAccountRawValue.currencyCode, {
         validators: [Validators.required],
       }),
       balance: new FormControl(cardAccountRawValue.balance, {
-        validators: [Validators.required],
-      }),
-      reservedAmount: new FormControl(cardAccountRawValue.reservedAmount, {
         validators: [Validators.required],
       }),
       availableAmount: new FormControl(cardAccountRawValue.availableAmount, {
@@ -136,9 +127,6 @@ export class CardAccountFormService {
       closedBy: new FormControl(cardAccountRawValue.closedBy),
       companyId: new FormControl(cardAccountRawValue.companyId),
       creditLimit: new FormControl(cardAccountRawValue.creditLimit),
-      currencyCode: new FormControl(cardAccountRawValue.currencyCode, {
-        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern('^[A-Z]{3}$')],
-      }),
       externalId: new FormControl(cardAccountRawValue.externalId),
       isMain: new FormControl(cardAccountRawValue.isMain),
       name: new FormControl(cardAccountRawValue.name),

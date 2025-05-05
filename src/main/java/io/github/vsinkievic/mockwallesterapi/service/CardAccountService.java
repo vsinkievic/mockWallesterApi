@@ -1,10 +1,16 @@
 package io.github.vsinkievic.mockwallesterapi.service;
 
 import io.github.vsinkievic.mockwallesterapi.domain.CardAccount;
+import io.github.vsinkievic.mockwallesterapi.domain.Company;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
 import io.github.vsinkievic.mockwallesterapi.repository.CardAccountRepository;
+import io.github.vsinkievic.mockwallesterapi.repository.CompanyRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CardAccountMapper;
+import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
+import io.micrometer.common.util.StringUtils;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -24,12 +30,18 @@ public class CardAccountService {
     private static final Logger LOG = LoggerFactory.getLogger(CardAccountService.class);
 
     private final CardAccountRepository cardAccountRepository;
+    private final CompanyRepository companyRepository;
 
     private final CardAccountMapper cardAccountMapper;
 
-    public CardAccountService(CardAccountRepository cardAccountRepository, CardAccountMapper cardAccountMapper) {
+    public CardAccountService(
+        CardAccountRepository cardAccountRepository,
+        CardAccountMapper cardAccountMapper,
+        CompanyRepository companyRepository
+    ) {
         this.cardAccountRepository = cardAccountRepository;
         this.cardAccountMapper = cardAccountMapper;
+        this.companyRepository = companyRepository;
     }
 
     /**
@@ -41,6 +53,57 @@ public class CardAccountService {
     public CardAccountDTO save(CardAccountDTO cardAccountDTO) {
         LOG.debug("Request to save CardAccount : {}", cardAccountDTO);
         CardAccount cardAccount = cardAccountMapper.toEntity(cardAccountDTO);
+
+        if (cardAccount.getId() == null) {
+            Company company = null;
+            if (cardAccount.getCompanyId() != null) {
+                company = companyRepository
+                    .findById(cardAccount.getCompanyId())
+                    .orElseThrow(() -> new WallesterApiException(422, "Company not found"));
+            } else throw new WallesterApiException(422, "Company ID is required");
+
+            if (StringUtils.isNotBlank(cardAccount.getExternalId())) {
+                cardAccountRepository
+                    .findByExternalId(cardAccount.getExternalId())
+                    .ifPresent(existingAccount -> {
+                        throw new WallesterApiException(422, "Account with such external ID already exists");
+                    });
+            }
+
+            if (cardAccount.getDailyContactlessPurchase() == null) cardAccount.setDailyContactlessPurchase(company.getLimitDailyPurchase());
+            if (cardAccount.getDailyInternetPurchase() == null) cardAccount.setDailyInternetPurchase(company.getLimitDailyPurchase());
+            if (cardAccount.getDailyPurchase() == null) cardAccount.setDailyPurchase(company.getLimitDailyPurchase());
+            if (cardAccount.getDailyWithdrawal() == null) cardAccount.setDailyWithdrawal(company.getLimitDailyWithdrawal());
+            if (cardAccount.getMonthlyContactlessPurchase() == null) cardAccount.setMonthlyContactlessPurchase(
+                company.getLimitMonthlyPurchase()
+            );
+            if (cardAccount.getMonthlyInternetPurchase() == null) cardAccount.setMonthlyInternetPurchase(company.getLimitMonthlyPurchase());
+            if (cardAccount.getMonthlyPurchase() == null) cardAccount.setMonthlyPurchase(company.getLimitMonthlyPurchase());
+            if (cardAccount.getMonthlyWithdrawal() == null) cardAccount.setMonthlyWithdrawal(company.getLimitMonthlyWithdrawal());
+            if (cardAccount.getWeeklyContactlessPurchase() == null) cardAccount.setWeeklyContactlessPurchase(
+                company.getLimitDailyPurchase()
+            );
+            if (cardAccount.getWeeklyInternetPurchase() == null) cardAccount.setWeeklyInternetPurchase(company.getLimitDailyPurchase());
+            if (cardAccount.getWeeklyPurchase() == null) cardAccount.setWeeklyPurchase(company.getLimitDailyPurchase());
+            if (cardAccount.getWeeklyWithdrawal() == null) cardAccount.setWeeklyWithdrawal(company.getLimitDailyWithdrawal());
+
+            cardAccount.setBalance(BigDecimal.ZERO);
+            cardAccount.setAvailableAmount(BigDecimal.ZERO);
+            cardAccount.setBlockedAmount(BigDecimal.ZERO);
+
+            cardAccount.setCreatedAt(Instant.now());
+            cardAccount.setUpdatedAt(Instant.now());
+            cardAccount.setStatus(AccountStatus.Active);
+        } else {
+            if (StringUtils.isNotBlank(cardAccount.getExternalId())) {
+                cardAccountRepository
+                    .findByExternalIdAndIdNot(cardAccount.getExternalId(), cardAccount.getId())
+                    .ifPresent(existingAccount -> {
+                        throw new WallesterApiException(422, "Account with such external ID already exists");
+                    });
+            }
+        }
+
         cardAccount = cardAccountRepository.save(cardAccount);
         return cardAccountMapper.toDto(cardAccount);
     }
@@ -54,6 +117,15 @@ public class CardAccountService {
     public CardAccountDTO update(CardAccountDTO cardAccountDTO) {
         LOG.debug("Request to update CardAccount : {}", cardAccountDTO);
         CardAccount cardAccount = cardAccountMapper.toEntity(cardAccountDTO);
+
+        if (StringUtils.isNotBlank(cardAccount.getExternalId())) {
+            cardAccountRepository
+                .findByExternalIdAndIdNot(cardAccount.getExternalId(), cardAccount.getId())
+                .ifPresent(existingAccount -> {
+                    throw new WallesterApiException(422, "Account with such external ID already exists");
+                });
+        }
+
         cardAccount = cardAccountRepository.save(cardAccount);
         return cardAccountMapper.toDto(cardAccount);
     }
@@ -71,6 +143,15 @@ public class CardAccountService {
             .findById(cardAccountDTO.getId())
             .map(existingCardAccount -> {
                 cardAccountMapper.partialUpdate(existingCardAccount, cardAccountDTO);
+
+                // Check external ID uniqueness if it's being updated
+                if (StringUtils.isNotBlank(existingCardAccount.getExternalId())) {
+                    cardAccountRepository
+                        .findByExternalIdAndIdNot(existingCardAccount.getExternalId(), existingCardAccount.getId())
+                        .ifPresent(existingAccount -> {
+                            throw new WallesterApiException(422, "Account with such external ID already exists");
+                        });
+                }
 
                 return existingCardAccount;
             })
