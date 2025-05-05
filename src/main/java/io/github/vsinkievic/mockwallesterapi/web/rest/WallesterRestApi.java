@@ -4,6 +4,7 @@ import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
@@ -69,13 +70,24 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Account" }, summary = "Get Account by ID", description = "Returns Account information by its ID")
     @GetMapping("/v1/accounts/{account_id}")
-    public ResponseEntity<WallesterAccount> getAccountById(@PathVariable("account_id") String accountId) {
+    public ResponseEntity<WallesterAccountResponse> getAccountById(@PathVariable("account_id") String accountId) {
         log.info("GET /v1/accounts/{}", accountId);
 
         return accountService
             .findOne(UUID.fromString(accountId))
-            .map(accountDTO -> ResponseEntity.ok(new WallesterAccount(accountDTO)))
-            .orElse(ResponseEntity.notFound().build());
+            .map(accountDTO -> ResponseEntity.ok(new WallesterAccountResponse(new WallesterAccount(accountDTO))))
+            .orElseThrow(() -> new WallesterApiException(404, "Account not found"));
+    }
+
+    @Operation(tags = { "Account" }, summary = "Get Account by externalID", description = "Returns Account information by external ID")
+    @GetMapping("/v1/accounts-by-external-id/{external_id}")
+    public ResponseEntity<WallesterAccountResponse> getAccountByExternalId(@PathVariable("external_id") String externalId) {
+        log.info("GET /v1/accounts-by-external-id/{}", externalId);
+
+        return accountService
+            .findOneByExternalId(externalId)
+            .map(accountDTO -> ResponseEntity.ok(new WallesterAccountResponse(new WallesterAccount(accountDTO))))
+            .orElseThrow(() -> new WallesterApiException(404, "Account not found"));
     }
 
     @Operation(tags = { "Company" }, summary = "Search companies", description = "Returns a list of companies matching the search criteria")

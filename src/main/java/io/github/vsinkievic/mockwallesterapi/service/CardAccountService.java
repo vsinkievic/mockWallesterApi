@@ -102,6 +102,18 @@ public class CardAccountService {
     }
 
     /**
+     * Get one cardAccount by externalId.
+     *
+     * @param externalId the externalId of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<CardAccountDTO> findOneByExternalId(String externalId) {
+        LOG.debug("Request to get CardAccount by externalId : {}", externalId);
+        return cardAccountRepository.findByExternalId(externalId).map(cardAccountMapper::toDto);
+    }
+
+    /**
      * Delete the cardAccount by id.
      *
      * @param id the id of the entity.
