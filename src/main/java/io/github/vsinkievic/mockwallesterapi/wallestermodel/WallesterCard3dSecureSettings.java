@@ -11,9 +11,6 @@ public class WallesterCard3dSecureSettings {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("language_code")
-    private String languageCode;
-
     @JsonProperty("mobile")
     private String mobile;
 
@@ -26,16 +23,8 @@ public class WallesterCard3dSecureSettings {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("type")
-    private String type;
-
     public WallesterCard3dSecureSettings email(String email) {
         this.email = email;
-        return this;
-    }
-
-    public WallesterCard3dSecureSettings languageCode(String languageCode) {
-        this.languageCode = languageCode;
         return this;
     }
 
@@ -56,11 +45,6 @@ public class WallesterCard3dSecureSettings {
 
     public WallesterCard3dSecureSettings password(String password) {
         this.password = password;
-        return this;
-    }
-
-    public WallesterCard3dSecureSettings type(String type) {
-        this.type = type;
         return this;
     }
 }

@@ -98,12 +98,8 @@ public class CardAsserts {
                     .usingComparator(bigDecimalCompareTo)
                     .isEqualTo(expected.getLimitTransactionPurchase())
             )
-            .satisfies(a -> assertThat(a.getSecure3DType()).as("check secure3DType").isEqualTo(expected.getSecure3DType()))
             .satisfies(a -> assertThat(a.getSecure3DMobile()).as("check secure3DMobile").isEqualTo(expected.getSecure3DMobile()))
             .satisfies(a -> assertThat(a.getSecure3DEmail()).as("check secure3DEmail").isEqualTo(expected.getSecure3DEmail()))
-            .satisfies(a ->
-                assertThat(a.getSecure3DLanguageCode()).as("check secure3DLanguageCode").isEqualTo(expected.getSecure3DLanguageCode())
-            )
             .satisfies(a ->
                 assertThat(a.getSecure3DOutOfBandEnabled())
                     .as("check secure3DOutOfBandEnabled")

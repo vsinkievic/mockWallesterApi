@@ -2,6 +2,7 @@ package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DispatchMethod;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class WallesterCardDeliveryAddress {
     private String companyName;
 
     @JsonProperty("country_code")
-    private String countryCode;
+    private CountryCode countryCode;
 
     @JsonProperty("dispatch_method")
     private DispatchMethod dispatchMethod;
@@ -62,7 +63,7 @@ public class WallesterCardDeliveryAddress {
         return this;
     }
 
-    public WallesterCardDeliveryAddress countryCode(String countryCode) {
+    public WallesterCardDeliveryAddress countryCode(CountryCode countryCode) {
         this.countryCode = countryCode;
         return this;
     }

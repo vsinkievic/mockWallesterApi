@@ -11,6 +11,7 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountRequ
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountSearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCard;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
@@ -379,6 +380,91 @@ public class WallesterRestApi {
         response.setTotalRecordsNumber((int) cardsPage.getTotalElements());
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(tags = { "Card" }, summary = "Create card", description = "Creates a new card")
+    @PostMapping("/v1/cards")
+    public ResponseEntity<WallesterCardResponse> createCard(@RequestBody WallesterCardRequest request) {
+        log.info("POST /v1/cards with request: {}", request);
+
+        CardDTO cardDTO = new CardDTO();
+        cardDTO.setAccountId(request.getAccountId());
+        cardDTO.setName(request.getName());
+        cardDTO.setExternalId(request.getExternalId());
+        cardDTO.setType(request.getType());
+        cardDTO.setCarrierType(request.getCarrierType());
+        cardDTO.setEmbossingName(request.getEmbossingName());
+        cardDTO.setEmbossingCompanyName(request.getEmbossingCompanyName());
+        cardDTO.setIsDisposable(request.getIsDisposable());
+        cardDTO.setEncryptedPin(request.getEncryptedPin());
+        cardDTO.setExpiryDays(request.getExpiryDays());
+        cardDTO.setExpiryDaysRound(request.getExpiryDaysRound());
+        cardDTO.setPersonalizationProductCode(request.getPersonalizationProductCode());
+        cardDTO.setPredecessorCardId(request.getPredecessorCardId());
+        cardDTO.setDisableAutomaticRenewal(request.getDisableAutomaticRenewal());
+
+        if (request.getSecure3DSettings() != null) {
+            cardDTO.setSecure3DMobile(request.getSecure3DSettings().getMobile());
+            cardDTO.setSecure3DEmail(request.getSecure3DSettings().getEmail());
+            cardDTO.setSecure3DOutOfBandEnabled(request.getSecure3DSettings().getOutOfBandEnabled());
+            cardDTO.setSecure3DOutOfBandId(request.getSecure3DSettings().getOutOfBandId());
+        }
+
+        if (request.getCardNotificationSettings() != null) {
+            cardDTO.setNotificationReceiptsReminderEnabled(request.getCardNotificationSettings().getReceiptsReminderEnabled());
+            cardDTO.setNotificationInstantSpendUpdateEnabled(request.getCardNotificationSettings().getInstantSpendUpdateEnabled());
+        }
+
+        if (request.getDeliveryAddress() != null) {
+            cardDTO.setDeliveryFirstName(request.getDeliveryAddress().getFirstName());
+            cardDTO.setDeliveryLastName(request.getDeliveryAddress().getLastName());
+            cardDTO.setDeliveryCompanyName(request.getDeliveryAddress().getCompanyName());
+            cardDTO.setDeliveryAddress1(request.getDeliveryAddress().getAddress1());
+            cardDTO.setDeliveryAddress2(request.getDeliveryAddress().getAddress2());
+            cardDTO.setDeliveryPostalCode(request.getDeliveryAddress().getPostalCode());
+            cardDTO.setDeliveryCity(request.getDeliveryAddress().getCity());
+            cardDTO.setDeliveryCountryCode(request.getDeliveryAddress().getCountryCode());
+            cardDTO.setDeliveryDispatchMethod(request.getDeliveryAddress().getDispatchMethod());
+            cardDTO.setDeliveryPhone(request.getDeliveryAddress().getPhone());
+            cardDTO.setDeliveryTrackingNumber(request.getDeliveryAddress().getTrackingNumber());
+        }
+
+        if (request.getLimits() != null) {
+            cardDTO.setLimitDailyPurchase(request.getLimits().getDailyPurchase());
+            cardDTO.setLimitDailyWithdrawal(request.getLimits().getDailyWithdrawal());
+            cardDTO.setLimitMonthlyPurchase(request.getLimits().getMonthlyPurchase());
+            cardDTO.setLimitMonthlyWithdrawal(request.getLimits().getMonthlyWithdrawal());
+            cardDTO.setLimitTransactionPurchase(request.getLimits().getTransactionPurchase());
+            cardDTO.setLimitDailyContactlessPurchase(request.getLimits().getDailyContactlessPurchase());
+            cardDTO.setLimitDailyInternetPurchase(request.getLimits().getDailyInternetPurchase());
+            cardDTO.setLimitWeeklyContactlessPurchase(request.getLimits().getWeeklyContactlessPurchase());
+            cardDTO.setLimitWeeklyInternetPurchase(request.getLimits().getWeeklyInternetPurchase());
+            cardDTO.setLimitWeeklyPurchase(request.getLimits().getWeeklyPurchase());
+            cardDTO.setLimitWeeklyWithdrawal(request.getLimits().getWeeklyWithdrawal());
+            cardDTO.setLimitMonthlyContactlessPurchase(request.getLimits().getMonthlyContactlessPurchase());
+            cardDTO.setLimitMonthlyInternetPurchase(request.getLimits().getMonthlyInternetPurchase());
+            cardDTO.setLimitAllTimePurchase(request.getLimits().getAllTimePurchase());
+            cardDTO.setLimitAllTimeWithdrawal(request.getLimits().getAllTimeWithdrawal());
+            cardDTO.setLimitAllTimeContactlessPurchase(request.getLimits().getAllTimeContactlessPurchase());
+            cardDTO.setLimitAllTimeInternetPurchase(request.getLimits().getAllTimeInternetPurchase());
+            //            cardDTO.setLimitOverallPurchase(request.getLimits().getOverallPurchase());
+        }
+
+        if (request.getSecurity() != null) {
+            cardDTO.setSecurityContactlessEnabled(request.getSecurity().getContactlessEnabled());
+            cardDTO.setSecurityWithdrawalEnabled(request.getSecurity().getWithdrawalEnabled());
+            cardDTO.setSecurityInternetPurchaseEnabled(request.getSecurity().getInternetPurchaseEnabled());
+            cardDTO.setSecurityOverallLimitsEnabled(request.getSecurity().getOverallLimitsEnabled());
+            cardDTO.setSecurityAllTimeLimitsEnabled(request.getSecurity().getAllTimeLimitsEnabled());
+        }
+
+        if (request.getSeparatedEmbossingName() != null) {
+            cardDTO.setEmbossingFirstName(request.getSeparatedEmbossingName().getFirstName());
+            cardDTO.setEmbossingLastName(request.getSeparatedEmbossingName().getLastName());
+        }
+
+        CardDTO savedCard = cardService.save(cardDTO);
+        return ResponseEntity.ok(new WallesterCardResponse(new WallesterCard(savedCard)));
     }
 
     private boolean isValidAccountOrderField(String orderField) {

@@ -106,6 +106,29 @@ public class WallesterCard {
     @JsonProperty("updated_at")
     private Instant updatedAt;
 
+    @JsonProperty("disable_automatic_renewal")
+    private Boolean disableAutomaticRenewal;
+
+    @JsonProperty("embossing_company_name")
+    private String embossingCompanyName;
+
+    @JsonProperty("encrypted_pin")
+    private String encryptedPin;
+
+    @JsonProperty("expiry_days")
+    private Integer expiryDays;
+
+    @JsonProperty("expiry_days_round")
+    private Boolean expiryDaysRound;
+
+    @JsonProperty("personalization_product_code")
+    private String personalizationProductCode;
+
+    private WallesterCardSecurity security;
+
+    @JsonProperty("separated_embossing_name")
+    private WallesterCardSeparatedEmbossingName separatedEmbossingName;
+
     public WallesterCard(CardDTO cardDTO) {
         // Direct mappings
         this.id = cardDTO.getId();
@@ -118,7 +141,7 @@ public class WallesterCard {
         this.status = cardDTO.getStatus();
         this.type = cardDTO.getType();
         this.activatedAt = cardDTO.getActivatedAt();
-        this.blockType = CardBlockType.valueOf(cardDTO.getBlockType().name());
+        this.blockType = cardDTO.getBlockType();
         this.blockedBy = cardDTO.getBlockedBy();
         this.blockedAt = cardDTO.getBlockedAt();
         this.carrierType = cardDTO.getCarrierType();
@@ -135,6 +158,9 @@ public class WallesterCard {
         this.isDisposable = cardDTO.getIsDisposable();
         this.isEnrolledFor3dSecure = cardDTO.getIsEnrolledFor3DSecure();
         this.isCard3dSecureActivated = cardDTO.getIsCard3DSecureActivated();
+        this.embossingCompanyName = cardDTO.getEmbossingCompanyName();
+        this.personalizationProductCode = cardDTO.getPersonalizationProductCode();
+        if (cardDTO.getRenewAutomatically() != null) this.disableAutomaticRenewal = !cardDTO.getRenewAutomatically();
 
         // Complex object mappings
         if (
@@ -149,6 +175,7 @@ public class WallesterCard {
                 .dailyWithdrawal(cardDTO.getLimitDailyWithdrawal())
                 .monthlyPurchase(cardDTO.getLimitMonthlyPurchase())
                 .monthlyWithdrawal(cardDTO.getLimitMonthlyWithdrawal())
+                .transactionPurchase(cardDTO.getLimitTransactionPurchase())
                 .build();
         }
 
@@ -173,25 +200,21 @@ public class WallesterCard {
                 .address2(cardDTO.getDeliveryAddress2())
                 .postalCode(cardDTO.getDeliveryPostalCode())
                 .city(cardDTO.getDeliveryCity())
-                .countryCode(cardDTO.getDeliveryCountryCode().toString())
+                .countryCode(cardDTO.getDeliveryCountryCode())
                 .dispatchMethod(cardDTO.getDeliveryDispatchMethod())
                 .phone(cardDTO.getDeliveryPhone())
                 .trackingNumber(cardDTO.getDeliveryTrackingNumber());
         }
 
         if (
-            cardDTO.getSecure3DType() != null ||
             cardDTO.getSecure3DMobile() != null ||
             cardDTO.getSecure3DEmail() != null ||
-            cardDTO.getSecure3DLanguageCode() != null ||
             cardDTO.getSecure3DOutOfBandEnabled() != null ||
             cardDTO.getSecure3DOutOfBandId() != null
         ) {
             this.secure3DSettings = new WallesterCard3dSecureSettings();
-            this.secure3DSettings.type(cardDTO.getSecure3DType().toString())
-                .mobile(cardDTO.getSecure3DMobile())
+            this.secure3DSettings.mobile(cardDTO.getSecure3DMobile())
                 .email(cardDTO.getSecure3DEmail())
-                .languageCode(cardDTO.getSecure3DLanguageCode().toString())
                 .outOfBandEnabled(cardDTO.getSecure3DOutOfBandEnabled())
                 .outOfBandId(cardDTO.getSecure3DOutOfBandId());
         }
@@ -202,18 +225,28 @@ public class WallesterCard {
             this.cardNotificationSettings.setReceiptsReminderEnabled(cardDTO.getNotificationReceiptsReminderEnabled());
             this.cardNotificationSettings.setInstantSpendUpdateEnabled(cardDTO.getNotificationInstantSpendUpdateEnabled());
         }
-        // Fields in CardDTO without corresponding properties in WallesterCard:
-        // - embossingFirstName
-        // - embossingLastName
-        // - embossingCompanyName
-        // - renewAutomatically
-        // - securityContactlessEnabled
-        // - securityWithdrawalEnabled
-        // - securityInternetPurchaseEnabled
-        // - securityOverallLimitsEnabled
-        // - securityAllTimeLimitsEnabled
-        // - personalizationProductCode
-        // - cardMetadataProfileId
-        // - disposableType
+
+        // Map security settings
+        if (
+            cardDTO.getSecurityContactlessEnabled() != null ||
+            cardDTO.getSecurityWithdrawalEnabled() != null ||
+            cardDTO.getSecurityInternetPurchaseEnabled() != null ||
+            cardDTO.getSecurityOverallLimitsEnabled() != null ||
+            cardDTO.getSecurityAllTimeLimitsEnabled() != null
+        ) {
+            this.security = new WallesterCardSecurity();
+            this.security.setContactlessEnabled(cardDTO.getSecurityContactlessEnabled());
+            this.security.setWithdrawalEnabled(cardDTO.getSecurityWithdrawalEnabled());
+            this.security.setInternetPurchaseEnabled(cardDTO.getSecurityInternetPurchaseEnabled());
+            this.security.setOverallLimitsEnabled(cardDTO.getSecurityOverallLimitsEnabled());
+            this.security.setAllTimeLimitsEnabled(cardDTO.getSecurityAllTimeLimitsEnabled());
+        }
+
+        // Map separated embossing name
+        if (cardDTO.getEmbossingFirstName() != null || cardDTO.getEmbossingLastName() != null) {
+            this.separatedEmbossingName = new WallesterCardSeparatedEmbossingName();
+            this.separatedEmbossingName.setFirstName(cardDTO.getEmbossingFirstName());
+            this.separatedEmbossingName.setLastName(cardDTO.getEmbossingLastName());
+        }
     }
 }

@@ -9,7 +9,6 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DispatchMethod;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DisposableType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.Secure3DType;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -102,24 +101,55 @@ public class Card implements Serializable {
     @Column(name = "limit_transaction_purchase", precision = 21, scale = 2)
     private BigDecimal limitTransactionPurchase;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "secure_3_d_type")
-    private Secure3DType secure3DType;
+    @Column(name = "limit_daily_contactless_purchase", precision = 21, scale = 2)
+    private BigDecimal limitDailyContactlessPurchase;
 
-    @Column(name = "secure_3_d_mobile")
+    @Column(name = "limit_daily_internet_purchase", precision = 21, scale = 2)
+    private BigDecimal limitDailyInternetPurchase;
+
+    @Column(name = "limit_weekly_contactless_purchase", precision = 21, scale = 2)
+    private BigDecimal limitWeeklyContactlessPurchase;
+
+    @Column(name = "limit_weekly_internet_purchase", precision = 21, scale = 2)
+    private BigDecimal limitWeeklyInternetPurchase;
+
+    @Column(name = "limit_weekly_purchase", precision = 21, scale = 2)
+    private BigDecimal limitWeeklyPurchase;
+
+    @Column(name = "limit_weekly_withdrawal", precision = 21, scale = 2)
+    private BigDecimal limitWeeklyWithdrawal;
+
+    @Column(name = "limit_monthly_contactless_purchase", precision = 21, scale = 2)
+    private BigDecimal limitMonthlyContactlessPurchase;
+
+    @Column(name = "limit_monthly_internet_purchase", precision = 21, scale = 2)
+    private BigDecimal limitMonthlyInternetPurchase;
+
+    @Column(name = "limit_all_time_purchase", precision = 21, scale = 2)
+    private BigDecimal limitAllTimePurchase;
+
+    @Column(name = "limit_all_time_withdrawal", precision = 21, scale = 2)
+    private BigDecimal limitAllTimeWithdrawal;
+
+    @Column(name = "limit_all_time_contactless_purchase", precision = 21, scale = 2)
+    private BigDecimal limitAllTimeContactlessPurchase;
+
+    @Column(name = "limit_all_time_internet_purchase", precision = 21, scale = 2)
+    private BigDecimal limitAllTimeInternetPurchase;
+
+    @Column(name = "limit_overall_purchase", precision = 21, scale = 2)
+    private BigDecimal limitOverallPurchase;
+
+    @Column(name = "secure_3d_mobile")
     private String secure3DMobile;
 
-    @Column(name = "secure_3_d_email")
+    @Column(name = "secure_3d_email")
     private String secure3DEmail;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "secure_3_d_language_code")
-    private LanguageCode secure3DLanguageCode;
-
-    @Column(name = "secure_3_d_out_of_band_enabled")
+    @Column(name = "secure_3d_out_of_band_enabled")
     private Boolean secure3DOutOfBandEnabled;
 
-    @Column(name = "secure_3_d_out_of_band_id")
+    @Column(name = "secure_3d_out_of_band_id")
     private String secure3DOutOfBandId;
 
     @Column(name = "delivery_first_name")
@@ -131,10 +161,10 @@ public class Card implements Serializable {
     @Column(name = "delivery_company_name")
     private String deliveryCompanyName;
 
-    @Column(name = "delivery_address_1")
+    @Column(name = "delivery_address1")
     private String deliveryAddress1;
 
-    @Column(name = "delivery_address_2")
+    @Column(name = "delivery_address2")
     private String deliveryAddress2;
 
     @Column(name = "delivery_postal_code")
@@ -157,10 +187,10 @@ public class Card implements Serializable {
     @Column(name = "delivery_tracking_number")
     private String deliveryTrackingNumber;
 
-    @Column(name = "is_enrolled_for_3_d_secure")
+    @Column(name = "is_enrolled_for_3d_secure")
     private Boolean isEnrolledFor3DSecure;
 
-    @Column(name = "is_card_3_d_secure_activated")
+    @Column(name = "is_card_3d_secure_activated")
     private Boolean isCard3DSecureActivated;
 
     @Column(name = "renew_automatically")
@@ -228,6 +258,18 @@ public class Card implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "disposable_type")
     private DisposableType disposableType;
+
+    @Column(name = "encrypted_pin")
+    private String encryptedPin;
+
+    @Column(name = "expiry_days")
+    private Integer expiryDays;
+
+    @Column(name = "expiry_days_round")
+    private Boolean expiryDaysRound;
+
+    @Column(name = "disable_automatic_renewal")
+    private Boolean disableAutomaticRenewal;
 
     // Builder-style setters
     public Card id(UUID id) {
@@ -345,8 +387,68 @@ public class Card implements Serializable {
         return this;
     }
 
-    public Card secure3DType(Secure3DType secure3DType) {
-        this.secure3DType = secure3DType;
+    public Card limitDailyContactlessPurchase(BigDecimal limitDailyContactlessPurchase) {
+        this.limitDailyContactlessPurchase = limitDailyContactlessPurchase;
+        return this;
+    }
+
+    public Card limitDailyInternetPurchase(BigDecimal limitDailyInternetPurchase) {
+        this.limitDailyInternetPurchase = limitDailyInternetPurchase;
+        return this;
+    }
+
+    public Card limitWeeklyContactlessPurchase(BigDecimal limitWeeklyContactlessPurchase) {
+        this.limitWeeklyContactlessPurchase = limitWeeklyContactlessPurchase;
+        return this;
+    }
+
+    public Card limitWeeklyInternetPurchase(BigDecimal limitWeeklyInternetPurchase) {
+        this.limitWeeklyInternetPurchase = limitWeeklyInternetPurchase;
+        return this;
+    }
+
+    public Card limitWeeklyPurchase(BigDecimal limitWeeklyPurchase) {
+        this.limitWeeklyPurchase = limitWeeklyPurchase;
+        return this;
+    }
+
+    public Card limitWeeklyWithdrawal(BigDecimal limitWeeklyWithdrawal) {
+        this.limitWeeklyWithdrawal = limitWeeklyWithdrawal;
+        return this;
+    }
+
+    public Card limitMonthlyContactlessPurchase(BigDecimal limitMonthlyContactlessPurchase) {
+        this.limitMonthlyContactlessPurchase = limitMonthlyContactlessPurchase;
+        return this;
+    }
+
+    public Card limitMonthlyInternetPurchase(BigDecimal limitMonthlyInternetPurchase) {
+        this.limitMonthlyInternetPurchase = limitMonthlyInternetPurchase;
+        return this;
+    }
+
+    public Card limitAllTimePurchase(BigDecimal limitAllTimePurchase) {
+        this.limitAllTimePurchase = limitAllTimePurchase;
+        return this;
+    }
+
+    public Card limitAllTimeWithdrawal(BigDecimal limitAllTimeWithdrawal) {
+        this.limitAllTimeWithdrawal = limitAllTimeWithdrawal;
+        return this;
+    }
+
+    public Card limitAllTimeContactlessPurchase(BigDecimal limitAllTimeContactlessPurchase) {
+        this.limitAllTimeContactlessPurchase = limitAllTimeContactlessPurchase;
+        return this;
+    }
+
+    public Card limitAllTimeInternetPurchase(BigDecimal limitAllTimeInternetPurchase) {
+        this.limitAllTimeInternetPurchase = limitAllTimeInternetPurchase;
+        return this;
+    }
+
+    public Card limitOverallPurchase(BigDecimal limitOverallPurchase) {
+        this.limitOverallPurchase = limitOverallPurchase;
         return this;
     }
 
@@ -357,11 +459,6 @@ public class Card implements Serializable {
 
     public Card secure3DEmail(String secure3DEmail) {
         this.secure3DEmail = secure3DEmail;
-        return this;
-    }
-
-    public Card secure3DLanguageCode(LanguageCode secure3DLanguageCode) {
-        this.secure3DLanguageCode = secure3DLanguageCode;
         return this;
     }
 
@@ -545,6 +642,26 @@ public class Card implements Serializable {
         return this;
     }
 
+    public Card encryptedPin(String encryptedPin) {
+        this.encryptedPin = encryptedPin;
+        return this;
+    }
+
+    public Card expiryDays(Integer expiryDays) {
+        this.expiryDays = expiryDays;
+        return this;
+    }
+
+    public Card expiryDaysRound(Boolean expiryDaysRound) {
+        this.expiryDaysRound = expiryDaysRound;
+        return this;
+    }
+
+    public Card disableAutomaticRenewal(Boolean disableAutomaticRenewal) {
+        this.disableAutomaticRenewal = disableAutomaticRenewal;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -589,10 +706,21 @@ public class Card implements Serializable {
             ", limitMonthlyPurchase=" + getLimitMonthlyPurchase() +
             ", limitMonthlyWithdrawal=" + getLimitMonthlyWithdrawal() +
             ", limitTransactionPurchase=" + getLimitTransactionPurchase() +
-            ", secure3DType='" + getSecure3DType() + "'" +
+            ", limitDailyContactlessPurchase=" + getLimitDailyContactlessPurchase() +
+            ", limitDailyInternetPurchase=" + getLimitDailyInternetPurchase() +
+            ", limitWeeklyContactlessPurchase=" + getLimitWeeklyContactlessPurchase() +
+            ", limitWeeklyInternetPurchase=" + getLimitWeeklyInternetPurchase() +
+            ", limitWeeklyPurchase=" + getLimitWeeklyPurchase() +
+            ", limitWeeklyWithdrawal=" + getLimitWeeklyWithdrawal() +
+            ", limitMonthlyContactlessPurchase=" + getLimitMonthlyContactlessPurchase() +
+            ", limitMonthlyInternetPurchase=" + getLimitMonthlyInternetPurchase() +
+            ", limitAllTimePurchase=" + getLimitAllTimePurchase() +
+            ", limitAllTimeWithdrawal=" + getLimitAllTimeWithdrawal() +
+            ", limitAllTimeContactlessPurchase=" + getLimitAllTimeContactlessPurchase() +
+            ", limitAllTimeInternetPurchase=" + getLimitAllTimeInternetPurchase() +
+            ", limitOverallPurchase=" + getLimitOverallPurchase() +
             ", secure3DMobile='" + getSecure3DMobile() + "'" +
             ", secure3DEmail='" + getSecure3DEmail() + "'" +
-            ", secure3DLanguageCode='" + getSecure3DLanguageCode() + "'" +
             ", secure3DOutOfBandEnabled='" + getSecure3DOutOfBandEnabled() + "'" +
             ", secure3DOutOfBandId='" + getSecure3DOutOfBandId() + "'" +
             ", deliveryFirstName='" + getDeliveryFirstName() + "'" +
@@ -629,6 +757,10 @@ public class Card implements Serializable {
             ", notificationReceiptsReminderEnabled='" + getNotificationReceiptsReminderEnabled() + "'" +
             ", notificationInstantSpendUpdateEnabled='" + getNotificationInstantSpendUpdateEnabled() + "'" +
             ", disposableType='" + getDisposableType() + "'" +
+            ", encryptedPin='" + getEncryptedPin() + "'" +
+            ", expiryDays=" + getExpiryDays() +
+            ", expiryDaysRound='" + getExpiryDaysRound() + "'" +
+            ", disableAutomaticRenewal='" + getDisableAutomaticRenewal() + "'" +
             "}";
     }
 }

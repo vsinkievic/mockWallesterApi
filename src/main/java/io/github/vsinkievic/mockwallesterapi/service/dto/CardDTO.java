@@ -8,8 +8,6 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CarrierType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DispatchMethod;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DisposableType;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.Secure3DType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -72,13 +70,35 @@ public class CardDTO implements Serializable {
 
     private BigDecimal limitTransactionPurchase;
 
-    private Secure3DType secure3DType;
+    private BigDecimal limitDailyContactlessPurchase;
+
+    private BigDecimal limitDailyInternetPurchase;
+
+    private BigDecimal limitWeeklyContactlessPurchase;
+
+    private BigDecimal limitWeeklyInternetPurchase;
+
+    private BigDecimal limitWeeklyPurchase;
+
+    private BigDecimal limitWeeklyWithdrawal;
+
+    private BigDecimal limitMonthlyContactlessPurchase;
+
+    private BigDecimal limitMonthlyInternetPurchase;
+
+    private BigDecimal limitAllTimePurchase;
+
+    private BigDecimal limitAllTimeWithdrawal;
+
+    private BigDecimal limitAllTimeContactlessPurchase;
+
+    private BigDecimal limitAllTimeInternetPurchase;
+
+    private BigDecimal limitOverallPurchase;
 
     private String secure3DMobile;
 
     private String secure3DEmail;
-
-    private LanguageCode secure3DLanguageCode;
 
     private Boolean secure3DOutOfBandEnabled;
 
@@ -152,6 +172,14 @@ public class CardDTO implements Serializable {
 
     private DisposableType disposableType;
 
+    private String encryptedPin;
+
+    private Integer expiryDays;
+
+    private Boolean expiryDaysRound;
+
+    private Boolean disableAutomaticRenewal;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -200,10 +228,8 @@ public class CardDTO implements Serializable {
             ", limitMonthlyPurchase=" + getLimitMonthlyPurchase() +
             ", limitMonthlyWithdrawal=" + getLimitMonthlyWithdrawal() +
             ", limitTransactionPurchase=" + getLimitTransactionPurchase() +
-            ", secure3DType='" + getSecure3DType() + "'" +
             ", secure3DMobile='" + getSecure3DMobile() + "'" +
             ", secure3DEmail='" + getSecure3DEmail() + "'" +
-            ", secure3DLanguageCode='" + getSecure3DLanguageCode() + "'" +
             ", secure3DOutOfBandEnabled='" + getSecure3DOutOfBandEnabled() + "'" +
             ", secure3DOutOfBandId='" + getSecure3DOutOfBandId() + "'" +
             ", deliveryFirstName='" + getDeliveryFirstName() + "'" +

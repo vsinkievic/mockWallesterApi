@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vsinkievic.mockwallesterapi.IntegrationTest;
 import io.github.vsinkievic.mockwallesterapi.domain.Card;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.BlockType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardBlockType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardCloseReason;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardStatus;
@@ -20,14 +19,11 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CarrierType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DispatchMethod;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.DisposableType;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.Secure3DType;
 import io.github.vsinkievic.mockwallesterapi.repository.CardRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CardMapper;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -112,17 +108,11 @@ class CardResourceIT {
     private static final BigDecimal DEFAULT_LIMIT_TRANSACTION_PURCHASE = new BigDecimal(1);
     private static final BigDecimal UPDATED_LIMIT_TRANSACTION_PURCHASE = new BigDecimal(2);
 
-    private static final Secure3DType DEFAULT_SECURE_3_D_TYPE = Secure3DType.SMSOTPAndStaticPassword;
-    private static final Secure3DType UPDATED_SECURE_3_D_TYPE = Secure3DType.AppBasedOTP;
-
     private static final String DEFAULT_SECURE_3_D_MOBILE = "AAAAAAAAAA";
     private static final String UPDATED_SECURE_3_D_MOBILE = "BBBBBBBBBB";
 
     private static final String DEFAULT_SECURE_3_D_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_SECURE_3_D_EMAIL = "BBBBBBBBBB";
-
-    private static final LanguageCode DEFAULT_SECURE_3_D_LANGUAGE_CODE = LanguageCode.AAR;
-    private static final LanguageCode UPDATED_SECURE_3_D_LANGUAGE_CODE = LanguageCode.ENG;
 
     private static final Boolean DEFAULT_SECURE_3_D_OUT_OF_BAND_ENABLED = false;
     private static final Boolean UPDATED_SECURE_3_D_OUT_OF_BAND_ENABLED = true;
@@ -282,10 +272,8 @@ class CardResourceIT {
             .limitMonthlyPurchase(DEFAULT_LIMIT_MONTHLY_PURCHASE)
             .limitMonthlyWithdrawal(DEFAULT_LIMIT_MONTHLY_WITHDRAWAL)
             .limitTransactionPurchase(DEFAULT_LIMIT_TRANSACTION_PURCHASE)
-            .secure3DType(DEFAULT_SECURE_3_D_TYPE)
             .secure3DMobile(DEFAULT_SECURE_3_D_MOBILE)
             .secure3DEmail(DEFAULT_SECURE_3_D_EMAIL)
-            .secure3DLanguageCode(DEFAULT_SECURE_3_D_LANGUAGE_CODE)
             .secure3DOutOfBandEnabled(DEFAULT_SECURE_3_D_OUT_OF_BAND_ENABLED)
             .secure3DOutOfBandId(DEFAULT_SECURE_3_D_OUT_OF_BAND_ID)
             .deliveryFirstName(DEFAULT_DELIVERY_FIRST_NAME)
@@ -353,10 +341,8 @@ class CardResourceIT {
             .limitMonthlyPurchase(UPDATED_LIMIT_MONTHLY_PURCHASE)
             .limitMonthlyWithdrawal(UPDATED_LIMIT_MONTHLY_WITHDRAWAL)
             .limitTransactionPurchase(UPDATED_LIMIT_TRANSACTION_PURCHASE)
-            .secure3DType(UPDATED_SECURE_3_D_TYPE)
             .secure3DMobile(UPDATED_SECURE_3_D_MOBILE)
             .secure3DEmail(UPDATED_SECURE_3_D_EMAIL)
-            .secure3DLanguageCode(UPDATED_SECURE_3_D_LANGUAGE_CODE)
             .secure3DOutOfBandEnabled(UPDATED_SECURE_3_D_OUT_OF_BAND_ENABLED)
             .secure3DOutOfBandId(UPDATED_SECURE_3_D_OUT_OF_BAND_ID)
             .deliveryFirstName(UPDATED_DELIVERY_FIRST_NAME)
@@ -484,10 +470,8 @@ class CardResourceIT {
             .andExpect(jsonPath("$.[*].limitMonthlyPurchase").value(hasItem(sameNumber(DEFAULT_LIMIT_MONTHLY_PURCHASE))))
             .andExpect(jsonPath("$.[*].limitMonthlyWithdrawal").value(hasItem(sameNumber(DEFAULT_LIMIT_MONTHLY_WITHDRAWAL))))
             .andExpect(jsonPath("$.[*].limitTransactionPurchase").value(hasItem(sameNumber(DEFAULT_LIMIT_TRANSACTION_PURCHASE))))
-            .andExpect(jsonPath("$.[*].secure3DType").value(hasItem(DEFAULT_SECURE_3_D_TYPE.toString())))
             .andExpect(jsonPath("$.[*].secure3DMobile").value(hasItem(DEFAULT_SECURE_3_D_MOBILE)))
             .andExpect(jsonPath("$.[*].secure3DEmail").value(hasItem(DEFAULT_SECURE_3_D_EMAIL)))
-            .andExpect(jsonPath("$.[*].secure3DLanguageCode").value(hasItem(DEFAULT_SECURE_3_D_LANGUAGE_CODE.toString())))
             .andExpect(jsonPath("$.[*].secure3DOutOfBandEnabled").value(hasItem(DEFAULT_SECURE_3_D_OUT_OF_BAND_ENABLED)))
             .andExpect(jsonPath("$.[*].secure3DOutOfBandId").value(hasItem(DEFAULT_SECURE_3_D_OUT_OF_BAND_ID)))
             .andExpect(jsonPath("$.[*].deliveryFirstName").value(hasItem(DEFAULT_DELIVERY_FIRST_NAME)))
@@ -562,10 +546,8 @@ class CardResourceIT {
             .andExpect(jsonPath("$.limitMonthlyPurchase").value(sameNumber(DEFAULT_LIMIT_MONTHLY_PURCHASE)))
             .andExpect(jsonPath("$.limitMonthlyWithdrawal").value(sameNumber(DEFAULT_LIMIT_MONTHLY_WITHDRAWAL)))
             .andExpect(jsonPath("$.limitTransactionPurchase").value(sameNumber(DEFAULT_LIMIT_TRANSACTION_PURCHASE)))
-            .andExpect(jsonPath("$.secure3DType").value(DEFAULT_SECURE_3_D_TYPE.toString()))
             .andExpect(jsonPath("$.secure3DMobile").value(DEFAULT_SECURE_3_D_MOBILE))
             .andExpect(jsonPath("$.secure3DEmail").value(DEFAULT_SECURE_3_D_EMAIL))
-            .andExpect(jsonPath("$.secure3DLanguageCode").value(DEFAULT_SECURE_3_D_LANGUAGE_CODE.toString()))
             .andExpect(jsonPath("$.secure3DOutOfBandEnabled").value(DEFAULT_SECURE_3_D_OUT_OF_BAND_ENABLED))
             .andExpect(jsonPath("$.secure3DOutOfBandId").value(DEFAULT_SECURE_3_D_OUT_OF_BAND_ID))
             .andExpect(jsonPath("$.deliveryFirstName").value(DEFAULT_DELIVERY_FIRST_NAME))
@@ -646,10 +628,8 @@ class CardResourceIT {
             .limitMonthlyPurchase(UPDATED_LIMIT_MONTHLY_PURCHASE)
             .limitMonthlyWithdrawal(UPDATED_LIMIT_MONTHLY_WITHDRAWAL)
             .limitTransactionPurchase(UPDATED_LIMIT_TRANSACTION_PURCHASE)
-            .secure3DType(UPDATED_SECURE_3_D_TYPE)
             .secure3DMobile(UPDATED_SECURE_3_D_MOBILE)
             .secure3DEmail(UPDATED_SECURE_3_D_EMAIL)
-            .secure3DLanguageCode(UPDATED_SECURE_3_D_LANGUAGE_CODE)
             .secure3DOutOfBandEnabled(UPDATED_SECURE_3_D_OUT_OF_BAND_ENABLED)
             .secure3DOutOfBandId(UPDATED_SECURE_3_D_OUT_OF_BAND_ID)
             .deliveryFirstName(UPDATED_DELIVERY_FIRST_NAME)
@@ -777,7 +757,6 @@ class CardResourceIT {
             .limitDailyPurchase(UPDATED_LIMIT_DAILY_PURCHASE)
             .limitTransactionPurchase(UPDATED_LIMIT_TRANSACTION_PURCHASE)
             .secure3DMobile(UPDATED_SECURE_3_D_MOBILE)
-            .secure3DLanguageCode(UPDATED_SECURE_3_D_LANGUAGE_CODE)
             .secure3DOutOfBandEnabled(UPDATED_SECURE_3_D_OUT_OF_BAND_ENABLED)
             .secure3DOutOfBandId(UPDATED_SECURE_3_D_OUT_OF_BAND_ID)
             .deliveryFirstName(UPDATED_DELIVERY_FIRST_NAME)
@@ -848,10 +827,8 @@ class CardResourceIT {
             .limitMonthlyPurchase(UPDATED_LIMIT_MONTHLY_PURCHASE)
             .limitMonthlyWithdrawal(UPDATED_LIMIT_MONTHLY_WITHDRAWAL)
             .limitTransactionPurchase(UPDATED_LIMIT_TRANSACTION_PURCHASE)
-            .secure3DType(UPDATED_SECURE_3_D_TYPE)
             .secure3DMobile(UPDATED_SECURE_3_D_MOBILE)
             .secure3DEmail(UPDATED_SECURE_3_D_EMAIL)
-            .secure3DLanguageCode(UPDATED_SECURE_3_D_LANGUAGE_CODE)
             .secure3DOutOfBandEnabled(UPDATED_SECURE_3_D_OUT_OF_BAND_ENABLED)
             .secure3DOutOfBandId(UPDATED_SECURE_3_D_OUT_OF_BAND_ID)
             .deliveryFirstName(UPDATED_DELIVERY_FIRST_NAME)
