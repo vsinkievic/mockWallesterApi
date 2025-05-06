@@ -47,6 +47,7 @@ type AccountStatementRecordFormDefaults = Pick<
 
 type AccountStatementRecordFormGroupContent = {
   id: FormControl<AccountStatementRecordFormRawValue['id'] | NewAccountStatementRecord['id']>;
+  accountId: FormControl<AccountStatementRecordFormRawValue['accountId']>;
   cardId: FormControl<AccountStatementRecordFormRawValue['cardId']>;
   type: FormControl<AccountStatementRecordFormRawValue['type']>;
   group: FormControl<AccountStatementRecordFormRawValue['group']>;
@@ -71,15 +72,8 @@ type AccountStatementRecordFormGroupContent = {
   status: FormControl<AccountStatementRecordFormRawValue['status']>;
   response: FormControl<AccountStatementRecordFormRawValue['response']>;
   responseCode: FormControl<AccountStatementRecordFormRawValue['responseCode']>;
-  accountExternalId: FormControl<AccountStatementRecordFormRawValue['accountExternalId']>;
-  maskedCardNumber: FormControl<AccountStatementRecordFormRawValue['maskedCardNumber']>;
   hasPaymentDocumentFiles: FormControl<AccountStatementRecordFormRawValue['hasPaymentDocumentFiles']>;
   hasPaymentNotes: FormControl<AccountStatementRecordFormRawValue['hasPaymentNotes']>;
-  cardName: FormControl<AccountStatementRecordFormRawValue['cardName']>;
-  embossingName: FormControl<AccountStatementRecordFormRawValue['embossingName']>;
-  embossingFirstName: FormControl<AccountStatementRecordFormRawValue['embossingFirstName']>;
-  embossingLastName: FormControl<AccountStatementRecordFormRawValue['embossingLastName']>;
-  embossingCompanyName: FormControl<AccountStatementRecordFormRawValue['embossingCompanyName']>;
   subType: FormControl<AccountStatementRecordFormRawValue['subType']>;
   purchaseDate: FormControl<AccountStatementRecordFormRawValue['purchaseDate']>;
   exchangeRate: FormControl<AccountStatementRecordFormRawValue['exchangeRate']>;
@@ -110,6 +104,7 @@ export class AccountStatementRecordFormService {
           validators: [Validators.required],
         },
       ),
+      accountId: new FormControl(accountStatementRecordRawValue.accountId),
       cardId: new FormControl(accountStatementRecordRawValue.cardId),
       type: new FormControl(accountStatementRecordRawValue.type),
       group: new FormControl(accountStatementRecordRawValue.group),
@@ -134,15 +129,8 @@ export class AccountStatementRecordFormService {
       status: new FormControl(accountStatementRecordRawValue.status),
       response: new FormControl(accountStatementRecordRawValue.response),
       responseCode: new FormControl(accountStatementRecordRawValue.responseCode),
-      accountExternalId: new FormControl(accountStatementRecordRawValue.accountExternalId),
-      maskedCardNumber: new FormControl(accountStatementRecordRawValue.maskedCardNumber),
       hasPaymentDocumentFiles: new FormControl(accountStatementRecordRawValue.hasPaymentDocumentFiles),
       hasPaymentNotes: new FormControl(accountStatementRecordRawValue.hasPaymentNotes),
-      cardName: new FormControl(accountStatementRecordRawValue.cardName),
-      embossingName: new FormControl(accountStatementRecordRawValue.embossingName),
-      embossingFirstName: new FormControl(accountStatementRecordRawValue.embossingFirstName),
-      embossingLastName: new FormControl(accountStatementRecordRawValue.embossingLastName),
-      embossingCompanyName: new FormControl(accountStatementRecordRawValue.embossingCompanyName),
       subType: new FormControl(accountStatementRecordRawValue.subType),
       purchaseDate: new FormControl(accountStatementRecordRawValue.purchaseDate),
       exchangeRate: new FormControl(accountStatementRecordRawValue.exchangeRate),

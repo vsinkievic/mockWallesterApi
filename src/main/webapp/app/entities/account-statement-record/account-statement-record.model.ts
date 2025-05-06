@@ -9,6 +9,7 @@ import { AccountStatementRecordResponse } from 'app/entities/enumerations/accoun
 
 export interface IAccountStatementRecord {
   id: string;
+  accountId?: string | null;
   cardId?: string | null;
   type?: keyof typeof AccountStatementRecordType | null;
   group?: keyof typeof AccountStatementRecordGroup | null;
@@ -33,15 +34,8 @@ export interface IAccountStatementRecord {
   status?: keyof typeof AccountStatementRecordStatus | null;
   response?: keyof typeof AccountStatementRecordResponse | null;
   responseCode?: string | null;
-  accountExternalId?: string | null;
-  maskedCardNumber?: string | null;
   hasPaymentDocumentFiles?: boolean | null;
   hasPaymentNotes?: boolean | null;
-  cardName?: string | null;
-  embossingName?: string | null;
-  embossingFirstName?: string | null;
-  embossingLastName?: string | null;
-  embossingCompanyName?: string | null;
   subType?: string | null;
   purchaseDate?: dayjs.Dayjs | null;
   exchangeRate?: number | null;

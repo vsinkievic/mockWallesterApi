@@ -8,6 +8,7 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.MerchantCategoryCode;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -30,17 +31,24 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "id")
     private UUID id;
 
+    @NotNull
+    @Column(name = "account_id")
+    private UUID accountId;
+
     @Column(name = "card_id")
     private UUID cardId;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "trn_type")
     private AccountStatementRecordType type;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "trn_group")
     private AccountStatementRecordGroup group;
 
+    @NotNull
     @Column(name = "date")
     private Instant date;
 
@@ -98,10 +106,12 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "marked_for_dispute_by")
     private String markedForDisputeBy;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AccountStatementRecordStatus status;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "response")
     private AccountStatementRecordResponse response;
@@ -109,11 +119,11 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "response_code")
     private String responseCode;
 
-    @Column(name = "account_external_id")
-    private String accountExternalId;
+    //    @Column(name = "account_external_id")
+    //    private String accountExternalId;
 
-    @Column(name = "masked_card_number")
-    private String maskedCardNumber;
+    //    @Column(name = "masked_card_number")
+    //    private String maskedCardNumber;
 
     @Column(name = "has_payment_document_files")
     private Boolean hasPaymentDocumentFiles;
@@ -121,20 +131,20 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "has_payment_notes")
     private Boolean hasPaymentNotes;
 
-    @Column(name = "card_name")
-    private String cardName;
+    //    @Column(name = "card_name")
+    //    private String cardName;
 
-    @Column(name = "embossing_name")
-    private String embossingName;
+    //    @Column(name = "embossing_name")
+    //    private String embossingName;
 
-    @Column(name = "embossing_first_name")
-    private String embossingFirstName;
+    //    @Column(name = "embossing_first_name")
+    //    private String embossingFirstName;
 
-    @Column(name = "embossing_last_name")
-    private String embossingLastName;
+    //    @Column(name = "embossing_last_name")
+    //    private String embossingLastName;
 
-    @Column(name = "embossing_company_name")
-    private String embossingCompanyName;
+    //    @Column(name = "embossing_company_name")
+    //    private String embossingCompanyName;
 
     @Column(name = "sub_type")
     private String subType;
@@ -167,6 +177,11 @@ public class AccountStatementRecord implements Serializable {
 
     public AccountStatementRecord id(UUID id) {
         this.setId(id);
+        return this;
+    }
+
+    public AccountStatementRecord accountId(UUID accountId) {
+        this.setAccountId(accountId);
         return this;
     }
 
@@ -290,15 +305,15 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public AccountStatementRecord accountExternalId(String accountExternalId) {
-        this.setAccountExternalId(accountExternalId);
-        return this;
-    }
+    //    public AccountStatementRecord accountExternalId(String accountExternalId) {
+    //        this.setAccountExternalId(accountExternalId);
+    //        return this;
+    //    }
 
-    public AccountStatementRecord maskedCardNumber(String maskedCardNumber) {
-        this.setMaskedCardNumber(maskedCardNumber);
-        return this;
-    }
+    //    public AccountStatementRecord maskedCardNumber(String maskedCardNumber) {
+    //        this.setMaskedCardNumber(maskedCardNumber);
+    //        return this;
+    //    }
 
     public AccountStatementRecord hasPaymentDocumentFiles(Boolean hasPaymentDocumentFiles) {
         this.setHasPaymentDocumentFiles(hasPaymentDocumentFiles);
@@ -310,30 +325,30 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public AccountStatementRecord cardName(String cardName) {
-        this.setCardName(cardName);
-        return this;
-    }
+    //    public AccountStatementRecord cardName(String cardName) {
+    //        this.setCardName(cardName);
+    //        return this;
+    //    }
 
-    public AccountStatementRecord embossingName(String embossingName) {
-        this.setEmbossingName(embossingName);
-        return this;
-    }
+    //    public AccountStatementRecord embossingName(String embossingName) {
+    //        this.setEmbossingName(embossingName);
+    //        return this;
+    //    }
 
-    public AccountStatementRecord embossingFirstName(String embossingFirstName) {
-        this.setEmbossingFirstName(embossingFirstName);
-        return this;
-    }
+    //    public AccountStatementRecord embossingFirstName(String embossingFirstName) {
+    //        this.setEmbossingFirstName(embossingFirstName);
+    //        return this;
+    //    }
 
-    public AccountStatementRecord embossingLastName(String embossingLastName) {
-        this.setEmbossingLastName(embossingLastName);
-        return this;
-    }
+    //    public AccountStatementRecord embossingLastName(String embossingLastName) {
+    //        this.setEmbossingLastName(embossingLastName);
+    //        return this;
+    //    }
 
-    public AccountStatementRecord embossingCompanyName(String embossingCompanyName) {
-        this.setEmbossingCompanyName(embossingCompanyName);
-        return this;
-    }
+    //    public AccountStatementRecord embossingCompanyName(String embossingCompanyName) {
+    //        this.setEmbossingCompanyName(embossingCompanyName);
+    //        return this;
+    //    }
 
     public AccountStatementRecord subType(String subType) {
         this.setSubType(subType);
@@ -408,10 +423,14 @@ public class AccountStatementRecord implements Serializable {
             ", type='" + getType() + "'" +
             ", group='" + getGroup() + "'" +
             ", date='" + getDate() + "'" +
+            ", purchaseDate='" + getPurchaseDate() + "'" +
             ", transactionAmount=" + getTransactionAmount() +
             ", transactionCurrencyCode='" + getTransactionCurrencyCode() + "'" +
             ", accountAmount=" + getAccountAmount() +
             ", accountCurrencyCode='" + getAccountCurrencyCode() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", response='" + getResponse() + "'" +
+            ", responseCode='" + getResponseCode() + "'" +
             ", merchantCategoryCode='" + getMerchantCategoryCode() + "'" +
             ", merchantId='" + getMerchantId() + "'" +
             ", terminalId='" + getTerminalId() + "'" +
@@ -425,20 +444,9 @@ public class AccountStatementRecord implements Serializable {
             ", isCleared='" + getIsCleared() + "'" +
             ", markedForDisputeAt='" + getMarkedForDisputeAt() + "'" +
             ", markedForDisputeBy='" + getMarkedForDisputeBy() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", response='" + getResponse() + "'" +
-            ", responseCode='" + getResponseCode() + "'" +
-            ", accountExternalId='" + getAccountExternalId() + "'" +
-            ", maskedCardNumber='" + getMaskedCardNumber() + "'" +
             ", hasPaymentDocumentFiles='" + getHasPaymentDocumentFiles() + "'" +
             ", hasPaymentNotes='" + getHasPaymentNotes() + "'" +
-            ", cardName='" + getCardName() + "'" +
-            ", embossingName='" + getEmbossingName() + "'" +
-            ", embossingFirstName='" + getEmbossingFirstName() + "'" +
-            ", embossingLastName='" + getEmbossingLastName() + "'" +
-            ", embossingCompanyName='" + getEmbossingCompanyName() + "'" +
             ", subType='" + getSubType() + "'" +
-            ", purchaseDate='" + getPurchaseDate() + "'" +
             ", exchangeRate=" + getExchangeRate() +
             ", enrichedMerchantName='" + getEnrichedMerchantName() + "'" +
             ", enrichedMerchantUrl='" + getEnrichedMerchantUrl() + "'" +

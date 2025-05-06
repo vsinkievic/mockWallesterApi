@@ -7,6 +7,7 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatement
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -23,6 +24,9 @@ import lombok.Data;
 public class AccountStatementRecordDTO implements Serializable {
 
     private UUID id;
+
+    @NotNull
+    private UUID accountId;
 
     private UUID cardId;
 
@@ -72,23 +76,23 @@ public class AccountStatementRecordDTO implements Serializable {
 
     private String responseCode;
 
-    private String accountExternalId;
+    //    private String accountExternalId;
 
-    private String maskedCardNumber;
+    //    private String maskedCardNumber;
 
     private Boolean hasPaymentDocumentFiles;
 
     private Boolean hasPaymentNotes;
 
-    private String cardName;
+    //    private String cardName;
 
-    private String embossingName;
+    //    private String embossingName;
 
-    private String embossingFirstName;
+    //    private String embossingFirstName;
 
-    private String embossingLastName;
+    //    private String embossingLastName;
 
-    private String embossingCompanyName;
+    //    private String embossingCompanyName;
 
     private String subType;
 
@@ -160,15 +164,8 @@ public class AccountStatementRecordDTO implements Serializable {
             ", isCleared='" + getIsCleared() + "'" +
             ", markedForDisputeAt='" + getMarkedForDisputeAt() + "'" +
             ", markedForDisputeBy='" + getMarkedForDisputeBy() + "'" +
-            ", accountExternalId='" + getAccountExternalId() + "'" +
-            ", maskedCardNumber='" + getMaskedCardNumber() + "'" +
             ", hasPaymentDocumentFiles='" + getHasPaymentDocumentFiles() + "'" +
             ", hasPaymentNotes='" + getHasPaymentNotes() + "'" +
-            ", cardName='" + getCardName() + "'" +
-            ", embossingName='" + getEmbossingName() + "'" +
-            ", embossingFirstName='" + getEmbossingFirstName() + "'" +
-            ", embossingLastName='" + getEmbossingLastName() + "'" +
-            ", embossingCompanyName='" + getEmbossingCompanyName() + "'" +
             ", exchangeRate=" + getExchangeRate() +
             ", enrichedMerchantName='" + getEnrichedMerchantName() + "'" +
             ", enrichedMerchantUrl='" + getEnrichedMerchantUrl() + "'" +

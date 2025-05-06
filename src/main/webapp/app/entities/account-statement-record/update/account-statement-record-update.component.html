@@ -16,6 +16,11 @@
         }
 
         <div class="mb-3">
+          <label class="form-label" for="field_accountId">Account Id</label>
+          <input type="text" class="form-control" name="accountId" id="field_accountId" data-cy="accountId" formControlName="accountId" />
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_cardId">Card Id</label>
           <input type="text" class="form-control" name="cardId" id="field_cardId" data-cy="cardId" formControlName="cardId" />
         </div>
@@ -118,6 +123,11 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_subType">Sub Type</label>
+          <input type="text" class="form-control" name="subType" id="field_subType" data-cy="subType" formControlName="subType" />
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_date">Date</label>
           <div class="d-flex">
             <input
@@ -127,6 +137,21 @@
               class="form-control"
               name="date"
               formControlName="date"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_purchaseDate">Purchase Date</label>
+          <div class="d-flex">
+            <input
+              id="field_purchaseDate"
+              data-cy="purchaseDate"
+              type="datetime-local"
+              class="form-control"
+              name="purchaseDate"
+              formControlName="purchaseDate"
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
@@ -533,6 +558,83 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordStatus of accountStatementRecordStatusValues; track $index) {
+              <option [value]="accountStatementRecordStatus">
+                {{ { null: '', Canceled: 'Canceled', Completed: 'Completed', Pending: 'Pending' }[accountStatementRecordStatus] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_response">Response</label>
+          <select class="form-control" name="response" formControlName="response" id="field_response" data-cy="response">
+            <option [ngValue]="null"></option>
+            @for (accountStatementRecordResponse of accountStatementRecordResponseValues; track $index) {
+              <option [value]="accountStatementRecordResponse">
+                {{ { null: '', Approved: 'Approved', Declined: 'Declined' }[accountStatementRecordResponse] }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_responseCode">Response Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="responseCode"
+            id="field_responseCode"
+            data-cy="responseCode"
+            formControlName="responseCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isReversal">Is Reversal</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isReversal"
+            id="field_isReversal"
+            data-cy="isReversal"
+            formControlName="isReversal"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isDeclined">Is Declined</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isDeclined"
+            id="field_isDeclined"
+            data-cy="isDeclined"
+            formControlName="isDeclined"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_isCleared">Is Cleared</label>
+          <input type="checkbox" class="form-check" name="isCleared" id="field_isCleared" data-cy="isCleared" formControlName="isCleared" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_originalAuthorizationId">Original Authorization Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="originalAuthorizationId"
+            id="field_originalAuthorizationId"
+            data-cy="originalAuthorizationId"
+            formControlName="originalAuthorizationId"
+          />
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="field_merchantCategoryCode">Merchant Category Code</label>
           <select
             class="form-control"
@@ -883,243 +985,6 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_originalAuthorizationId">Original Authorization Id</label>
-          <input
-            type="text"
-            class="form-control"
-            name="originalAuthorizationId"
-            id="field_originalAuthorizationId"
-            data-cy="originalAuthorizationId"
-            formControlName="originalAuthorizationId"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_isReversal">Is Reversal</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="isReversal"
-            id="field_isReversal"
-            data-cy="isReversal"
-            formControlName="isReversal"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_isDeclined">Is Declined</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="isDeclined"
-            id="field_isDeclined"
-            data-cy="isDeclined"
-            formControlName="isDeclined"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_isCleared">Is Cleared</label>
-          <input type="checkbox" class="form-check" name="isCleared" id="field_isCleared" data-cy="isCleared" formControlName="isCleared" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_markedForDisputeAt">Marked For Dispute At</label>
-          <div class="d-flex">
-            <input
-              id="field_markedForDisputeAt"
-              data-cy="markedForDisputeAt"
-              type="datetime-local"
-              class="form-control"
-              name="markedForDisputeAt"
-              formControlName="markedForDisputeAt"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_markedForDisputeBy">Marked For Dispute By</label>
-          <input
-            type="text"
-            class="form-control"
-            name="markedForDisputeBy"
-            id="field_markedForDisputeBy"
-            data-cy="markedForDisputeBy"
-            formControlName="markedForDisputeBy"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null"></option>
-            @for (accountStatementRecordStatus of accountStatementRecordStatusValues; track $index) {
-              <option [value]="accountStatementRecordStatus">
-                {{ { null: '', Canceled: 'Canceled', Completed: 'Completed', Pending: 'Pending' }[accountStatementRecordStatus] }}
-              </option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_response">Response</label>
-          <select class="form-control" name="response" formControlName="response" id="field_response" data-cy="response">
-            <option [ngValue]="null"></option>
-            @for (accountStatementRecordResponse of accountStatementRecordResponseValues; track $index) {
-              <option [value]="accountStatementRecordResponse">
-                {{ { null: '', Approved: 'Approved', Declined: 'Declined' }[accountStatementRecordResponse] }}
-              </option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_responseCode">Response Code</label>
-          <input
-            type="text"
-            class="form-control"
-            name="responseCode"
-            id="field_responseCode"
-            data-cy="responseCode"
-            formControlName="responseCode"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_accountExternalId">Account External Id</label>
-          <input
-            type="text"
-            class="form-control"
-            name="accountExternalId"
-            id="field_accountExternalId"
-            data-cy="accountExternalId"
-            formControlName="accountExternalId"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_maskedCardNumber">Masked Card Number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="maskedCardNumber"
-            id="field_maskedCardNumber"
-            data-cy="maskedCardNumber"
-            formControlName="maskedCardNumber"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_hasPaymentDocumentFiles">Has Payment Document Files</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="hasPaymentDocumentFiles"
-            id="field_hasPaymentDocumentFiles"
-            data-cy="hasPaymentDocumentFiles"
-            formControlName="hasPaymentDocumentFiles"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_hasPaymentNotes">Has Payment Notes</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="hasPaymentNotes"
-            id="field_hasPaymentNotes"
-            data-cy="hasPaymentNotes"
-            formControlName="hasPaymentNotes"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_cardName">Card Name</label>
-          <input type="text" class="form-control" name="cardName" id="field_cardName" data-cy="cardName" formControlName="cardName" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_embossingName">Embossing Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="embossingName"
-            id="field_embossingName"
-            data-cy="embossingName"
-            formControlName="embossingName"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_embossingFirstName">Embossing First Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="embossingFirstName"
-            id="field_embossingFirstName"
-            data-cy="embossingFirstName"
-            formControlName="embossingFirstName"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_embossingLastName">Embossing Last Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="embossingLastName"
-            id="field_embossingLastName"
-            data-cy="embossingLastName"
-            formControlName="embossingLastName"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_embossingCompanyName">Embossing Company Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="embossingCompanyName"
-            id="field_embossingCompanyName"
-            data-cy="embossingCompanyName"
-            formControlName="embossingCompanyName"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_subType">Sub Type</label>
-          <input type="text" class="form-control" name="subType" id="field_subType" data-cy="subType" formControlName="subType" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_purchaseDate">Purchase Date</label>
-          <div class="d-flex">
-            <input
-              id="field_purchaseDate"
-              data-cy="purchaseDate"
-              type="datetime-local"
-              class="form-control"
-              name="purchaseDate"
-              formControlName="purchaseDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_exchangeRate">Exchange Rate</label>
-          <input
-            type="number"
-            class="form-control"
-            name="exchangeRate"
-            id="field_exchangeRate"
-            data-cy="exchangeRate"
-            formControlName="exchangeRate"
-          />
-        </div>
-
-        <div class="mb-3">
           <label class="form-label" for="field_enrichedMerchantName">Enriched Merchant Name</label>
           <input
             type="text"
@@ -1180,14 +1045,77 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_totalAmount">Total Amount</label>
+          <label class="form-label" for="field_exchangeRate">Exchange Rate</label>
           <input
             type="number"
+            class="form-control"
+            name="exchangeRate"
+            id="field_exchangeRate"
+            data-cy="exchangeRate"
+            formControlName="exchangeRate"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_totalAmount">Total Amount</label>
+          <input
+            type="text"
             class="form-control"
             name="totalAmount"
             id="field_totalAmount"
             data-cy="totalAmount"
             formControlName="totalAmount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hasPaymentDocumentFiles">Has Payment Document Files</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="hasPaymentDocumentFiles"
+            id="field_hasPaymentDocumentFiles"
+            data-cy="hasPaymentDocumentFiles"
+            formControlName="hasPaymentDocumentFiles"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hasPaymentNotes">Has Payment Notes</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="hasPaymentNotes"
+            id="field_hasPaymentNotes"
+            data-cy="hasPaymentNotes"
+            formControlName="hasPaymentNotes"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_markedForDisputeAt">Marked For Dispute At</label>
+          <div class="d-flex">
+            <input
+              id="field_markedForDisputeAt"
+              data-cy="markedForDisputeAt"
+              type="datetime-local"
+              class="form-control"
+              name="markedForDisputeAt"
+              formControlName="markedForDisputeAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_markedForDisputeBy">Marked For Dispute By</label>
+          <input
+            type="text"
+            class="form-control"
+            name="markedForDisputeBy"
+            id="field_markedForDisputeBy"
+            data-cy="markedForDisputeBy"
+            formControlName="markedForDisputeBy"
           />
         </div>
       </div>

@@ -14,16 +14,28 @@
             <column name="id" type="${uuidType}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="card_id" type="${uuidType}">
+            <column name="original_authorization_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
-            <column name="trn_type" type="varchar(255)">
+            <column name="account_id" type="${uuidType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="card_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
             <column name="trn_group" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="trn_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sub_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="purchase_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="transaction_amount" type="decimal(21,2)">
@@ -36,6 +48,27 @@
                 <constraints nullable="true" />
             </column>
             <column name="account_currency_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_amount" type="decimal(21,2)">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="response" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="response_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_reversal" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_declined" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_cleared" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="merchant_category_code" type="varchar(255)">
@@ -59,64 +92,16 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="original_authorization_id" type="${uuidType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="is_reversal" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="is_declined" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="is_cleared" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="marked_for_dispute_at" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="marked_for_dispute_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="status" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="response" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="response_code" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="account_external_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="masked_card_number" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="has_payment_document_files" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="has_payment_notes" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="card_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="embossing_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="embossing_first_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="embossing_last_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="embossing_company_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="sub_type" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="purchase_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="exchange_rate" type="decimal(21,2)">
@@ -135,9 +120,6 @@
                 <constraints nullable="true" />
             </column>
             <column name="enriched_merchant_icon_url" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="total_amount" type="decimal(21,2)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -164,9 +146,11 @@
                   tableName="account_statement_record"
                   usePreparedStatements="true">
             <column name="id" type="${uuidType}"/>
+            <column name="account_id" type="${uuidType}"/>
             <column name="card_id" type="${uuidType}"/>
             <column name="trn_type" type="string"/>
             <column name="trn_group" type="string"/>
+            <column name="date" type="timestamp"/>
             <column name="purchase_date" type="timestamp"/>
             <column name="transaction_amount" type="numeric"/>
             <column name="transaction_currency_code" type="string"/>
@@ -181,15 +165,8 @@
             <column name="is_cleared" type="boolean"/>
             <column name="marked_for_dispute_at" type="timestamp"/>
             <column name="marked_for_dispute_by" type="string"/>
-            <column name="account_external_id" type="string"/>
-            <column name="masked_card_number" type="string"/>
             <column name="has_payment_document_files" type="boolean"/>
             <column name="has_payment_notes" type="boolean"/>
-            <column name="card_name" type="string"/>
-            <column name="embossing_name" type="string"/>
-            <column name="embossing_first_name" type="string"/>
-            <column name="embossing_last_name" type="string"/>
-            <column name="embossing_company_name" type="string"/>
             <column name="exchange_rate" type="numeric"/>
             <column name="enriched_merchant_name" type="string"/>
             <column name="enriched_merchant_url" type="string"/>

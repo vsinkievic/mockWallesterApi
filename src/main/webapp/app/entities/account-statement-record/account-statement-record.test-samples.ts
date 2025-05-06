@@ -8,6 +8,7 @@ export const sampleWithRequiredData: IAccountStatementRecord = {
 
 export const sampleWithPartialData: IAccountStatementRecord = {
   id: 'eeba1fa3-ca9b-4690-9800-d9fdcc139b17',
+  accountId: '11d8dc04-a48b-45d9-a01d-4b728f0ad4aa',
   group: 'PaymentEEAFixedFee',
   date: dayjs('2025-04-22T17:05'),
   transactionAmount: 3166.26,
@@ -18,8 +19,6 @@ export const sampleWithPartialData: IAccountStatementRecord = {
   isCleared: false,
   status: 'Pending',
   hasPaymentDocumentFiles: true,
-  embossingName: 'colon opposite meh',
-  embossingLastName: 'apt tromp',
   purchaseDate: dayjs('2025-04-22T17:40'),
   enrichedMerchantName: 'amidst',
   enrichedMerchantUrl: 'version',
@@ -29,6 +28,7 @@ export const sampleWithPartialData: IAccountStatementRecord = {
 
 export const sampleWithFullData: IAccountStatementRecord = {
   id: '98fe9456-73f1-4d7d-b92a-74ea2aa50a07',
+  accountId: '11d8dc04-a48b-45d9-a01d-4b728f0ad4aa',
   cardId: 'a9ea7c6b-ccab-4f51-8b79-057aaf344666',
   type: 'AccountAdjustment',
   group: 'CardDeliveryFixedFee',
@@ -53,15 +53,8 @@ export const sampleWithFullData: IAccountStatementRecord = {
   status: 'Pending',
   response: 'Declined',
   responseCode: 'ha',
-  accountExternalId: 'mockingly',
-  maskedCardNumber: 'ownership anti orange',
   hasPaymentDocumentFiles: false,
   hasPaymentNotes: false,
-  cardName: 'overload gosh damaged',
-  embossingName: 'coolly',
-  embossingFirstName: 'miskey healthily',
-  embossingLastName: 'yet procurement',
-  embossingCompanyName: 'before',
   subType: 'lawmaker wash',
   purchaseDate: dayjs('2025-04-22T13:35'),
   exchangeRate: 25097.9,

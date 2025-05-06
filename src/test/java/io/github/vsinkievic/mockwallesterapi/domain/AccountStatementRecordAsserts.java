@@ -54,6 +54,7 @@ public class AccountStatementRecordAsserts {
     public static void assertAccountStatementRecordUpdatableFieldsEquals(AccountStatementRecord expected, AccountStatementRecord actual) {
         assertThat(actual)
             .as("Verify AccountStatementRecord relevant properties")
+            .satisfies(a -> assertThat(a.getAccountId()).as("check accountId").isEqualTo(expected.getAccountId()))
             .satisfies(a -> assertThat(a.getCardId()).as("check cardId").isEqualTo(expected.getCardId()))
             .satisfies(a -> assertThat(a.getType()).as("check type").isEqualTo(expected.getType()))
             .satisfies(a -> assertThat(a.getGroup()).as("check group").isEqualTo(expected.getGroup()))
@@ -104,22 +105,14 @@ public class AccountStatementRecordAsserts {
             .satisfies(a -> assertThat(a.getStatus()).as("check status").isEqualTo(expected.getStatus()))
             .satisfies(a -> assertThat(a.getResponse()).as("check response").isEqualTo(expected.getResponse()))
             .satisfies(a -> assertThat(a.getResponseCode()).as("check responseCode").isEqualTo(expected.getResponseCode()))
-            .satisfies(a -> assertThat(a.getAccountExternalId()).as("check accountExternalId").isEqualTo(expected.getAccountExternalId()))
-            .satisfies(a -> assertThat(a.getMaskedCardNumber()).as("check maskedCardNumber").isEqualTo(expected.getMaskedCardNumber()))
             .satisfies(a ->
                 assertThat(a.getHasPaymentDocumentFiles())
                     .as("check hasPaymentDocumentFiles")
                     .isEqualTo(expected.getHasPaymentDocumentFiles())
             )
             .satisfies(a -> assertThat(a.getHasPaymentNotes()).as("check hasPaymentNotes").isEqualTo(expected.getHasPaymentNotes()))
-            .satisfies(a -> assertThat(a.getCardName()).as("check cardName").isEqualTo(expected.getCardName()))
-            .satisfies(a -> assertThat(a.getEmbossingName()).as("check embossingName").isEqualTo(expected.getEmbossingName()))
-            .satisfies(a -> assertThat(a.getEmbossingFirstName()).as("check embossingFirstName").isEqualTo(expected.getEmbossingFirstName())
-            )
-            .satisfies(a -> assertThat(a.getEmbossingLastName()).as("check embossingLastName").isEqualTo(expected.getEmbossingLastName()))
-            .satisfies(a ->
-                assertThat(a.getEmbossingCompanyName()).as("check embossingCompanyName").isEqualTo(expected.getEmbossingCompanyName())
-            )
+            .satisfies(a -> assertThat(a.getSubType()).as("check subType").isEqualTo(expected.getSubType()))
+            .satisfies(a -> assertThat(a.getPurchaseDate()).as("check purchaseDate").isEqualTo(expected.getPurchaseDate()))
             .satisfies(a -> assertThat(a.getSubType()).as("check subType").isEqualTo(expected.getSubType()))
             .satisfies(a -> assertThat(a.getPurchaseDate()).as("check purchaseDate").isEqualTo(expected.getPurchaseDate()))
             .satisfies(a ->

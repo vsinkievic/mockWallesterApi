@@ -44,6 +44,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class AccountStatementRecordResourceIT {
 
+    private static final UUID DEFAULT_ACCOUNT_ID = UUID.randomUUID();
+
     private static final UUID DEFAULT_CARD_ID = UUID.randomUUID();
     private static final UUID UPDATED_CARD_ID = UUID.randomUUID();
 
@@ -68,8 +70,8 @@ class AccountStatementRecordResourceIT {
     private static final CurrencyCode DEFAULT_ACCOUNT_CURRENCY_CODE = CurrencyCode.AED;
     private static final CurrencyCode UPDATED_ACCOUNT_CURRENCY_CODE = CurrencyCode.AFN;
 
-    private static final MerchantCategoryCode DEFAULT_MERCHANT_CATEGORY_CODE = MerchantCategoryCode.MCC0742;
-    private static final MerchantCategoryCode UPDATED_MERCHANT_CATEGORY_CODE = MerchantCategoryCode.MCC0763;
+    private static final String DEFAULT_MERCHANT_CATEGORY_CODE = "0742";
+    private static final String UPDATED_MERCHANT_CATEGORY_CODE = "0763";
 
     private static final String DEFAULT_MERCHANT_ID = "AAAAAAAAAA";
     private static final String UPDATED_MERCHANT_ID = "BBBBBBBBBB";
@@ -89,8 +91,8 @@ class AccountStatementRecordResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ORIGINAL_AUTHORIZATION_ID = "AAAAAAAAAA";
-    private static final String UPDATED_ORIGINAL_AUTHORIZATION_ID = "BBBBBBBBBB";
+    private static final UUID DEFAULT_ORIGINAL_AUTHORIZATION_ID = UUID.randomUUID();
+    private static final UUID UPDATED_ORIGINAL_AUTHORIZATION_ID = UUID.randomUUID();
 
     private static final Boolean DEFAULT_IS_REVERSAL = false;
     private static final Boolean UPDATED_IS_REVERSAL = true;
@@ -116,32 +118,11 @@ class AccountStatementRecordResourceIT {
     private static final String DEFAULT_RESPONSE_CODE = "AAAAAAAAAA";
     private static final String UPDATED_RESPONSE_CODE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ACCOUNT_EXTERNAL_ID = "AAAAAAAAAA";
-    private static final String UPDATED_ACCOUNT_EXTERNAL_ID = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MASKED_CARD_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_MASKED_CARD_NUMBER = "BBBBBBBBBB";
-
     private static final Boolean DEFAULT_HAS_PAYMENT_DOCUMENT_FILES = false;
     private static final Boolean UPDATED_HAS_PAYMENT_DOCUMENT_FILES = true;
 
     private static final Boolean DEFAULT_HAS_PAYMENT_NOTES = false;
     private static final Boolean UPDATED_HAS_PAYMENT_NOTES = true;
-
-    private static final String DEFAULT_CARD_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_CARD_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMBOSSING_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_EMBOSSING_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMBOSSING_FIRST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_EMBOSSING_FIRST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMBOSSING_LAST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_EMBOSSING_LAST_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMBOSSING_COMPANY_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_EMBOSSING_COMPANY_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_SUB_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_SUB_TYPE = "BBBBBBBBBB";
@@ -200,6 +181,7 @@ class AccountStatementRecordResourceIT {
      */
     public static AccountStatementRecord createEntity() {
         return new AccountStatementRecord()
+            .accountId(DEFAULT_ACCOUNT_ID)
             .cardId(DEFAULT_CARD_ID)
             .type(DEFAULT_TYPE)
             .group(DEFAULT_GROUP)
@@ -224,15 +206,8 @@ class AccountStatementRecordResourceIT {
             .status(DEFAULT_STATUS)
             .response(DEFAULT_RESPONSE)
             .responseCode(DEFAULT_RESPONSE_CODE)
-            .accountExternalId(DEFAULT_ACCOUNT_EXTERNAL_ID)
-            .maskedCardNumber(DEFAULT_MASKED_CARD_NUMBER)
             .hasPaymentDocumentFiles(DEFAULT_HAS_PAYMENT_DOCUMENT_FILES)
             .hasPaymentNotes(DEFAULT_HAS_PAYMENT_NOTES)
-            .cardName(DEFAULT_CARD_NAME)
-            .embossingName(DEFAULT_EMBOSSING_NAME)
-            .embossingFirstName(DEFAULT_EMBOSSING_FIRST_NAME)
-            .embossingLastName(DEFAULT_EMBOSSING_LAST_NAME)
-            .embossingCompanyName(DEFAULT_EMBOSSING_COMPANY_NAME)
             .subType(DEFAULT_SUB_TYPE)
             .purchaseDate(DEFAULT_PURCHASE_DATE)
             .exchangeRate(DEFAULT_EXCHANGE_RATE)
@@ -252,6 +227,7 @@ class AccountStatementRecordResourceIT {
      */
     public static AccountStatementRecord createUpdatedEntity() {
         return new AccountStatementRecord()
+            .accountId(DEFAULT_ACCOUNT_ID)
             .cardId(UPDATED_CARD_ID)
             .type(UPDATED_TYPE)
             .group(UPDATED_GROUP)
@@ -276,15 +252,8 @@ class AccountStatementRecordResourceIT {
             .status(UPDATED_STATUS)
             .response(UPDATED_RESPONSE)
             .responseCode(UPDATED_RESPONSE_CODE)
-            .accountExternalId(UPDATED_ACCOUNT_EXTERNAL_ID)
-            .maskedCardNumber(UPDATED_MASKED_CARD_NUMBER)
             .hasPaymentDocumentFiles(UPDATED_HAS_PAYMENT_DOCUMENT_FILES)
             .hasPaymentNotes(UPDATED_HAS_PAYMENT_NOTES)
-            .cardName(UPDATED_CARD_NAME)
-            .embossingName(UPDATED_EMBOSSING_NAME)
-            .embossingFirstName(UPDATED_EMBOSSING_FIRST_NAME)
-            .embossingLastName(UPDATED_EMBOSSING_LAST_NAME)
-            .embossingCompanyName(UPDATED_EMBOSSING_COMPANY_NAME)
             .subType(UPDATED_SUB_TYPE)
             .purchaseDate(UPDATED_PURCHASE_DATE)
             .exchangeRate(UPDATED_EXCHANGE_RATE)
@@ -376,14 +345,14 @@ class AccountStatementRecordResourceIT {
             .andExpect(jsonPath("$.[*].transactionCurrencyCode").value(hasItem(DEFAULT_TRANSACTION_CURRENCY_CODE.toString())))
             .andExpect(jsonPath("$.[*].accountAmount").value(hasItem(sameNumber(DEFAULT_ACCOUNT_AMOUNT))))
             .andExpect(jsonPath("$.[*].accountCurrencyCode").value(hasItem(DEFAULT_ACCOUNT_CURRENCY_CODE.toString())))
-            .andExpect(jsonPath("$.[*].merchantCategoryCode").value(hasItem(DEFAULT_MERCHANT_CATEGORY_CODE.toString())))
+            .andExpect(jsonPath("$.[*].merchantCategoryCode").value(hasItem(DEFAULT_MERCHANT_CATEGORY_CODE)))
             .andExpect(jsonPath("$.[*].merchantId").value(hasItem(DEFAULT_MERCHANT_ID)))
             .andExpect(jsonPath("$.[*].terminalId").value(hasItem(DEFAULT_TERMINAL_ID)))
             .andExpect(jsonPath("$.[*].merchantName").value(hasItem(DEFAULT_MERCHANT_NAME)))
             .andExpect(jsonPath("$.[*].merchantCity").value(hasItem(DEFAULT_MERCHANT_CITY)))
             .andExpect(jsonPath("$.[*].merchantCountryCode").value(hasItem(DEFAULT_MERCHANT_COUNTRY_CODE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].originalAuthorizationId").value(hasItem(DEFAULT_ORIGINAL_AUTHORIZATION_ID)))
+            .andExpect(jsonPath("$.[*].originalAuthorizationId").value(hasItem(DEFAULT_ORIGINAL_AUTHORIZATION_ID.toString())))
             .andExpect(jsonPath("$.[*].isReversal").value(hasItem(DEFAULT_IS_REVERSAL)))
             .andExpect(jsonPath("$.[*].isDeclined").value(hasItem(DEFAULT_IS_DECLINED)))
             .andExpect(jsonPath("$.[*].isCleared").value(hasItem(DEFAULT_IS_CLEARED)))
@@ -392,15 +361,8 @@ class AccountStatementRecordResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].response").value(hasItem(DEFAULT_RESPONSE.toString())))
             .andExpect(jsonPath("$.[*].responseCode").value(hasItem(DEFAULT_RESPONSE_CODE)))
-            .andExpect(jsonPath("$.[*].accountExternalId").value(hasItem(DEFAULT_ACCOUNT_EXTERNAL_ID)))
-            .andExpect(jsonPath("$.[*].maskedCardNumber").value(hasItem(DEFAULT_MASKED_CARD_NUMBER)))
             .andExpect(jsonPath("$.[*].hasPaymentDocumentFiles").value(hasItem(DEFAULT_HAS_PAYMENT_DOCUMENT_FILES)))
             .andExpect(jsonPath("$.[*].hasPaymentNotes").value(hasItem(DEFAULT_HAS_PAYMENT_NOTES)))
-            .andExpect(jsonPath("$.[*].cardName").value(hasItem(DEFAULT_CARD_NAME)))
-            .andExpect(jsonPath("$.[*].embossingName").value(hasItem(DEFAULT_EMBOSSING_NAME)))
-            .andExpect(jsonPath("$.[*].embossingFirstName").value(hasItem(DEFAULT_EMBOSSING_FIRST_NAME)))
-            .andExpect(jsonPath("$.[*].embossingLastName").value(hasItem(DEFAULT_EMBOSSING_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].embossingCompanyName").value(hasItem(DEFAULT_EMBOSSING_COMPANY_NAME)))
             .andExpect(jsonPath("$.[*].subType").value(hasItem(DEFAULT_SUB_TYPE)))
             .andExpect(jsonPath("$.[*].purchaseDate").value(hasItem(DEFAULT_PURCHASE_DATE.toString())))
             .andExpect(jsonPath("$.[*].exchangeRate").value(hasItem(sameNumber(DEFAULT_EXCHANGE_RATE))))
@@ -432,14 +394,14 @@ class AccountStatementRecordResourceIT {
             .andExpect(jsonPath("$.transactionCurrencyCode").value(DEFAULT_TRANSACTION_CURRENCY_CODE.toString()))
             .andExpect(jsonPath("$.accountAmount").value(sameNumber(DEFAULT_ACCOUNT_AMOUNT)))
             .andExpect(jsonPath("$.accountCurrencyCode").value(DEFAULT_ACCOUNT_CURRENCY_CODE.toString()))
-            .andExpect(jsonPath("$.merchantCategoryCode").value(DEFAULT_MERCHANT_CATEGORY_CODE.toString()))
+            .andExpect(jsonPath("$.merchantCategoryCode").value(DEFAULT_MERCHANT_CATEGORY_CODE))
             .andExpect(jsonPath("$.merchantId").value(DEFAULT_MERCHANT_ID))
             .andExpect(jsonPath("$.terminalId").value(DEFAULT_TERMINAL_ID))
             .andExpect(jsonPath("$.merchantName").value(DEFAULT_MERCHANT_NAME))
             .andExpect(jsonPath("$.merchantCity").value(DEFAULT_MERCHANT_CITY))
             .andExpect(jsonPath("$.merchantCountryCode").value(DEFAULT_MERCHANT_COUNTRY_CODE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.originalAuthorizationId").value(DEFAULT_ORIGINAL_AUTHORIZATION_ID))
+            .andExpect(jsonPath("$.originalAuthorizationId").value(DEFAULT_ORIGINAL_AUTHORIZATION_ID.toString()))
             .andExpect(jsonPath("$.isReversal").value(DEFAULT_IS_REVERSAL))
             .andExpect(jsonPath("$.isDeclined").value(DEFAULT_IS_DECLINED))
             .andExpect(jsonPath("$.isCleared").value(DEFAULT_IS_CLEARED))
@@ -448,15 +410,8 @@ class AccountStatementRecordResourceIT {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.response").value(DEFAULT_RESPONSE.toString()))
             .andExpect(jsonPath("$.responseCode").value(DEFAULT_RESPONSE_CODE))
-            .andExpect(jsonPath("$.accountExternalId").value(DEFAULT_ACCOUNT_EXTERNAL_ID))
-            .andExpect(jsonPath("$.maskedCardNumber").value(DEFAULT_MASKED_CARD_NUMBER))
             .andExpect(jsonPath("$.hasPaymentDocumentFiles").value(DEFAULT_HAS_PAYMENT_DOCUMENT_FILES))
             .andExpect(jsonPath("$.hasPaymentNotes").value(DEFAULT_HAS_PAYMENT_NOTES))
-            .andExpect(jsonPath("$.cardName").value(DEFAULT_CARD_NAME))
-            .andExpect(jsonPath("$.embossingName").value(DEFAULT_EMBOSSING_NAME))
-            .andExpect(jsonPath("$.embossingFirstName").value(DEFAULT_EMBOSSING_FIRST_NAME))
-            .andExpect(jsonPath("$.embossingLastName").value(DEFAULT_EMBOSSING_LAST_NAME))
-            .andExpect(jsonPath("$.embossingCompanyName").value(DEFAULT_EMBOSSING_COMPANY_NAME))
             .andExpect(jsonPath("$.subType").value(DEFAULT_SUB_TYPE))
             .andExpect(jsonPath("$.purchaseDate").value(DEFAULT_PURCHASE_DATE.toString()))
             .andExpect(jsonPath("$.exchangeRate").value(sameNumber(DEFAULT_EXCHANGE_RATE)))
@@ -490,6 +445,7 @@ class AccountStatementRecordResourceIT {
         // Disconnect from session so that the updates on updatedAccountStatementRecord are not directly saved in db
         em.detach(updatedAccountStatementRecord);
         updatedAccountStatementRecord
+            .accountId(DEFAULT_ACCOUNT_ID)
             .cardId(UPDATED_CARD_ID)
             .type(UPDATED_TYPE)
             .group(UPDATED_GROUP)
@@ -514,15 +470,8 @@ class AccountStatementRecordResourceIT {
             .status(UPDATED_STATUS)
             .response(UPDATED_RESPONSE)
             .responseCode(UPDATED_RESPONSE_CODE)
-            .accountExternalId(UPDATED_ACCOUNT_EXTERNAL_ID)
-            .maskedCardNumber(UPDATED_MASKED_CARD_NUMBER)
             .hasPaymentDocumentFiles(UPDATED_HAS_PAYMENT_DOCUMENT_FILES)
             .hasPaymentNotes(UPDATED_HAS_PAYMENT_NOTES)
-            .cardName(UPDATED_CARD_NAME)
-            .embossingName(UPDATED_EMBOSSING_NAME)
-            .embossingFirstName(UPDATED_EMBOSSING_FIRST_NAME)
-            .embossingLastName(UPDATED_EMBOSSING_LAST_NAME)
-            .embossingCompanyName(UPDATED_EMBOSSING_COMPANY_NAME)
             .subType(UPDATED_SUB_TYPE)
             .purchaseDate(UPDATED_PURCHASE_DATE)
             .exchangeRate(UPDATED_EXCHANGE_RATE)
@@ -622,6 +571,7 @@ class AccountStatementRecordResourceIT {
         partialUpdatedAccountStatementRecord.setId(accountStatementRecord.getId());
 
         partialUpdatedAccountStatementRecord
+            .accountId(DEFAULT_ACCOUNT_ID)
             .cardId(UPDATED_CARD_ID)
             .type(UPDATED_TYPE)
             .date(UPDATED_DATE)
@@ -633,8 +583,8 @@ class AccountStatementRecordResourceIT {
             .markedForDisputeBy(UPDATED_MARKED_FOR_DISPUTE_BY)
             .status(UPDATED_STATUS)
             .responseCode(UPDATED_RESPONSE_CODE)
-            .accountExternalId(UPDATED_ACCOUNT_EXTERNAL_ID)
-            .cardName(UPDATED_CARD_NAME)
+            .hasPaymentNotes(UPDATED_HAS_PAYMENT_NOTES)
+            .subType(UPDATED_SUB_TYPE)
             .exchangeRate(UPDATED_EXCHANGE_RATE)
             .enrichedMerchantUrl(UPDATED_ENRICHED_MERCHANT_URL)
             .enrichedMerchantTelephone(UPDATED_ENRICHED_MERCHANT_TELEPHONE);
@@ -669,6 +619,7 @@ class AccountStatementRecordResourceIT {
         partialUpdatedAccountStatementRecord.setId(accountStatementRecord.getId());
 
         partialUpdatedAccountStatementRecord
+            .accountId(DEFAULT_ACCOUNT_ID)
             .cardId(UPDATED_CARD_ID)
             .type(UPDATED_TYPE)
             .group(UPDATED_GROUP)
@@ -693,15 +644,8 @@ class AccountStatementRecordResourceIT {
             .status(UPDATED_STATUS)
             .response(UPDATED_RESPONSE)
             .responseCode(UPDATED_RESPONSE_CODE)
-            .accountExternalId(UPDATED_ACCOUNT_EXTERNAL_ID)
-            .maskedCardNumber(UPDATED_MASKED_CARD_NUMBER)
             .hasPaymentDocumentFiles(UPDATED_HAS_PAYMENT_DOCUMENT_FILES)
             .hasPaymentNotes(UPDATED_HAS_PAYMENT_NOTES)
-            .cardName(UPDATED_CARD_NAME)
-            .embossingName(UPDATED_EMBOSSING_NAME)
-            .embossingFirstName(UPDATED_EMBOSSING_FIRST_NAME)
-            .embossingLastName(UPDATED_EMBOSSING_LAST_NAME)
-            .embossingCompanyName(UPDATED_EMBOSSING_COMPANY_NAME)
             .subType(UPDATED_SUB_TYPE)
             .purchaseDate(UPDATED_PURCHASE_DATE)
             .exchangeRate(UPDATED_EXCHANGE_RATE)
