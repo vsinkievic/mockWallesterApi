@@ -1,6 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { CardType } from 'app/entities/enumerations/card-type.model';
-import { BlockType } from 'app/entities/enumerations/block-type.model';
+import { CardBlockType } from 'app/entities/enumerations/block-type.model';
 import { CardStatus } from 'app/entities/enumerations/card-status.model';
 import { Secure3DType } from 'app/entities/enumerations/secure-3-d-type.model';
 import { LanguageCode } from 'app/entities/enumerations/language-code.model';
@@ -21,7 +21,7 @@ export interface ICard {
   maskedCardNumber?: string | null;
   referenceNumber?: string | null;
   expiryDate?: dayjs.Dayjs | null;
-  blockType?: keyof typeof BlockType | null;
+  blockType?: keyof typeof CardBlockType | null;
   blockedAt?: dayjs.Dayjs | null;
   blockedBy?: string | null;
   status?: keyof typeof CardStatus | null;

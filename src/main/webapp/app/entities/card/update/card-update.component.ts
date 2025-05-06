@@ -8,7 +8,7 @@ import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CardType } from 'app/entities/enumerations/card-type.model';
-import { BlockType } from 'app/entities/enumerations/block-type.model';
+import { CardBlockType } from 'app/entities/enumerations/block-type.model';
 import { CardStatus } from 'app/entities/enumerations/card-status.model';
 import { Secure3DType } from 'app/entities/enumerations/secure-3-d-type.model';
 import { LanguageCode } from 'app/entities/enumerations/language-code.model';
@@ -30,7 +30,7 @@ export class CardUpdateComponent implements OnInit {
   isSaving = false;
   card: ICard | null = null;
   cardTypeValues = Object.keys(CardType);
-  blockTypeValues = Object.keys(BlockType);
+  blockTypeValues = Object.keys(CardBlockType);
   cardStatusValues = Object.keys(CardStatus);
   secure3DTypeValues = Object.keys(Secure3DType);
   languageCodeValues = Object.keys(LanguageCode);

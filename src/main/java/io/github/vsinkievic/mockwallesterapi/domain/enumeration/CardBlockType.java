@@ -10,4 +10,8 @@ public enum CardBlockType {
     Fraudulent,
     Frozen,
     Lost,
+    MaxInvalidTriesCVV2,
+    MaxInvalidTriesPIN,
+    NotDelivered,
+    Stolen,
 }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vsinkievic.mockwallesterapi.IntegrationTest;
 import io.github.vsinkievic.mockwallesterapi.domain.Card;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.BlockType;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardBlockType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardCloseReason;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardType;
@@ -72,8 +73,8 @@ class CardResourceIT {
     private static final Instant DEFAULT_EXPIRY_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_EXPIRY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final BlockType DEFAULT_BLOCK_TYPE = BlockType.BlockedByCardUser;
-    private static final BlockType UPDATED_BLOCK_TYPE = BlockType.BlockedByCardholder;
+    private static final CardBlockType DEFAULT_BLOCK_TYPE = CardBlockType.BlockedByClient;
+    private static final CardBlockType UPDATED_BLOCK_TYPE = CardBlockType.BlockedByClient;
 
     private static final Instant DEFAULT_BLOCKED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_BLOCKED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);

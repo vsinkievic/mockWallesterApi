@@ -1,6 +1,6 @@
 package io.github.vsinkievic.mockwallesterapi.domain;
 
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.BlockType;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardBlockType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardCloseReason;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardType;
@@ -63,7 +63,7 @@ public class Card implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "block_type")
-    private BlockType blockType;
+    private CardBlockType blockType;
 
     @Column(name = "blocked_at")
     private Instant blockedAt;
@@ -280,7 +280,7 @@ public class Card implements Serializable {
         return this;
     }
 
-    public Card blockType(BlockType blockType) {
+    public Card blockType(CardBlockType blockType) {
         this.blockType = blockType;
         return this;
     }

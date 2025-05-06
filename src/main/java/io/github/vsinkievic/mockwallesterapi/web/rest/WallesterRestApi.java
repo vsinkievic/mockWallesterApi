@@ -1,10 +1,10 @@
 package io.github.vsinkievic.mockwallesterapi.web.rest;
 
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
 import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
 import io.github.vsinkievic.mockwallesterapi.service.CardService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
+import io.github.vsinkievic.mockwallesterapi.service.dto.CardDTO;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountRequest;
@@ -17,8 +17,10 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResp
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
+import io.github.vsinkievic.mockwallesterapi.web.rest.model.WallesterCardSearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -323,6 +325,62 @@ public class WallesterRestApi {
             .orElseThrow(() -> new WallesterApiException(404, "Card not found"));
     }
 
+    @Operation(tags = { "Card" }, summary = "Search cards", description = "Returns a list of cards matching the search criteria")
+    @GetMapping("/v1/cards")
+    public ResponseEntity<WallesterCardSearchResponse> searchCards(
+        @RequestParam(value = "from_record", required = true) int fromRecord,
+        @RequestParam(value = "records_count", required = true) int recordsCount,
+        @RequestParam(value = "order_field", required = false) String orderField,
+        @RequestParam(value = "order_direction", required = false) String orderDirection
+    ) {
+        log.info(
+            String.format(
+                "GET /v1/cards with params: from_record=%d, records_count=%d, order_field=%s, order_direction=%s",
+                fromRecord,
+                recordsCount,
+                orderField,
+                orderDirection
+            )
+        );
+
+        // Validate and set default values
+        if (recordsCount <= 0 || recordsCount > 500) {
+            recordsCount = 500;
+        }
+        if (StringUtils.isBlank(orderDirection)) {
+            orderDirection = "asc";
+        }
+        if (!orderDirection.equals("asc") && !orderDirection.equals("desc")) {
+            throw new WallesterApiException(422, "Invalid order direction");
+        }
+
+        if (StringUtils.isBlank(orderField)) {
+            orderField = "embossing_name";
+        }
+
+        // Validate order field
+        if (!isValidCardOrderField(orderField)) {
+            throw new WallesterApiException(422, "Invalid order field");
+        }
+
+        // Create sort object
+        Sort sort = Sort.by(orderDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, convertToCamelCase(orderField));
+
+        // Create page request with sorting
+        PageRequest pageRequest = PageRequest.of(fromRecord / recordsCount, recordsCount, sort);
+
+        // Get cards
+        Page<CardDTO> cards = cardService.findAll(pageRequest);
+        Page<WallesterCard> cardsPage = cards.map(cardDTO -> new WallesterCard(cardDTO));
+
+        // Create response
+        WallesterCardSearchResponse response = new WallesterCardSearchResponse();
+        response.setCards(cardsPage.getContent());
+        response.setTotalRecordsNumber((int) cardsPage.getTotalElements());
+
+        return ResponseEntity.ok(response);
+    }
+
     private boolean isValidAccountOrderField(String orderField) {
         return switch (orderField) {
             case "created_at", "updated_at", "balance", "blocked_amount", "available_amount", "name", "status" -> true;
@@ -352,5 +410,19 @@ public class WallesterRestApi {
         }
 
         return result.toString();
+    }
+
+    private boolean isValidCardOrderField(String orderField) {
+        return Arrays.asList(
+            "embossing_name",
+            "masked_card_number",
+            "status",
+            "type",
+            "personalization_product_code",
+            "name",
+            "expiry_date",
+            "updated_at",
+            "block_type"
+        ).contains(orderField);
     }
 }

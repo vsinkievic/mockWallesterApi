@@ -1,4 +1,4 @@
-export enum BlockType {
+export enum CardBlockType {
   BlockedByCardUser = 'BlockedByCardUser',
 
   BlockedByCardholder = 'BlockedByCardholder',
