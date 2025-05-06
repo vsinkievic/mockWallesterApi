@@ -29,7 +29,7 @@ export class AccountStatementRecordUpdateComponent implements OnInit {
   accountStatementRecordTypeValues = Object.keys(AccountStatementRecordType);
   accountStatementRecordGroupValues = Object.keys(AccountStatementRecordGroup);
   currencyCodeValues = Object.keys(CurrencyCode);
-  merchantCategoryCodeValues = Object.keys(MerchantCategoryCode);
+  merchantCategoryCodeValues = Object.values(MerchantCategoryCode).map(value => value.replace('MCC', ''));
   countryCodeValues = Object.keys(CountryCode);
   accountStatementRecordStatusValues = Object.keys(AccountStatementRecordStatus);
   accountStatementRecordResponseValues = Object.keys(AccountStatementRecordResponse);

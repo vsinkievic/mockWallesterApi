@@ -17,10 +17,10 @@
             <column name="card_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
-            <column name="type" type="varchar(255)">
+            <column name="trn_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="jhi_group" type="varchar(255)">
+            <column name="trn_group" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="date" type="${datetimeType}">
@@ -59,7 +59,7 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="original_authorization_id" type="varchar(255)">
+            <column name="original_authorization_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
             <column name="is_reversal" type="boolean">
@@ -165,29 +165,22 @@
                   usePreparedStatements="true">
             <column name="id" type="${uuidType}"/>
             <column name="card_id" type="${uuidType}"/>
-            <column name="type" type="string"/>
-            <column name="jhi_group" type="string"/>
-            <column name="date" type="date"/>
+            <column name="trn_type" type="string"/>
+            <column name="trn_group" type="string"/>
+            <column name="purchase_date" type="timestamp"/>
             <column name="transaction_amount" type="numeric"/>
             <column name="transaction_currency_code" type="string"/>
             <column name="account_amount" type="numeric"/>
             <column name="account_currency_code" type="string"/>
-            <column name="merchant_category_code" type="string"/>
-            <column name="merchant_id" type="string"/>
-            <column name="terminal_id" type="string"/>
-            <column name="merchant_name" type="string"/>
-            <column name="merchant_city" type="string"/>
-            <column name="merchant_country_code" type="string"/>
-            <column name="description" type="string"/>
-            <column name="original_authorization_id" type="string"/>
-            <column name="is_reversal" type="boolean"/>
-            <column name="is_declined" type="boolean"/>
-            <column name="is_cleared" type="boolean"/>
-            <column name="marked_for_dispute_at" type="date"/>
-            <column name="marked_for_dispute_by" type="string"/>
             <column name="status" type="string"/>
             <column name="response" type="string"/>
             <column name="response_code" type="string"/>
+            <column name="sub_type" type="string"/>
+            <column name="is_reversal" type="boolean"/>
+            <column name="is_declined" type="boolean"/>
+            <column name="is_cleared" type="boolean"/>
+            <column name="marked_for_dispute_at" type="timestamp"/>
+            <column name="marked_for_dispute_by" type="string"/>
             <column name="account_external_id" type="string"/>
             <column name="masked_card_number" type="string"/>
             <column name="has_payment_document_files" type="boolean"/>
@@ -197,8 +190,6 @@
             <column name="embossing_first_name" type="string"/>
             <column name="embossing_last_name" type="string"/>
             <column name="embossing_company_name" type="string"/>
-            <column name="sub_type" type="string"/>
-            <column name="purchase_date" type="date"/>
             <column name="exchange_rate" type="numeric"/>
             <column name="enriched_merchant_name" type="string"/>
             <column name="enriched_merchant_url" type="string"/>
@@ -206,7 +197,14 @@
             <column name="enriched_merchant_telephone" type="string"/>
             <column name="enriched_merchant_icon_url" type="string"/>
             <column name="total_amount" type="numeric"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+            <column name="merchant_category_code" type="string"/>
+            <column name="merchant_id" type="string"/>
+            <column name="terminal_id" type="string"/>
+            <column name="merchant_name" type="string"/>
+            <column name="merchant_city" type="string"/>
+            <column name="merchant_country_code" type="string"/>
+            <column name="description" type="string"/>
+            <column name="original_authorization_id" type="${uuidType}"/>
         </loadData>
     </changeSet>
 </databaseChangeLog>

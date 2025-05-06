@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+import lombok.Data;
 
 /**
  * Represents a single record in an Account Statement.
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "account_statement_record")
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Data
 public class AccountStatementRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,11 +34,11 @@ public class AccountStatementRecord implements Serializable {
     private UUID cardId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "trn_type")
     private AccountStatementRecordType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "jhi_group")
+    @Column(name = "trn_group")
     private AccountStatementRecordGroup group;
 
     @Column(name = "date")
@@ -56,9 +58,8 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "account_currency_code")
     private CurrencyCode accountCurrencyCode;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "merchant_category_code")
-    private MerchantCategoryCode merchantCategoryCode;
+    private String merchantCategoryCode;
 
     @Column(name = "merchant_id")
     private String merchantId;
@@ -80,7 +81,7 @@ public class AccountStatementRecord implements Serializable {
     private String description;
 
     @Column(name = "original_authorization_id")
-    private String originalAuthorizationId;
+    private UUID originalAuthorizationId;
 
     @Column(name = "is_reversal")
     private Boolean isReversal;
@@ -164,21 +165,9 @@ public class AccountStatementRecord implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public UUID getId() {
-        return this.id;
-    }
-
     public AccountStatementRecord id(UUID id) {
         this.setId(id);
         return this;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getCardId() {
-        return this.cardId;
     }
 
     public AccountStatementRecord cardId(UUID cardId) {
@@ -186,25 +175,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setCardId(UUID cardId) {
-        this.cardId = cardId;
-    }
-
-    public AccountStatementRecordType getType() {
-        return this.type;
-    }
-
     public AccountStatementRecord type(AccountStatementRecordType type) {
         this.setType(type);
         return this;
-    }
-
-    public void setType(AccountStatementRecordType type) {
-        this.type = type;
-    }
-
-    public AccountStatementRecordGroup getGroup() {
-        return this.group;
     }
 
     public AccountStatementRecord group(AccountStatementRecordGroup group) {
@@ -212,25 +185,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setGroup(AccountStatementRecordGroup group) {
-        this.group = group;
-    }
-
-    public Instant getDate() {
-        return this.date;
-    }
-
     public AccountStatementRecord date(Instant date) {
         this.setDate(date);
         return this;
-    }
-
-    public void setDate(Instant date) {
-        this.date = date;
-    }
-
-    public BigDecimal getTransactionAmount() {
-        return this.transactionAmount;
     }
 
     public AccountStatementRecord transactionAmount(BigDecimal transactionAmount) {
@@ -238,25 +195,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setTransactionAmount(BigDecimal transactionAmount) {
-        this.transactionAmount = transactionAmount;
-    }
-
-    public CurrencyCode getTransactionCurrencyCode() {
-        return this.transactionCurrencyCode;
-    }
-
     public AccountStatementRecord transactionCurrencyCode(CurrencyCode transactionCurrencyCode) {
         this.setTransactionCurrencyCode(transactionCurrencyCode);
         return this;
-    }
-
-    public void setTransactionCurrencyCode(CurrencyCode transactionCurrencyCode) {
-        this.transactionCurrencyCode = transactionCurrencyCode;
-    }
-
-    public BigDecimal getAccountAmount() {
-        return this.accountAmount;
     }
 
     public AccountStatementRecord accountAmount(BigDecimal accountAmount) {
@@ -264,38 +205,14 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setAccountAmount(BigDecimal accountAmount) {
-        this.accountAmount = accountAmount;
-    }
-
-    public CurrencyCode getAccountCurrencyCode() {
-        return this.accountCurrencyCode;
-    }
-
     public AccountStatementRecord accountCurrencyCode(CurrencyCode accountCurrencyCode) {
         this.setAccountCurrencyCode(accountCurrencyCode);
         return this;
     }
 
-    public void setAccountCurrencyCode(CurrencyCode accountCurrencyCode) {
-        this.accountCurrencyCode = accountCurrencyCode;
-    }
-
-    public MerchantCategoryCode getMerchantCategoryCode() {
-        return this.merchantCategoryCode;
-    }
-
-    public AccountStatementRecord merchantCategoryCode(MerchantCategoryCode merchantCategoryCode) {
+    public AccountStatementRecord merchantCategoryCode(String merchantCategoryCode) {
         this.setMerchantCategoryCode(merchantCategoryCode);
         return this;
-    }
-
-    public void setMerchantCategoryCode(MerchantCategoryCode merchantCategoryCode) {
-        this.merchantCategoryCode = merchantCategoryCode;
-    }
-
-    public String getMerchantId() {
-        return this.merchantId;
     }
 
     public AccountStatementRecord merchantId(String merchantId) {
@@ -303,25 +220,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
-    }
-
-    public String getTerminalId() {
-        return this.terminalId;
-    }
-
     public AccountStatementRecord terminalId(String terminalId) {
         this.setTerminalId(terminalId);
         return this;
-    }
-
-    public void setTerminalId(String terminalId) {
-        this.terminalId = terminalId;
-    }
-
-    public String getMerchantName() {
-        return this.merchantName;
     }
 
     public AccountStatementRecord merchantName(String merchantName) {
@@ -329,25 +230,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName;
-    }
-
-    public String getMerchantCity() {
-        return this.merchantCity;
-    }
-
     public AccountStatementRecord merchantCity(String merchantCity) {
         this.setMerchantCity(merchantCity);
         return this;
-    }
-
-    public void setMerchantCity(String merchantCity) {
-        this.merchantCity = merchantCity;
-    }
-
-    public CountryCode getMerchantCountryCode() {
-        return this.merchantCountryCode;
     }
 
     public AccountStatementRecord merchantCountryCode(CountryCode merchantCountryCode) {
@@ -355,38 +240,14 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setMerchantCountryCode(CountryCode merchantCountryCode) {
-        this.merchantCountryCode = merchantCountryCode;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
     public AccountStatementRecord description(String description) {
         this.setDescription(description);
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getOriginalAuthorizationId() {
-        return this.originalAuthorizationId;
-    }
-
-    public AccountStatementRecord originalAuthorizationId(String originalAuthorizationId) {
+    public AccountStatementRecord originalAuthorizationId(UUID originalAuthorizationId) {
         this.setOriginalAuthorizationId(originalAuthorizationId);
         return this;
-    }
-
-    public void setOriginalAuthorizationId(String originalAuthorizationId) {
-        this.originalAuthorizationId = originalAuthorizationId;
-    }
-
-    public Boolean getIsReversal() {
-        return this.isReversal;
     }
 
     public AccountStatementRecord isReversal(Boolean isReversal) {
@@ -394,25 +255,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setIsReversal(Boolean isReversal) {
-        this.isReversal = isReversal;
-    }
-
-    public Boolean getIsDeclined() {
-        return this.isDeclined;
-    }
-
     public AccountStatementRecord isDeclined(Boolean isDeclined) {
         this.setIsDeclined(isDeclined);
         return this;
-    }
-
-    public void setIsDeclined(Boolean isDeclined) {
-        this.isDeclined = isDeclined;
-    }
-
-    public Boolean getIsCleared() {
-        return this.isCleared;
     }
 
     public AccountStatementRecord isCleared(Boolean isCleared) {
@@ -420,25 +265,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setIsCleared(Boolean isCleared) {
-        this.isCleared = isCleared;
-    }
-
-    public Instant getMarkedForDisputeAt() {
-        return this.markedForDisputeAt;
-    }
-
     public AccountStatementRecord markedForDisputeAt(Instant markedForDisputeAt) {
         this.setMarkedForDisputeAt(markedForDisputeAt);
         return this;
-    }
-
-    public void setMarkedForDisputeAt(Instant markedForDisputeAt) {
-        this.markedForDisputeAt = markedForDisputeAt;
-    }
-
-    public String getMarkedForDisputeBy() {
-        return this.markedForDisputeBy;
     }
 
     public AccountStatementRecord markedForDisputeBy(String markedForDisputeBy) {
@@ -446,25 +275,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setMarkedForDisputeBy(String markedForDisputeBy) {
-        this.markedForDisputeBy = markedForDisputeBy;
-    }
-
-    public AccountStatementRecordStatus getStatus() {
-        return this.status;
-    }
-
     public AccountStatementRecord status(AccountStatementRecordStatus status) {
         this.setStatus(status);
         return this;
-    }
-
-    public void setStatus(AccountStatementRecordStatus status) {
-        this.status = status;
-    }
-
-    public AccountStatementRecordResponse getResponse() {
-        return this.response;
     }
 
     public AccountStatementRecord response(AccountStatementRecordResponse response) {
@@ -472,25 +285,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setResponse(AccountStatementRecordResponse response) {
-        this.response = response;
-    }
-
-    public String getResponseCode() {
-        return this.responseCode;
-    }
-
     public AccountStatementRecord responseCode(String responseCode) {
         this.setResponseCode(responseCode);
         return this;
-    }
-
-    public void setResponseCode(String responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public String getAccountExternalId() {
-        return this.accountExternalId;
     }
 
     public AccountStatementRecord accountExternalId(String accountExternalId) {
@@ -498,25 +295,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setAccountExternalId(String accountExternalId) {
-        this.accountExternalId = accountExternalId;
-    }
-
-    public String getMaskedCardNumber() {
-        return this.maskedCardNumber;
-    }
-
     public AccountStatementRecord maskedCardNumber(String maskedCardNumber) {
         this.setMaskedCardNumber(maskedCardNumber);
         return this;
-    }
-
-    public void setMaskedCardNumber(String maskedCardNumber) {
-        this.maskedCardNumber = maskedCardNumber;
-    }
-
-    public Boolean getHasPaymentDocumentFiles() {
-        return this.hasPaymentDocumentFiles;
     }
 
     public AccountStatementRecord hasPaymentDocumentFiles(Boolean hasPaymentDocumentFiles) {
@@ -524,25 +305,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setHasPaymentDocumentFiles(Boolean hasPaymentDocumentFiles) {
-        this.hasPaymentDocumentFiles = hasPaymentDocumentFiles;
-    }
-
-    public Boolean getHasPaymentNotes() {
-        return this.hasPaymentNotes;
-    }
-
     public AccountStatementRecord hasPaymentNotes(Boolean hasPaymentNotes) {
         this.setHasPaymentNotes(hasPaymentNotes);
         return this;
-    }
-
-    public void setHasPaymentNotes(Boolean hasPaymentNotes) {
-        this.hasPaymentNotes = hasPaymentNotes;
-    }
-
-    public String getCardName() {
-        return this.cardName;
     }
 
     public AccountStatementRecord cardName(String cardName) {
@@ -550,25 +315,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
-    }
-
-    public String getEmbossingName() {
-        return this.embossingName;
-    }
-
     public AccountStatementRecord embossingName(String embossingName) {
         this.setEmbossingName(embossingName);
         return this;
-    }
-
-    public void setEmbossingName(String embossingName) {
-        this.embossingName = embossingName;
-    }
-
-    public String getEmbossingFirstName() {
-        return this.embossingFirstName;
     }
 
     public AccountStatementRecord embossingFirstName(String embossingFirstName) {
@@ -576,25 +325,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setEmbossingFirstName(String embossingFirstName) {
-        this.embossingFirstName = embossingFirstName;
-    }
-
-    public String getEmbossingLastName() {
-        return this.embossingLastName;
-    }
-
     public AccountStatementRecord embossingLastName(String embossingLastName) {
         this.setEmbossingLastName(embossingLastName);
         return this;
-    }
-
-    public void setEmbossingLastName(String embossingLastName) {
-        this.embossingLastName = embossingLastName;
-    }
-
-    public String getEmbossingCompanyName() {
-        return this.embossingCompanyName;
     }
 
     public AccountStatementRecord embossingCompanyName(String embossingCompanyName) {
@@ -602,25 +335,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setEmbossingCompanyName(String embossingCompanyName) {
-        this.embossingCompanyName = embossingCompanyName;
-    }
-
-    public String getSubType() {
-        return this.subType;
-    }
-
     public AccountStatementRecord subType(String subType) {
         this.setSubType(subType);
         return this;
-    }
-
-    public void setSubType(String subType) {
-        this.subType = subType;
-    }
-
-    public Instant getPurchaseDate() {
-        return this.purchaseDate;
     }
 
     public AccountStatementRecord purchaseDate(Instant purchaseDate) {
@@ -628,25 +345,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setPurchaseDate(Instant purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public BigDecimal getExchangeRate() {
-        return this.exchangeRate;
-    }
-
     public AccountStatementRecord exchangeRate(BigDecimal exchangeRate) {
         this.setExchangeRate(exchangeRate);
         return this;
-    }
-
-    public void setExchangeRate(BigDecimal exchangeRate) {
-        this.exchangeRate = exchangeRate;
-    }
-
-    public String getEnrichedMerchantName() {
-        return this.enrichedMerchantName;
     }
 
     public AccountStatementRecord enrichedMerchantName(String enrichedMerchantName) {
@@ -654,25 +355,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setEnrichedMerchantName(String enrichedMerchantName) {
-        this.enrichedMerchantName = enrichedMerchantName;
-    }
-
-    public String getEnrichedMerchantUrl() {
-        return this.enrichedMerchantUrl;
-    }
-
     public AccountStatementRecord enrichedMerchantUrl(String enrichedMerchantUrl) {
         this.setEnrichedMerchantUrl(enrichedMerchantUrl);
         return this;
-    }
-
-    public void setEnrichedMerchantUrl(String enrichedMerchantUrl) {
-        this.enrichedMerchantUrl = enrichedMerchantUrl;
-    }
-
-    public String getEnrichedMerchantDomain() {
-        return this.enrichedMerchantDomain;
     }
 
     public AccountStatementRecord enrichedMerchantDomain(String enrichedMerchantDomain) {
@@ -680,25 +365,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setEnrichedMerchantDomain(String enrichedMerchantDomain) {
-        this.enrichedMerchantDomain = enrichedMerchantDomain;
-    }
-
-    public String getEnrichedMerchantTelephone() {
-        return this.enrichedMerchantTelephone;
-    }
-
     public AccountStatementRecord enrichedMerchantTelephone(String enrichedMerchantTelephone) {
         this.setEnrichedMerchantTelephone(enrichedMerchantTelephone);
         return this;
-    }
-
-    public void setEnrichedMerchantTelephone(String enrichedMerchantTelephone) {
-        this.enrichedMerchantTelephone = enrichedMerchantTelephone;
-    }
-
-    public String getEnrichedMerchantIconUrl() {
-        return this.enrichedMerchantIconUrl;
     }
 
     public AccountStatementRecord enrichedMerchantIconUrl(String enrichedMerchantIconUrl) {
@@ -706,21 +375,9 @@ public class AccountStatementRecord implements Serializable {
         return this;
     }
 
-    public void setEnrichedMerchantIconUrl(String enrichedMerchantIconUrl) {
-        this.enrichedMerchantIconUrl = enrichedMerchantIconUrl;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return this.totalAmount;
-    }
-
     public AccountStatementRecord totalAmount(BigDecimal totalAmount) {
         this.setTotalAmount(totalAmount);
         return this;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
