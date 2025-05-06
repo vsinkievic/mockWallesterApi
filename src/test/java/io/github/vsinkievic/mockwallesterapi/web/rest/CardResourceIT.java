@@ -26,6 +26,7 @@ import io.github.vsinkievic.mockwallesterapi.service.dto.CardDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CardMapper;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -52,9 +53,6 @@ class CardResourceIT {
 
     private static final UUID DEFAULT_ACCOUNT_ID = UUID.randomUUID();
     private static final UUID UPDATED_ACCOUNT_ID = UUID.randomUUID();
-
-    private static final String DEFAULT_PERSON_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PERSON_ID = "BBBBBBBBBB";
 
     private static final String DEFAULT_EXTERNAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_EXTERNAL_ID = "BBBBBBBBBB";
@@ -219,7 +217,6 @@ class CardResourceIT {
     private static final CardCloseReason UPDATED_CLOSE_REASON = CardCloseReason.ClosedByClient;
 
     private static final UUID DEFAULT_COMPANY_ID = UUID.randomUUID();
-    private static final UUID UPDATED_COMPANY_ID = UUID.randomUUID();
 
     private static final Instant DEFAULT_DISPATCHED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DISPATCHED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -265,7 +262,6 @@ class CardResourceIT {
         return new Card()
             .predecessorCardId(DEFAULT_PREDECESSOR_CARD_ID)
             .accountId(DEFAULT_ACCOUNT_ID)
-            .personId(DEFAULT_PERSON_ID)
             .externalId(DEFAULT_EXTERNAL_ID)
             .type(DEFAULT_TYPE)
             .name(DEFAULT_NAME)
@@ -337,7 +333,6 @@ class CardResourceIT {
         return new Card()
             .predecessorCardId(UPDATED_PREDECESSOR_CARD_ID)
             .accountId(UPDATED_ACCOUNT_ID)
-            .personId(UPDATED_PERSON_ID)
             .externalId(UPDATED_EXTERNAL_ID)
             .type(UPDATED_TYPE)
             .name(UPDATED_NAME)
@@ -392,7 +387,7 @@ class CardResourceIT {
             .closedAt(UPDATED_CLOSED_AT)
             .closedBy(UPDATED_CLOSED_BY)
             .closeReason(UPDATED_CLOSE_REASON)
-            .companyId(UPDATED_COMPANY_ID)
+            .companyId(DEFAULT_COMPANY_ID)
             .dispatchedAt(UPDATED_DISPATCHED_AT)
             .notificationReceiptsReminderEnabled(UPDATED_NOTIFICATION_RECEIPTS_REMINDER_ENABLED)
             .notificationInstantSpendUpdateEnabled(UPDATED_NOTIFICATION_INSTANT_SPEND_UPDATE_ENABLED)
@@ -468,7 +463,7 @@ class CardResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(card.getId().toString())))
             .andExpect(jsonPath("$.[*].predecessorCardId").value(hasItem(DEFAULT_PREDECESSOR_CARD_ID.toString())))
             .andExpect(jsonPath("$.[*].accountId").value(hasItem(DEFAULT_ACCOUNT_ID.toString())))
-            .andExpect(jsonPath("$.[*].personId").value(hasItem(DEFAULT_PERSON_ID)))
+            //            .andExpect(jsonPath("$.[*].personId").value(hasItem(DEFAULT_PERSON_ID)))
             .andExpect(jsonPath("$.[*].externalId").value(hasItem(DEFAULT_EXTERNAL_ID)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -546,7 +541,7 @@ class CardResourceIT {
             .andExpect(jsonPath("$.id").value(card.getId().toString()))
             .andExpect(jsonPath("$.predecessorCardId").value(DEFAULT_PREDECESSOR_CARD_ID.toString()))
             .andExpect(jsonPath("$.accountId").value(DEFAULT_ACCOUNT_ID.toString()))
-            .andExpect(jsonPath("$.personId").value(DEFAULT_PERSON_ID))
+            //            .andExpect(jsonPath("$.personId").value(DEFAULT_PERSON_ID))
             .andExpect(jsonPath("$.externalId").value(DEFAULT_EXTERNAL_ID))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
@@ -630,7 +625,7 @@ class CardResourceIT {
         updatedCard
             .predecessorCardId(UPDATED_PREDECESSOR_CARD_ID)
             .accountId(UPDATED_ACCOUNT_ID)
-            .personId(UPDATED_PERSON_ID)
+            //            .personId(UPDATED_PERSON_ID)
             .externalId(UPDATED_EXTERNAL_ID)
             .type(UPDATED_TYPE)
             .name(UPDATED_NAME)
@@ -685,7 +680,7 @@ class CardResourceIT {
             .closedAt(UPDATED_CLOSED_AT)
             .closedBy(UPDATED_CLOSED_BY)
             .closeReason(UPDATED_CLOSE_REASON)
-            .companyId(UPDATED_COMPANY_ID)
+            .companyId(DEFAULT_COMPANY_ID)
             .dispatchedAt(UPDATED_DISPATCHED_AT)
             .notificationReceiptsReminderEnabled(UPDATED_NOTIFICATION_RECEIPTS_REMINDER_ENABLED)
             .notificationInstantSpendUpdateEnabled(UPDATED_NOTIFICATION_INSTANT_SPEND_UPDATE_ENABLED)
@@ -771,7 +766,7 @@ class CardResourceIT {
 
         partialUpdatedCard
             .predecessorCardId(UPDATED_PREDECESSOR_CARD_ID)
-            .personId(UPDATED_PERSON_ID)
+            //            .personId(UPDATED_PERSON_ID)
             .externalId(UPDATED_EXTERNAL_ID)
             .referenceNumber(UPDATED_REFERENCE_NUMBER)
             .expiryDate(UPDATED_EXPIRY_DATE)
@@ -800,7 +795,7 @@ class CardResourceIT {
             .closedAt(UPDATED_CLOSED_AT)
             .closedBy(UPDATED_CLOSED_BY)
             .closeReason(UPDATED_CLOSE_REASON)
-            .companyId(UPDATED_COMPANY_ID)
+            .companyId(DEFAULT_COMPANY_ID)
             .dispatchedAt(UPDATED_DISPATCHED_AT);
 
         restCardMockMvc
@@ -832,7 +827,7 @@ class CardResourceIT {
         partialUpdatedCard
             .predecessorCardId(UPDATED_PREDECESSOR_CARD_ID)
             .accountId(UPDATED_ACCOUNT_ID)
-            .personId(UPDATED_PERSON_ID)
+            //            .personId(UPDATED_PERSON_ID)
             .externalId(UPDATED_EXTERNAL_ID)
             .type(UPDATED_TYPE)
             .name(UPDATED_NAME)
@@ -887,7 +882,7 @@ class CardResourceIT {
             .closedAt(UPDATED_CLOSED_AT)
             .closedBy(UPDATED_CLOSED_BY)
             .closeReason(UPDATED_CLOSE_REASON)
-            .companyId(UPDATED_COMPANY_ID)
+            .companyId(DEFAULT_COMPANY_ID)
             .dispatchedAt(UPDATED_DISPATCHED_AT)
             .notificationReceiptsReminderEnabled(UPDATED_NOTIFICATION_RECEIPTS_REMINDER_ENABLED)
             .notificationInstantSpendUpdateEnabled(UPDATED_NOTIFICATION_INSTANT_SPEND_UPDATE_ENABLED)

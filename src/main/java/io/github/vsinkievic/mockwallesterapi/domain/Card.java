@@ -15,12 +15,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+import lombok.Data;
 
 /**
  * Represents a Card.
  */
 @Entity
 @Table(name = "card")
+@Data
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Card implements Serializable {
 
@@ -38,7 +40,7 @@ public class Card implements Serializable {
     private UUID accountId;
 
     @Column(name = "person_id")
-    private String personId;
+    private UUID personId;
 
     @Column(name = "external_id")
     private String externalId;
@@ -227,828 +229,321 @@ public class Card implements Serializable {
     @Column(name = "disposable_type")
     private DisposableType disposableType;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    public UUID getId() {
-        return this.id;
-    }
-
+    // Builder-style setters
     public Card id(UUID id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getPredecessorCardId() {
-        return this.predecessorCardId;
+        return this;
     }
 
     public Card predecessorCardId(UUID predecessorCardId) {
-        this.setPredecessorCardId(predecessorCardId);
-        return this;
-    }
-
-    public void setPredecessorCardId(UUID predecessorCardId) {
         this.predecessorCardId = predecessorCardId;
-    }
-
-    public UUID getAccountId() {
-        return this.accountId;
+        return this;
     }
 
     public Card accountId(UUID accountId) {
-        this.setAccountId(accountId);
-        return this;
-    }
-
-    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
-    }
-
-    public String getPersonId() {
-        return this.personId;
-    }
-
-    public Card personId(String personId) {
-        this.setPersonId(personId);
         return this;
     }
 
-    public void setPersonId(String personId) {
+    public Card personId(UUID personId) {
         this.personId = personId;
-    }
-
-    public String getExternalId() {
-        return this.externalId;
+        return this;
     }
 
     public Card externalId(String externalId) {
-        this.setExternalId(externalId);
-        return this;
-    }
-
-    public void setExternalId(String externalId) {
         this.externalId = externalId;
-    }
-
-    public CardType getType() {
-        return this.type;
+        return this;
     }
 
     public Card type(CardType type) {
-        this.setType(type);
-        return this;
-    }
-
-    public void setType(CardType type) {
         this.type = type;
-    }
-
-    public String getName() {
-        return this.name;
+        return this;
     }
 
     public Card name(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMaskedCardNumber() {
-        return this.maskedCardNumber;
+        return this;
     }
 
     public Card maskedCardNumber(String maskedCardNumber) {
-        this.setMaskedCardNumber(maskedCardNumber);
-        return this;
-    }
-
-    public void setMaskedCardNumber(String maskedCardNumber) {
         this.maskedCardNumber = maskedCardNumber;
-    }
-
-    public String getReferenceNumber() {
-        return this.referenceNumber;
+        return this;
     }
 
     public Card referenceNumber(String referenceNumber) {
-        this.setReferenceNumber(referenceNumber);
-        return this;
-    }
-
-    public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
-    }
-
-    public Instant getExpiryDate() {
-        return this.expiryDate;
+        return this;
     }
 
     public Card expiryDate(Instant expiryDate) {
-        this.setExpiryDate(expiryDate);
-        return this;
-    }
-
-    public void setExpiryDate(Instant expiryDate) {
         this.expiryDate = expiryDate;
-    }
-
-    public BlockType getBlockType() {
-        return this.blockType;
+        return this;
     }
 
     public Card blockType(BlockType blockType) {
-        this.setBlockType(blockType);
-        return this;
-    }
-
-    public void setBlockType(BlockType blockType) {
         this.blockType = blockType;
-    }
-
-    public Instant getBlockedAt() {
-        return this.blockedAt;
+        return this;
     }
 
     public Card blockedAt(Instant blockedAt) {
-        this.setBlockedAt(blockedAt);
-        return this;
-    }
-
-    public void setBlockedAt(Instant blockedAt) {
         this.blockedAt = blockedAt;
-    }
-
-    public String getBlockedBy() {
-        return this.blockedBy;
+        return this;
     }
 
     public Card blockedBy(String blockedBy) {
-        this.setBlockedBy(blockedBy);
-        return this;
-    }
-
-    public void setBlockedBy(String blockedBy) {
         this.blockedBy = blockedBy;
-    }
-
-    public CardStatus getStatus() {
-        return this.status;
+        return this;
     }
 
     public Card status(CardStatus status) {
-        this.setStatus(status);
-        return this;
-    }
-
-    public void setStatus(CardStatus status) {
         this.status = status;
-    }
-
-    public String getEmbossingName() {
-        return this.embossingName;
+        return this;
     }
 
     public Card embossingName(String embossingName) {
-        this.setEmbossingName(embossingName);
-        return this;
-    }
-
-    public void setEmbossingName(String embossingName) {
         this.embossingName = embossingName;
-    }
-
-    public String getEmbossingFirstName() {
-        return this.embossingFirstName;
+        return this;
     }
 
     public Card embossingFirstName(String embossingFirstName) {
-        this.setEmbossingFirstName(embossingFirstName);
-        return this;
-    }
-
-    public void setEmbossingFirstName(String embossingFirstName) {
         this.embossingFirstName = embossingFirstName;
-    }
-
-    public String getEmbossingLastName() {
-        return this.embossingLastName;
+        return this;
     }
 
     public Card embossingLastName(String embossingLastName) {
-        this.setEmbossingLastName(embossingLastName);
-        return this;
-    }
-
-    public void setEmbossingLastName(String embossingLastName) {
         this.embossingLastName = embossingLastName;
-    }
-
-    public String getEmbossingCompanyName() {
-        return this.embossingCompanyName;
+        return this;
     }
 
     public Card embossingCompanyName(String embossingCompanyName) {
-        this.setEmbossingCompanyName(embossingCompanyName);
-        return this;
-    }
-
-    public void setEmbossingCompanyName(String embossingCompanyName) {
         this.embossingCompanyName = embossingCompanyName;
-    }
-
-    public BigDecimal getLimitDailyPurchase() {
-        return this.limitDailyPurchase;
+        return this;
     }
 
     public Card limitDailyPurchase(BigDecimal limitDailyPurchase) {
-        this.setLimitDailyPurchase(limitDailyPurchase);
-        return this;
-    }
-
-    public void setLimitDailyPurchase(BigDecimal limitDailyPurchase) {
         this.limitDailyPurchase = limitDailyPurchase;
-    }
-
-    public BigDecimal getLimitDailyWithdrawal() {
-        return this.limitDailyWithdrawal;
+        return this;
     }
 
     public Card limitDailyWithdrawal(BigDecimal limitDailyWithdrawal) {
-        this.setLimitDailyWithdrawal(limitDailyWithdrawal);
-        return this;
-    }
-
-    public void setLimitDailyWithdrawal(BigDecimal limitDailyWithdrawal) {
         this.limitDailyWithdrawal = limitDailyWithdrawal;
-    }
-
-    public BigDecimal getLimitMonthlyPurchase() {
-        return this.limitMonthlyPurchase;
+        return this;
     }
 
     public Card limitMonthlyPurchase(BigDecimal limitMonthlyPurchase) {
-        this.setLimitMonthlyPurchase(limitMonthlyPurchase);
-        return this;
-    }
-
-    public void setLimitMonthlyPurchase(BigDecimal limitMonthlyPurchase) {
         this.limitMonthlyPurchase = limitMonthlyPurchase;
-    }
-
-    public BigDecimal getLimitMonthlyWithdrawal() {
-        return this.limitMonthlyWithdrawal;
+        return this;
     }
 
     public Card limitMonthlyWithdrawal(BigDecimal limitMonthlyWithdrawal) {
-        this.setLimitMonthlyWithdrawal(limitMonthlyWithdrawal);
-        return this;
-    }
-
-    public void setLimitMonthlyWithdrawal(BigDecimal limitMonthlyWithdrawal) {
         this.limitMonthlyWithdrawal = limitMonthlyWithdrawal;
-    }
-
-    public BigDecimal getLimitTransactionPurchase() {
-        return this.limitTransactionPurchase;
+        return this;
     }
 
     public Card limitTransactionPurchase(BigDecimal limitTransactionPurchase) {
-        this.setLimitTransactionPurchase(limitTransactionPurchase);
-        return this;
-    }
-
-    public void setLimitTransactionPurchase(BigDecimal limitTransactionPurchase) {
         this.limitTransactionPurchase = limitTransactionPurchase;
-    }
-
-    public Secure3DType getSecure3DType() {
-        return this.secure3DType;
+        return this;
     }
 
     public Card secure3DType(Secure3DType secure3DType) {
-        this.setSecure3DType(secure3DType);
-        return this;
-    }
-
-    public void setSecure3DType(Secure3DType secure3DType) {
         this.secure3DType = secure3DType;
-    }
-
-    public String getSecure3DMobile() {
-        return this.secure3DMobile;
+        return this;
     }
 
     public Card secure3DMobile(String secure3DMobile) {
-        this.setSecure3DMobile(secure3DMobile);
-        return this;
-    }
-
-    public void setSecure3DMobile(String secure3DMobile) {
         this.secure3DMobile = secure3DMobile;
-    }
-
-    public String getSecure3DEmail() {
-        return this.secure3DEmail;
+        return this;
     }
 
     public Card secure3DEmail(String secure3DEmail) {
-        this.setSecure3DEmail(secure3DEmail);
-        return this;
-    }
-
-    public void setSecure3DEmail(String secure3DEmail) {
         this.secure3DEmail = secure3DEmail;
-    }
-
-    public LanguageCode getSecure3DLanguageCode() {
-        return this.secure3DLanguageCode;
+        return this;
     }
 
     public Card secure3DLanguageCode(LanguageCode secure3DLanguageCode) {
-        this.setSecure3DLanguageCode(secure3DLanguageCode);
-        return this;
-    }
-
-    public void setSecure3DLanguageCode(LanguageCode secure3DLanguageCode) {
         this.secure3DLanguageCode = secure3DLanguageCode;
-    }
-
-    public Boolean getSecure3DOutOfBandEnabled() {
-        return this.secure3DOutOfBandEnabled;
+        return this;
     }
 
     public Card secure3DOutOfBandEnabled(Boolean secure3DOutOfBandEnabled) {
-        this.setSecure3DOutOfBandEnabled(secure3DOutOfBandEnabled);
-        return this;
-    }
-
-    public void setSecure3DOutOfBandEnabled(Boolean secure3DOutOfBandEnabled) {
         this.secure3DOutOfBandEnabled = secure3DOutOfBandEnabled;
-    }
-
-    public String getSecure3DOutOfBandId() {
-        return this.secure3DOutOfBandId;
+        return this;
     }
 
     public Card secure3DOutOfBandId(String secure3DOutOfBandId) {
-        this.setSecure3DOutOfBandId(secure3DOutOfBandId);
-        return this;
-    }
-
-    public void setSecure3DOutOfBandId(String secure3DOutOfBandId) {
         this.secure3DOutOfBandId = secure3DOutOfBandId;
-    }
-
-    public String getDeliveryFirstName() {
-        return this.deliveryFirstName;
+        return this;
     }
 
     public Card deliveryFirstName(String deliveryFirstName) {
-        this.setDeliveryFirstName(deliveryFirstName);
-        return this;
-    }
-
-    public void setDeliveryFirstName(String deliveryFirstName) {
         this.deliveryFirstName = deliveryFirstName;
-    }
-
-    public String getDeliveryLastName() {
-        return this.deliveryLastName;
+        return this;
     }
 
     public Card deliveryLastName(String deliveryLastName) {
-        this.setDeliveryLastName(deliveryLastName);
-        return this;
-    }
-
-    public void setDeliveryLastName(String deliveryLastName) {
         this.deliveryLastName = deliveryLastName;
-    }
-
-    public String getDeliveryCompanyName() {
-        return this.deliveryCompanyName;
+        return this;
     }
 
     public Card deliveryCompanyName(String deliveryCompanyName) {
-        this.setDeliveryCompanyName(deliveryCompanyName);
-        return this;
-    }
-
-    public void setDeliveryCompanyName(String deliveryCompanyName) {
         this.deliveryCompanyName = deliveryCompanyName;
-    }
-
-    public String getDeliveryAddress1() {
-        return this.deliveryAddress1;
+        return this;
     }
 
     public Card deliveryAddress1(String deliveryAddress1) {
-        this.setDeliveryAddress1(deliveryAddress1);
-        return this;
-    }
-
-    public void setDeliveryAddress1(String deliveryAddress1) {
         this.deliveryAddress1 = deliveryAddress1;
-    }
-
-    public String getDeliveryAddress2() {
-        return this.deliveryAddress2;
+        return this;
     }
 
     public Card deliveryAddress2(String deliveryAddress2) {
-        this.setDeliveryAddress2(deliveryAddress2);
-        return this;
-    }
-
-    public void setDeliveryAddress2(String deliveryAddress2) {
         this.deliveryAddress2 = deliveryAddress2;
-    }
-
-    public String getDeliveryPostalCode() {
-        return this.deliveryPostalCode;
+        return this;
     }
 
     public Card deliveryPostalCode(String deliveryPostalCode) {
-        this.setDeliveryPostalCode(deliveryPostalCode);
-        return this;
-    }
-
-    public void setDeliveryPostalCode(String deliveryPostalCode) {
         this.deliveryPostalCode = deliveryPostalCode;
-    }
-
-    public String getDeliveryCity() {
-        return this.deliveryCity;
+        return this;
     }
 
     public Card deliveryCity(String deliveryCity) {
-        this.setDeliveryCity(deliveryCity);
-        return this;
-    }
-
-    public void setDeliveryCity(String deliveryCity) {
         this.deliveryCity = deliveryCity;
-    }
-
-    public CountryCode getDeliveryCountryCode() {
-        return this.deliveryCountryCode;
+        return this;
     }
 
     public Card deliveryCountryCode(CountryCode deliveryCountryCode) {
-        this.setDeliveryCountryCode(deliveryCountryCode);
-        return this;
-    }
-
-    public void setDeliveryCountryCode(CountryCode deliveryCountryCode) {
         this.deliveryCountryCode = deliveryCountryCode;
-    }
-
-    public DispatchMethod getDeliveryDispatchMethod() {
-        return this.deliveryDispatchMethod;
+        return this;
     }
 
     public Card deliveryDispatchMethod(DispatchMethod deliveryDispatchMethod) {
-        this.setDeliveryDispatchMethod(deliveryDispatchMethod);
-        return this;
-    }
-
-    public void setDeliveryDispatchMethod(DispatchMethod deliveryDispatchMethod) {
         this.deliveryDispatchMethod = deliveryDispatchMethod;
-    }
-
-    public String getDeliveryPhone() {
-        return this.deliveryPhone;
+        return this;
     }
 
     public Card deliveryPhone(String deliveryPhone) {
-        this.setDeliveryPhone(deliveryPhone);
-        return this;
-    }
-
-    public void setDeliveryPhone(String deliveryPhone) {
         this.deliveryPhone = deliveryPhone;
-    }
-
-    public String getDeliveryTrackingNumber() {
-        return this.deliveryTrackingNumber;
+        return this;
     }
 
     public Card deliveryTrackingNumber(String deliveryTrackingNumber) {
-        this.setDeliveryTrackingNumber(deliveryTrackingNumber);
-        return this;
-    }
-
-    public void setDeliveryTrackingNumber(String deliveryTrackingNumber) {
         this.deliveryTrackingNumber = deliveryTrackingNumber;
-    }
-
-    public Boolean getIsEnrolledFor3DSecure() {
-        return this.isEnrolledFor3DSecure;
+        return this;
     }
 
     public Card isEnrolledFor3DSecure(Boolean isEnrolledFor3DSecure) {
-        this.setIsEnrolledFor3DSecure(isEnrolledFor3DSecure);
-        return this;
-    }
-
-    public void setIsEnrolledFor3DSecure(Boolean isEnrolledFor3DSecure) {
         this.isEnrolledFor3DSecure = isEnrolledFor3DSecure;
-    }
-
-    public Boolean getIsCard3DSecureActivated() {
-        return this.isCard3DSecureActivated;
+        return this;
     }
 
     public Card isCard3DSecureActivated(Boolean isCard3DSecureActivated) {
-        this.setIsCard3DSecureActivated(isCard3DSecureActivated);
-        return this;
-    }
-
-    public void setIsCard3DSecureActivated(Boolean isCard3DSecureActivated) {
         this.isCard3DSecureActivated = isCard3DSecureActivated;
-    }
-
-    public Boolean getRenewAutomatically() {
-        return this.renewAutomatically;
+        return this;
     }
 
     public Card renewAutomatically(Boolean renewAutomatically) {
-        this.setRenewAutomatically(renewAutomatically);
-        return this;
-    }
-
-    public void setRenewAutomatically(Boolean renewAutomatically) {
         this.renewAutomatically = renewAutomatically;
-    }
-
-    public Boolean getIsDisposable() {
-        return this.isDisposable;
+        return this;
     }
 
     public Card isDisposable(Boolean isDisposable) {
-        this.setIsDisposable(isDisposable);
-        return this;
-    }
-
-    public void setIsDisposable(Boolean isDisposable) {
         this.isDisposable = isDisposable;
-    }
-
-    public Boolean getSecurityContactlessEnabled() {
-        return this.securityContactlessEnabled;
+        return this;
     }
 
     public Card securityContactlessEnabled(Boolean securityContactlessEnabled) {
-        this.setSecurityContactlessEnabled(securityContactlessEnabled);
-        return this;
-    }
-
-    public void setSecurityContactlessEnabled(Boolean securityContactlessEnabled) {
         this.securityContactlessEnabled = securityContactlessEnabled;
-    }
-
-    public Boolean getSecurityWithdrawalEnabled() {
-        return this.securityWithdrawalEnabled;
+        return this;
     }
 
     public Card securityWithdrawalEnabled(Boolean securityWithdrawalEnabled) {
-        this.setSecurityWithdrawalEnabled(securityWithdrawalEnabled);
-        return this;
-    }
-
-    public void setSecurityWithdrawalEnabled(Boolean securityWithdrawalEnabled) {
         this.securityWithdrawalEnabled = securityWithdrawalEnabled;
-    }
-
-    public Boolean getSecurityInternetPurchaseEnabled() {
-        return this.securityInternetPurchaseEnabled;
+        return this;
     }
 
     public Card securityInternetPurchaseEnabled(Boolean securityInternetPurchaseEnabled) {
-        this.setSecurityInternetPurchaseEnabled(securityInternetPurchaseEnabled);
-        return this;
-    }
-
-    public void setSecurityInternetPurchaseEnabled(Boolean securityInternetPurchaseEnabled) {
         this.securityInternetPurchaseEnabled = securityInternetPurchaseEnabled;
-    }
-
-    public Boolean getSecurityOverallLimitsEnabled() {
-        return this.securityOverallLimitsEnabled;
+        return this;
     }
 
     public Card securityOverallLimitsEnabled(Boolean securityOverallLimitsEnabled) {
-        this.setSecurityOverallLimitsEnabled(securityOverallLimitsEnabled);
-        return this;
-    }
-
-    public void setSecurityOverallLimitsEnabled(Boolean securityOverallLimitsEnabled) {
         this.securityOverallLimitsEnabled = securityOverallLimitsEnabled;
-    }
-
-    public Boolean getSecurityAllTimeLimitsEnabled() {
-        return this.securityAllTimeLimitsEnabled;
+        return this;
     }
 
     public Card securityAllTimeLimitsEnabled(Boolean securityAllTimeLimitsEnabled) {
-        this.setSecurityAllTimeLimitsEnabled(securityAllTimeLimitsEnabled);
-        return this;
-    }
-
-    public void setSecurityAllTimeLimitsEnabled(Boolean securityAllTimeLimitsEnabled) {
         this.securityAllTimeLimitsEnabled = securityAllTimeLimitsEnabled;
-    }
-
-    public String getPersonalizationProductCode() {
-        return this.personalizationProductCode;
+        return this;
     }
 
     public Card personalizationProductCode(String personalizationProductCode) {
-        this.setPersonalizationProductCode(personalizationProductCode);
-        return this;
-    }
-
-    public void setPersonalizationProductCode(String personalizationProductCode) {
         this.personalizationProductCode = personalizationProductCode;
-    }
-
-    public CarrierType getCarrierType() {
-        return this.carrierType;
+        return this;
     }
 
     public Card carrierType(CarrierType carrierType) {
-        this.setCarrierType(carrierType);
-        return this;
-    }
-
-    public void setCarrierType(CarrierType carrierType) {
         this.carrierType = carrierType;
-    }
-
-    public String getCardMetadataProfileId() {
-        return this.cardMetadataProfileId;
+        return this;
     }
 
     public Card cardMetadataProfileId(String cardMetadataProfileId) {
-        this.setCardMetadataProfileId(cardMetadataProfileId);
-        return this;
-    }
-
-    public void setCardMetadataProfileId(String cardMetadataProfileId) {
         this.cardMetadataProfileId = cardMetadataProfileId;
-    }
-
-    public Instant getActivatedAt() {
-        return this.activatedAt;
+        return this;
     }
 
     public Card activatedAt(Instant activatedAt) {
-        this.setActivatedAt(activatedAt);
-        return this;
-    }
-
-    public void setActivatedAt(Instant activatedAt) {
         this.activatedAt = activatedAt;
-    }
-
-    public Instant getCreatedAt() {
-        return this.createdAt;
+        return this;
     }
 
     public Card createdAt(Instant createdAt) {
-        this.setCreatedAt(createdAt);
-        return this;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return this.updatedAt;
+        return this;
     }
 
     public Card updatedAt(Instant updatedAt) {
-        this.setUpdatedAt(updatedAt);
-        return this;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Instant getClosedAt() {
-        return this.closedAt;
+        return this;
     }
 
     public Card closedAt(Instant closedAt) {
-        this.setClosedAt(closedAt);
-        return this;
-    }
-
-    public void setClosedAt(Instant closedAt) {
         this.closedAt = closedAt;
-    }
-
-    public String getClosedBy() {
-        return this.closedBy;
+        return this;
     }
 
     public Card closedBy(String closedBy) {
-        this.setClosedBy(closedBy);
-        return this;
-    }
-
-    public void setClosedBy(String closedBy) {
         this.closedBy = closedBy;
-    }
-
-    public CardCloseReason getCloseReason() {
-        return this.closeReason;
+        return this;
     }
 
     public Card closeReason(CardCloseReason closeReason) {
-        this.setCloseReason(closeReason);
-        return this;
-    }
-
-    public void setCloseReason(CardCloseReason closeReason) {
         this.closeReason = closeReason;
-    }
-
-    public UUID getCompanyId() {
-        return this.companyId;
+        return this;
     }
 
     public Card companyId(UUID companyId) {
-        this.setCompanyId(companyId);
-        return this;
-    }
-
-    public void setCompanyId(UUID companyId) {
         this.companyId = companyId;
-    }
-
-    public Instant getDispatchedAt() {
-        return this.dispatchedAt;
+        return this;
     }
 
     public Card dispatchedAt(Instant dispatchedAt) {
-        this.setDispatchedAt(dispatchedAt);
-        return this;
-    }
-
-    public void setDispatchedAt(Instant dispatchedAt) {
         this.dispatchedAt = dispatchedAt;
-    }
-
-    public Boolean getNotificationReceiptsReminderEnabled() {
-        return this.notificationReceiptsReminderEnabled;
+        return this;
     }
 
     public Card notificationReceiptsReminderEnabled(Boolean notificationReceiptsReminderEnabled) {
-        this.setNotificationReceiptsReminderEnabled(notificationReceiptsReminderEnabled);
-        return this;
-    }
-
-    public void setNotificationReceiptsReminderEnabled(Boolean notificationReceiptsReminderEnabled) {
         this.notificationReceiptsReminderEnabled = notificationReceiptsReminderEnabled;
-    }
-
-    public Boolean getNotificationInstantSpendUpdateEnabled() {
-        return this.notificationInstantSpendUpdateEnabled;
+        return this;
     }
 
     public Card notificationInstantSpendUpdateEnabled(Boolean notificationInstantSpendUpdateEnabled) {
-        this.setNotificationInstantSpendUpdateEnabled(notificationInstantSpendUpdateEnabled);
-        return this;
-    }
-
-    public void setNotificationInstantSpendUpdateEnabled(Boolean notificationInstantSpendUpdateEnabled) {
         this.notificationInstantSpendUpdateEnabled = notificationInstantSpendUpdateEnabled;
-    }
-
-    public DisposableType getDisposableType() {
-        return this.disposableType;
+        return this;
     }
 
     public Card disposableType(DisposableType disposableType) {
-        this.setDisposableType(disposableType);
+        this.disposableType = disposableType;
         return this;
     }
-
-    public void setDisposableType(DisposableType disposableType) {
-        this.disposableType = disposableType;
-    }
-
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {

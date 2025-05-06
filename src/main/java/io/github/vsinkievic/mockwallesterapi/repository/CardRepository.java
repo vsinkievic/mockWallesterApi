@@ -2,7 +2,7 @@ package io.github.vsinkievic.mockwallesterapi.repository;
 
 import io.github.vsinkievic.mockwallesterapi.domain.Card;
 import java.util.UUID;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**

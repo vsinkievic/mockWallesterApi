@@ -2,6 +2,7 @@ package io.github.vsinkievic.mockwallesterapi.web.rest;
 
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
 import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
+import io.github.vsinkievic.mockwallesterapi.service.CardService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
@@ -9,14 +10,14 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountSearchResponse;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCard;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import io.swagger.v3.oas.annotations.Operation;
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +38,12 @@ public class WallesterRestApi {
 
     private final CompanyService companyService;
     private final CardAccountService accountService;
+    private final CardService cardService;
 
-    public WallesterRestApi(CompanyService companyService, CardAccountService accountService) {
+    public WallesterRestApi(CompanyService companyService, CardAccountService accountService, CardService cardService) {
         this.companyService = companyService;
         this.accountService = accountService;
+        this.cardService = cardService;
     }
 
     @ExceptionHandler(WallesterApiException.class)
@@ -296,6 +299,17 @@ public class WallesterRestApi {
 
         CardAccountDTO savedAccount = accountService.save(accountDTO);
         return ResponseEntity.ok(new WallesterAccountResponse(new WallesterAccount(savedAccount)));
+    }
+
+    @Operation(tags = { "Card" }, summary = "Get card by ID", description = "Returns card information by its ID")
+    @GetMapping("/v1/cards/{card_id}")
+    public ResponseEntity<WallesterCardResponse> getCardById(@PathVariable("card_id") String cardId) {
+        log.info("GET /v1/cards/{}", cardId);
+
+        return cardService
+            .findOne(UUID.fromString(cardId))
+            .map(cardDTO -> ResponseEntity.ok(new WallesterCardResponse(new WallesterCard(cardDTO))))
+            .orElseThrow(() -> new WallesterApiException(404, "Card not found"));
     }
 
     private boolean isValidAccountOrderField(String orderField) {

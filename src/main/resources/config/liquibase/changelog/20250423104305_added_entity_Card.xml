@@ -20,7 +20,7 @@
             <column name="account_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
-            <column name="person_id" type="varchar(255)">
+            <column name="person_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
             <column name="external_id" type="varchar(255)">
@@ -227,10 +227,10 @@
                   separator=";"
                   tableName="card"
                   usePreparedStatements="true">
-            <column name="id" type="${uuidType}"/>
-            <column name="predecessor_card_id" type="${uuidType}"/>
-            <column name="account_id" type="${uuidType}"/>
-            <column name="person_id" type="string"/>
+            <column name="id" type="uuid"/>
+            <column name="predecessor_card_id" type="uuid"/>
+            <column name="account_id" type="uuid"/>
+            <column name="person_id" type="uuid"/>
             <column name="external_id" type="string"/>
             <column name="type" type="string"/>
             <column name="name" type="string"/>
@@ -285,7 +285,7 @@
             <column name="closed_at" type="date"/>
             <column name="closed_by" type="string"/>
             <column name="close_reason" type="string"/>
-            <column name="company_id" type="${uuidType}"/>
+            <column name="company_id" type="uuid"/>
             <column name="dispatched_at" type="date"/>
             <column name="notification_receipts_reminder_enabled" type="boolean"/>
             <column name="notification_instant_spend_update_enabled" type="boolean"/>
