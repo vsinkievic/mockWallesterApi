@@ -90,7 +90,9 @@
               <td>
                 <a [routerLink]="['/card', card.id, 'view']">{{ card.id }}</a>
               </td>
-              <td>{{ card.accountId }}</td>
+              <td>
+                <a [routerLink]="['/card-account', card.accountId, 'view']">{{ card.accountId }}</a>
+              </td>
               <td>{{ card.name }}</td>
               <td>{{ card.externalId }}</td>
               <td>{{ card.maskedCardNumber }}</td>

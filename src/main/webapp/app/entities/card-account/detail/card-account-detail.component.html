@@ -239,7 +239,7 @@
           </dd>
           <dt><span>Company ID</span></dt>
           <dd>
-            <span>{{ cardAccountRef.companyId }}</span>
+            <a [routerLink]="['/company', cardAccountRef.companyId, 'view']">{{ cardAccountRef.companyId }}</a>
           </dd>
           <dt><span>Credit Limit</span></dt>
           <dd>
@@ -255,7 +255,7 @@
           </dd>
           <dt><span>Person ID</span></dt>
           <dd>
-            <span>{{ cardAccountRef.personId }}</span>
+            <a [routerLink]="['/person', cardAccountRef.personId, 'view']">{{ cardAccountRef.personId }}</a>
           </dd>
           <dt><span>Product ID</span></dt>
           <dd>

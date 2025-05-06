@@ -21,7 +21,7 @@
           </dd>
           <dt><span>Account Id</span></dt>
           <dd>
-            <span>{{ cardRef.accountId }}</span>
+            <a [routerLink]="['/card-account', cardRef.accountId, 'view']">{{ cardRef.accountId }}</a>
           </dd>
           <dt><span>Person Id</span></dt>
           <dd>
@@ -552,7 +552,7 @@
           </dd>
           <dt><span>Company Id</span></dt>
           <dd>
-            <span>{{ cardRef.companyId }}</span>
+            <a [routerLink]="['/company', cardRef.companyId, 'view']">{{ cardRef.companyId }}</a>
           </dd>
           <dt><span>Dispatched At</span></dt>
           <dd>
