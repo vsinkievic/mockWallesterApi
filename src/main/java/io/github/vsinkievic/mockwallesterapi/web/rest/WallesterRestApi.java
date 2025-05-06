@@ -312,6 +312,17 @@ public class WallesterRestApi {
             .orElseThrow(() -> new WallesterApiException(404, "Card not found"));
     }
 
+    @Operation(tags = { "Card" }, summary = "Get card by external ID", description = "Returns card information by its external ID")
+    @GetMapping("/v1/cards-by-external-id/{external_id}")
+    public ResponseEntity<WallesterCardResponse> getCardByExternalId(@PathVariable("external_id") String externalId) {
+        log.info("GET /v1/cards-by-external-id/{}", externalId);
+
+        return cardService
+            .findOneByExternalId(externalId)
+            .map(cardDTO -> ResponseEntity.ok(new WallesterCardResponse(new WallesterCard(cardDTO))))
+            .orElseThrow(() -> new WallesterApiException(404, "Card not found"));
+    }
+
     private boolean isValidAccountOrderField(String orderField) {
         return switch (orderField) {
             case "created_at", "updated_at", "balance", "blocked_amount", "available_amount", "name", "status" -> true;
