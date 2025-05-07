@@ -23,6 +23,9 @@
             <column name="card_id" type="${uuidType}">
                 <constraints nullable="true" />
             </column>
+            <column name="external_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="trn_group" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -129,6 +132,15 @@
         <dropDefaultValue tableName="account_statement_record" columnName="purchase_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
+    <changeSet id="20250423104304-1a" author="jhipster">
+        <createIndex
+            tableName="account_statement_record"
+            indexName="uk_account_statement_external_id"
+            unique="true">
+            <column name="external_id"/>
+        </createIndex>
+    </changeSet>
+    
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

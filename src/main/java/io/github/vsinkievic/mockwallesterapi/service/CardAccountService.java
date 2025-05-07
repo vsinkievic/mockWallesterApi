@@ -1,8 +1,11 @@
 package io.github.vsinkievic.mockwallesterapi.service;
 
+import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
 import io.github.vsinkievic.mockwallesterapi.domain.CardAccount;
 import io.github.vsinkievic.mockwallesterapi.domain.Company;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatus;
+import io.github.vsinkievic.mockwallesterapi.repository.AccountStatementRecordRepository;
 import io.github.vsinkievic.mockwallesterapi.repository.CardAccountRepository;
 import io.github.vsinkievic.mockwallesterapi.repository.CompanyRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CardAccountDTO;
@@ -11,6 +14,7 @@ import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiExcepti
 import io.micrometer.common.util.StringUtils;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -33,15 +37,18 @@ public class CardAccountService {
     private final CompanyRepository companyRepository;
 
     private final CardAccountMapper cardAccountMapper;
+    private final AccountStatementRecordRepository statementRepository;
 
     public CardAccountService(
         CardAccountRepository cardAccountRepository,
         CardAccountMapper cardAccountMapper,
-        CompanyRepository companyRepository
+        CompanyRepository companyRepository,
+        AccountStatementRecordRepository statementRepository
     ) {
         this.cardAccountRepository = cardAccountRepository;
         this.cardAccountMapper = cardAccountMapper;
         this.companyRepository = companyRepository;
+        this.statementRepository = statementRepository;
     }
 
     /**
@@ -270,5 +277,64 @@ public class CardAccountService {
     public Page<CardAccountDTO> findByPersonIdAndStatus(UUID personId, AccountStatus status, Pageable pageable) {
         LOG.debug("Request to get CardAccounts by person ID: {} and status: {}", personId, status);
         return cardAccountRepository.findByPersonIdAndStatus(personId, status, pageable).map(cardAccountMapper::toDto);
+    }
+
+    public CardAccountDTO recalculateBalance(UUID accountId) {
+        LOG.debug("Request to recalculate balance for CardAccount : {}", accountId);
+
+        CardAccount cardAccount = cardAccountRepository
+            .findById(accountId)
+            .orElseThrow(() -> new WallesterApiException(404, "Card account not found"));
+
+        List<AccountStatementRecord> records = statementRepository.findByAccountId(accountId);
+
+        BigDecimal balanceAmount = BigDecimal.ZERO;
+        BigDecimal blockedAmount = BigDecimal.ZERO;
+
+        for (AccountStatementRecord record : records) {
+            if (record.getIsDeclined()) continue;
+
+            BigDecimal balanceDelta = null;
+            BigDecimal blockedDelta = null;
+            switch (record.getType()) {
+                case Authorization:
+                    if (AccountStatementRecordStatus.Pending.equals(record.getStatus())) {
+                        blockedDelta = record.getAccountAmount();
+                    }
+                    break;
+                case Transaction:
+                    balanceDelta = record.getAccountAmount();
+                    break;
+                case Fee:
+                    switch (record.getStatus()) {
+                        case Pending:
+                            blockedDelta = record.getAccountAmount();
+                            break;
+                        case Completed:
+                            balanceDelta = record.getAccountAmount();
+                            break;
+                    }
+
+                    break;
+                case AccountAdjustment:
+                    balanceDelta = record.getAccountAmount();
+                    break;
+            }
+
+            if (balanceDelta != null) {
+                balanceAmount = balanceAmount.add(balanceDelta);
+            }
+
+            if (blockedDelta != null) {
+                blockedAmount = blockedAmount.add(blockedDelta);
+            }
+        }
+
+        cardAccount.setBalance(balanceAmount);
+        cardAccount.setBlockedAmount(blockedAmount);
+        cardAccount.setAvailableAmount(balanceAmount.subtract(blockedAmount));
+        cardAccountRepository.save(cardAccount);
+
+        return cardAccountMapper.toDto(cardAccountRepository.save(cardAccount));
     }
 }

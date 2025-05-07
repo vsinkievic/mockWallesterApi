@@ -25,6 +25,8 @@ public class AccountStatementRecordDTO implements Serializable {
 
     private UUID id;
 
+    private String externalId;
+
     @NotNull
     private UUID accountId;
 

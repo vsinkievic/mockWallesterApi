@@ -4,6 +4,7 @@ import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
 import io.github.vsinkievic.mockwallesterapi.repository.AccountStatementRecordRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.AccountStatementRecordDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.AccountStatementRecordMapper;
+import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -25,13 +26,16 @@ public class AccountStatementRecordService {
     private final AccountStatementRecordRepository accountStatementRecordRepository;
 
     private final AccountStatementRecordMapper accountStatementRecordMapper;
+    private final CardAccountService cardAccountService;
 
     public AccountStatementRecordService(
         AccountStatementRecordRepository accountStatementRecordRepository,
-        AccountStatementRecordMapper accountStatementRecordMapper
+        AccountStatementRecordMapper accountStatementRecordMapper,
+        CardAccountService cardAccountService
     ) {
         this.accountStatementRecordRepository = accountStatementRecordRepository;
         this.accountStatementRecordMapper = accountStatementRecordMapper;
+        this.cardAccountService = cardAccountService;
     }
 
     /**
@@ -42,8 +46,18 @@ public class AccountStatementRecordService {
      */
     public AccountStatementRecordDTO save(AccountStatementRecordDTO accountStatementRecordDTO) {
         LOG.debug("Request to save AccountStatementRecord : {}", accountStatementRecordDTO);
+
+        if (accountStatementRecordDTO.getId() == null) {
+            if (accountStatementRecordRepository.findByExternalId(accountStatementRecordDTO.getExternalId()).isPresent()) {
+                throw new WallesterApiException(
+                    422,
+                    "Account statement record with external ID " + accountStatementRecordDTO.getExternalId() + " already exists"
+                );
+            }
+        }
         AccountStatementRecord accountStatementRecord = accountStatementRecordMapper.toEntity(accountStatementRecordDTO);
         accountStatementRecord = accountStatementRecordRepository.save(accountStatementRecord);
+        cardAccountService.recalculateBalance(accountStatementRecord.getAccountId());
         return accountStatementRecordMapper.toDto(accountStatementRecord);
     }
 
@@ -57,6 +71,7 @@ public class AccountStatementRecordService {
         LOG.debug("Request to update AccountStatementRecord : {}", accountStatementRecordDTO);
         AccountStatementRecord accountStatementRecord = accountStatementRecordMapper.toEntity(accountStatementRecordDTO);
         accountStatementRecord = accountStatementRecordRepository.save(accountStatementRecord);
+        cardAccountService.recalculateBalance(accountStatementRecord.getAccountId());
         return accountStatementRecordMapper.toDto(accountStatementRecord);
     }
 
@@ -73,10 +88,13 @@ public class AccountStatementRecordService {
             .findById(accountStatementRecordDTO.getId())
             .map(existingAccountStatementRecord -> {
                 accountStatementRecordMapper.partialUpdate(existingAccountStatementRecord, accountStatementRecordDTO);
-
                 return existingAccountStatementRecord;
             })
             .map(accountStatementRecordRepository::save)
+            .map(savedRecord -> {
+                cardAccountService.recalculateBalance(savedRecord.getAccountId());
+                return savedRecord;
+            })
             .map(accountStatementRecordMapper::toDto);
     }
 
@@ -112,5 +130,6 @@ public class AccountStatementRecordService {
     public void delete(UUID id) {
         LOG.debug("Request to delete AccountStatementRecord : {}", id);
         accountStatementRecordRepository.deleteById(id);
+        cardAccountService.recalculateBalance(id);
     }
 }

@@ -12,6 +12,7 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccount;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAccountSearchResponse;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAdjustmentRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCard;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardResponse;
@@ -544,6 +545,37 @@ public class WallesterRestApi {
         WallesterStatementResponse response = new WallesterStatementResponse(recordsPage.getContent());
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(tags = { "Account" }, summary = "Adjust account balance", description = "Adjusts the balance of an account")
+    @PostMapping("/v1/accounts/{account_id}/adjustment")
+    public ResponseEntity<WallesterAccountResponse> adjustAccountBalance(
+        @PathVariable("account_id") String accountId,
+        @RequestBody WallesterAdjustmentRequest request
+    ) {
+        log.info(String.format("POST /v1/accounts/%s/adjustment with request: %s", accountId, request));
+
+        // Validate request
+        if (request.getAmount() == null) {
+            throw new WallesterApiException(422, "Amount is required");
+        }
+        if (StringUtils.isBlank(request.getDescription())) {
+            throw new WallesterApiException(422, "Description is required");
+        }
+        if (StringUtils.isBlank(request.getExternalId())) {
+            throw new WallesterApiException(422, "External ID is required");
+        }
+
+        // Call service to adjust balance
+        // TODO: Implement the actual balance adjustment logic in AccountStatementService
+        // The service should:
+        // 1. Validate if negative balance is allowed
+        // 2. Create a new statement record for the adjustment
+        // 3. Update the account balance
+        // 4. Return the created statement record
+        WallesterAccount adjustedAccount = accountStatementService.adjustAccountBalance(UUID.fromString(accountId), request);
+
+        return ResponseEntity.ok(new WallesterAccountResponse(adjustedAccount));
     }
 
     private boolean isValidAccountOrderField(String orderField) {

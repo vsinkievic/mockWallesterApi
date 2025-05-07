@@ -31,6 +31,9 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "id")
     private UUID id;
 
+    @Column(name = "external_id")
+    private String externalId;
+
     @NotNull
     @Column(name = "account_id")
     private UUID accountId;
@@ -177,6 +180,11 @@ public class AccountStatementRecord implements Serializable {
 
     public AccountStatementRecord id(UUID id) {
         this.setId(id);
+        return this;
+    }
+
+    public AccountStatementRecord externalId(String externalId) {
+        this.setExternalId(externalId);
         return this;
     }
 
