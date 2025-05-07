@@ -6,14 +6,16 @@ import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatement
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordType;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CurrencyCode;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.MerchantCategoryCode;
+import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a single record in an Account Statement.
@@ -34,24 +36,24 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "external_id")
     private String externalId;
 
-    @NotNull
+    @NotNull(message = "Account ID is required")
     @Column(name = "account_id")
     private UUID accountId;
 
     @Column(name = "card_id")
     private UUID cardId;
 
-    @NotNull
+    @NotNull(message = "Type is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "trn_type")
     private AccountStatementRecordType type;
 
-    @NotNull
+    @NotNull(message = "Group is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "trn_group")
     private AccountStatementRecordGroup group;
 
-    @NotNull
+    @NotNull(message = "Date is required")
     @Column(name = "date")
     private Instant date;
 
@@ -109,12 +111,12 @@ public class AccountStatementRecord implements Serializable {
     @Column(name = "marked_for_dispute_by")
     private String markedForDisputeBy;
 
-    @NotNull
+    @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AccountStatementRecordStatus status;
 
-    @NotNull
+    @NotNull(message = "Response is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "response")
     private AccountStatementRecordResponse response;
@@ -175,6 +177,107 @@ public class AccountStatementRecord implements Serializable {
 
     @Column(name = "total_amount", precision = 21, scale = 2)
     private BigDecimal totalAmount;
+
+    public void validateAndPrepareForSave() {
+        if (this.isCleared == null) this.isCleared = false;
+        if (this.isDeclined == null) this.isDeclined = false;
+        if (this.isReversal == null) this.isReversal = false;
+
+        if (this.getTransactionAmount() != null) this.transactionAmount = this.transactionAmount.setScale(2, RoundingMode.HALF_UP);
+        if (this.getAccountAmount() != null) this.accountAmount = this.accountAmount.setScale(2, RoundingMode.HALF_UP);
+
+        if (this.getDate() == null) this.date = Instant.now();
+
+        switch (this.getType()) {
+            case Authorization:
+                if (AccountStatementRecordStatus.Canceled.equals(this.getStatus())) {
+                    this.setResponse(AccountStatementRecordResponse.Declined);
+                    this.isDeclined = true;
+                } else if (
+                    AccountStatementRecordStatus.Completed.equals(this.getStatus()) ||
+                    AccountStatementRecordStatus.Pending.equals(this.getStatus())
+                ) {
+                    this.setResponse(AccountStatementRecordResponse.Approved);
+                } else {
+                    this.setStatus(AccountStatementRecordStatus.Pending);
+                    this.setResponse(AccountStatementRecordResponse.Approved);
+                }
+                this.purchaseDate = null;
+
+                if (!this.isReversal) {
+                    if (
+                        !AccountStatementRecordGroup.Other.equals(this.getGroup()) &&
+                        !AccountStatementRecordGroup.Refund.equals(this.getGroup())
+                    ) {
+                        if (this.getTransactionAmount() != null) this.transactionAmount = this.transactionAmount.abs().negate();
+                        if (this.getAccountAmount() != null) this.accountAmount = this.accountAmount.abs().negate();
+                    }
+                }
+                break;
+            case Transaction:
+                if (this.isReversal) throw new WallesterApiException(422, "Transaction cannot be reversal");
+                if (this.isDeclined) throw new WallesterApiException(422, "Transaction cannot be declined");
+                this.setStatus(AccountStatementRecordStatus.Completed);
+                this.setResponse(AccountStatementRecordResponse.Approved);
+
+                if (
+                    !AccountStatementRecordGroup.Other.equals(this.getGroup()) &&
+                    !AccountStatementRecordGroup.Refund.equals(this.getGroup())
+                ) {
+                    if (this.getTransactionAmount() != null) this.transactionAmount = this.transactionAmount.abs().negate();
+                    if (this.getAccountAmount() != null) this.accountAmount = this.accountAmount.abs().negate();
+                }
+
+                break;
+            case Fee:
+                if (this.isReversal) throw new WallesterApiException(422, "Fee cannot be reversal");
+
+                if (AccountStatementRecordStatus.Canceled.equals(this.getStatus())) {
+                    this.setResponse(AccountStatementRecordResponse.Declined);
+                    this.isDeclined = true;
+                } else if (
+                    AccountStatementRecordStatus.Completed.equals(this.getStatus()) ||
+                    AccountStatementRecordStatus.Pending.equals(this.getStatus())
+                ) {
+                    this.setResponse(AccountStatementRecordResponse.Approved);
+                } else {
+                    this.setStatus(AccountStatementRecordStatus.Pending);
+                    this.setResponse(AccountStatementRecordResponse.Approved);
+                }
+                this.transactionAmount = this.accountAmount;
+                this.transactionCurrencyCode = this.accountCurrencyCode;
+
+                if (this.getTransactionAmount() != null) this.transactionAmount = this.transactionAmount.abs().negate();
+                if (this.getAccountAmount() != null) this.accountAmount = this.accountAmount.abs().negate();
+
+                break;
+            case AccountAdjustment:
+                if (this.isReversal) throw new WallesterApiException(422, "Account adjustment cannot be reversal");
+                if (this.isDeclined) throw new WallesterApiException(422, "Transaction cannot be declined");
+
+                if (StringUtils.isBlank(this.getDescription())) this.setDescription("Account adjustment");
+
+                if (this.getTransactionAmount() == null) this.transactionAmount = this.accountAmount;
+                else if (this.getAccountAmount() == null) this.accountAmount = this.transactionAmount;
+
+                if (this.getAccountAmount() != null) {
+                    this.group = this.accountAmount.compareTo(BigDecimal.ZERO) < 0
+                        ? AccountStatementRecordGroup.Withdraw
+                        : AccountStatementRecordGroup.Deposit;
+                }
+
+                this.setStatus(AccountStatementRecordStatus.Completed);
+                this.setResponse(AccountStatementRecordResponse.Approved);
+                this.purchaseDate = null;
+
+                break;
+            default:
+                throw new WallesterApiException(
+                    422,
+                    "Invalid type for account statement record (allowed types: Authorization, Transaction, Fee, AccountAdjustment)"
+                );
+        }
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 

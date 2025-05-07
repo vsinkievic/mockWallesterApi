@@ -17,11 +17,19 @@
           </dd>
           <dt><span>Account Id</span></dt>
           <dd>
-            <span>{{ accountStatementRecordRef.accountId }}</span>
+            @if (accountStatementRecordRef.accountId) {
+              <a [routerLink]="['/card-account', accountStatementRecordRef.accountId, 'view']">{{ accountStatementRecordRef.accountId }}</a>
+            } @else {
+              <span>{{ accountStatementRecordRef.accountId }}</span>
+            }
           </dd>
           <dt><span>Card Id</span></dt>
           <dd>
-            <span>{{ accountStatementRecordRef.cardId }}</span>
+            @if (accountStatementRecordRef.cardId) {
+              <a [routerLink]="['/card', accountStatementRecordRef.cardId, 'view']">{{ accountStatementRecordRef.cardId }}</a>
+            } @else {
+              <span>{{ accountStatementRecordRef.cardId }}</span>
+            }
           </dd>
           <dt><span>Type</span></dt>
           <dd>
@@ -85,7 +93,13 @@
           </dd>
           <dt><span>Original Authorization Id</span></dt>
           <dd>
-            <span>{{ accountStatementRecordRef.originalAuthorizationId }}</span>
+            @if (accountStatementRecordRef.originalAuthorizationId) {
+              <a [routerLink]="['/account-statement-record', accountStatementRecordRef.originalAuthorizationId, 'view']">{{
+                accountStatementRecordRef.originalAuthorizationId
+              }}</a>
+            } @else {
+              <span>{{ accountStatementRecordRef.originalAuthorizationId }}</span>
+            }
           </dd>
           <dt><span>Merchant Category Code</span></dt>
           <dd>

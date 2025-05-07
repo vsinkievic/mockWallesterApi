@@ -2,12 +2,15 @@ import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import AccountStatementRecordResolve from './route/account-statement-record-routing-resolve.service';
+import { DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 
 const accountStatementRecordRoute: Routes = [
   {
     path: '',
     loadComponent: () => import('./list/account-statement-record.component').then(m => m.AccountStatementRecordComponent),
-    data: {},
+    data: {
+      [DEFAULT_SORT_DATA]: 'date,desc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {

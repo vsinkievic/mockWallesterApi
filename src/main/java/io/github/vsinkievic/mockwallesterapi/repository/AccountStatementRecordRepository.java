@@ -19,4 +19,5 @@ public interface AccountStatementRecordRepository extends JpaRepository<AccountS
     Page<AccountStatementRecord> findByAccountIdAndDateBetween(UUID accountId, Instant fromDate, Instant toDate, Pageable pageable);
     List<AccountStatementRecord> findByAccountId(UUID accountId);
     Optional<AccountStatementRecord> findByExternalId(String externalId);
+    List<AccountStatementRecord> findByOriginalAuthorizationId(UUID originalAuthorizationId);
 }

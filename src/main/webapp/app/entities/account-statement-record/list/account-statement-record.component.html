@@ -146,7 +146,13 @@
               <td>
                 <a [routerLink]="['/account-statement-record', accountStatementRecord.id, 'view']">{{ accountStatementRecord.id }}</a>
               </td>
-              <td>{{ accountStatementRecord.cardId }}</td>
+              <td>
+                @if (accountStatementRecord.cardId) {
+                  <a [routerLink]="['/card', accountStatementRecord.cardId, 'view']">{{ accountStatementRecord.cardId }}</a>
+                } @else {
+                  {{ accountStatementRecord.cardId }}
+                }
+              </td>
               <td>{{ accountStatementRecord.type }}</td>
               <td>{{ accountStatementRecord.group }}</td>
               <td>{{ accountStatementRecord.date | formatMediumDatetime }}</td>

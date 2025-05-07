@@ -299,7 +299,7 @@ public class CardAccountService {
             switch (record.getType()) {
                 case Authorization:
                     if (AccountStatementRecordStatus.Pending.equals(record.getStatus())) {
-                        blockedDelta = record.getAccountAmount();
+                        if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) blockedDelta = record.getAccountAmount().negate();
                     }
                     break;
                 case Transaction:
@@ -308,7 +308,7 @@ public class CardAccountService {
                 case Fee:
                     switch (record.getStatus()) {
                         case Pending:
-                            blockedDelta = record.getAccountAmount();
+                            if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) blockedDelta = record.getAccountAmount().negate();
                             break;
                         case Completed:
                             balanceDelta = record.getAccountAmount();
