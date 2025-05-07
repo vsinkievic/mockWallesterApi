@@ -1,5 +1,7 @@
 package io.github.vsinkievic.mockwallesterapi.web.rest;
 
+import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
+import io.github.vsinkievic.mockwallesterapi.service.AccountStatementService;
 import io.github.vsinkievic.mockwallesterapi.service.CardAccountService;
 import io.github.vsinkievic.mockwallesterapi.service.CardService;
 import io.github.vsinkievic.mockwallesterapi.service.CompanyService;
@@ -17,9 +19,12 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequ
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterStatementRecord;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterStatementResponse;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import io.github.vsinkievic.mockwallesterapi.web.rest.model.WallesterCardSearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.UUID;
@@ -42,11 +47,18 @@ public class WallesterRestApi {
     private final CompanyService companyService;
     private final CardAccountService accountService;
     private final CardService cardService;
+    private final AccountStatementService accountStatementService;
 
-    public WallesterRestApi(CompanyService companyService, CardAccountService accountService, CardService cardService) {
+    public WallesterRestApi(
+        CompanyService companyService,
+        CardAccountService accountService,
+        CardService cardService,
+        AccountStatementService accountStatementService
+    ) {
         this.companyService = companyService;
         this.accountService = accountService;
         this.cardService = cardService;
+        this.accountStatementService = accountStatementService;
     }
 
     @ExceptionHandler(WallesterApiException.class)
@@ -467,6 +479,73 @@ public class WallesterRestApi {
         return ResponseEntity.ok(new WallesterCardResponse(new WallesterCard(savedCard)));
     }
 
+    @Operation(tags = { "Account" }, summary = "Get account statement", description = "Returns account statement records")
+    @GetMapping("/v1/accounts/{account_id}/statement")
+    public ResponseEntity<WallesterStatementResponse> getAccountStatement(
+        @PathVariable("account_id") String accountId,
+        @RequestParam(value = "from_date", required = false) String fromDate,
+        @RequestParam(value = "to_date", required = false) String toDate,
+        @RequestParam(value = "from_record", required = true) int fromRecord,
+        @RequestParam(value = "records_count", required = true) int recordsCount,
+        @RequestParam(value = "order_field", required = false) String orderField,
+        @RequestParam(value = "order_direction", required = false) String orderDirection
+    ) {
+        log.info(
+            String.format(
+                "GET /v1/accounts/%s/statement with params: from_date=%s, to_date=%s, from_record=%d, records_count=%d, order_field=%s, order_direction=%s",
+                accountId,
+                fromDate,
+                toDate,
+                fromRecord,
+                recordsCount,
+                orderField,
+                orderDirection
+            )
+        );
+
+        // Validate and set default values
+        if (recordsCount <= 0 || recordsCount > 500) {
+            recordsCount = 500;
+        }
+        if (StringUtils.isBlank(orderDirection)) {
+            orderDirection = "asc";
+        }
+        if (!orderDirection.equals("asc") && !orderDirection.equals("desc")) {
+            throw new WallesterApiException(422, "Invalid order direction");
+        }
+
+        if (StringUtils.isBlank(orderField)) {
+            orderField = "date";
+        }
+
+        // Validate order field
+        if (!isValidStatementOrderField(orderField)) {
+            throw new WallesterApiException(422, "Invalid order field");
+        }
+
+        // Create sort object
+        Sort sort = Sort.by(orderDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, convertToCamelCase(orderField));
+
+        // Create page request with sorting
+        PageRequest pageRequest = PageRequest.of(fromRecord / recordsCount, recordsCount, sort);
+
+        // Parse dates
+        Instant fromDateInstant = fromDate != null ? Instant.parse(fromDate) : null;
+        Instant toDateInstant = toDate != null ? Instant.parse(toDate) : null;
+
+        // Get statement records
+        Page<WallesterStatementRecord> recordsPage = accountStatementService.getAccountStatement(
+            UUID.fromString(accountId),
+            fromDateInstant,
+            toDateInstant,
+            pageRequest
+        );
+        // Create response
+        WallesterStatementResponse response = new WallesterStatementResponse(recordsPage.getContent());
+
+        return ResponseEntity.ok(response);
+    }
+
     private boolean isValidAccountOrderField(String orderField) {
         return switch (orderField) {
             case "created_at", "updated_at", "balance", "blocked_amount", "available_amount", "name", "status" -> true;
@@ -510,5 +589,19 @@ public class WallesterRestApi {
             "updated_at",
             "block_type"
         ).contains(orderField);
+    }
+
+    private boolean isValidStatementOrderField(String orderField) {
+        return switch (orderField) {
+            case "date",
+                "purchase_date",
+                "transaction_amount",
+                "account_amount",
+                "total_amount",
+                "merchant_name",
+                "merchant_city",
+                "merchant_country_code" -> true;
+            default -> false;
+        };
     }
 }

@@ -1,8 +1,11 @@
 package io.github.vsinkievic.mockwallesterapi.repository;
 
 import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
+import java.time.Instant;
 import java.util.UUID;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,4 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AccountStatementRecordRepository extends JpaRepository<AccountStatementRecord, UUID> {}
+public interface AccountStatementRecordRepository extends JpaRepository<AccountStatementRecord, UUID> {
+    Page<AccountStatementRecord> findByAccountIdAndDateBetween(UUID accountId, Instant fromDate, Instant toDate, Pageable pageable);
+}
