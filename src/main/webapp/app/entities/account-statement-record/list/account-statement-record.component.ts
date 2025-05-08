@@ -15,6 +15,8 @@ import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigati
 import { IAccountStatementRecord } from '../account-statement-record.model';
 import { AccountStatementRecordService, EntityArrayResponseType } from '../service/account-statement-record.service';
 import { AccountStatementRecordDeleteDialogComponent } from '../delete/account-statement-record-delete-dialog.component';
+import { CardAccountService } from 'app/entities/card-account/service/card-account.service';
+import { ICardAccount } from 'app/entities/card-account/card-account.model';
 
 @Component({
   selector: 'jhi-account-statement-record',
@@ -24,7 +26,9 @@ import { AccountStatementRecordDeleteDialogComponent } from '../delete/account-s
 export class AccountStatementRecordComponent implements OnInit {
   subscription: Subscription | null = null;
   accountStatementRecords = signal<IAccountStatementRecord[]>([]);
+  accountDetails = signal<ICardAccount | null>(null);
   isLoading = false;
+  accountIdFilter = '';
 
   sortState = sortStateSignal({});
 
@@ -34,6 +38,7 @@ export class AccountStatementRecordComponent implements OnInit {
 
   public readonly router = inject(Router);
   protected readonly accountStatementRecordService = inject(AccountStatementRecordService);
+  protected readonly cardAccountService = inject(CardAccountService);
   protected readonly activatedRoute = inject(ActivatedRoute);
   protected readonly sortService = inject(SortService);
   protected modalService = inject(NgbModal);
@@ -78,10 +83,44 @@ export class AccountStatementRecordComponent implements OnInit {
     this.handleNavigation(page, this.sortState());
   }
 
+  onAccountIdFilterChange(): void {
+    this.page = 1;
+    this.load();
+    this.loadAccountDetails();
+  }
+
+  clearAccountIdFilter(): void {
+    this.accountIdFilter = '';
+    this.accountDetails.set(null);
+    this.onAccountIdFilterChange();
+  }
+
+  private loadAccountDetails(): void {
+    if (this.accountIdFilter) {
+      this.cardAccountService.find(this.accountIdFilter).subscribe({
+        next: (response: { body: ICardAccount | null }) => {
+          this.accountDetails.set(response.body);
+        },
+        error: () => {
+          this.accountDetails.set(null);
+        },
+      });
+    } else {
+      this.accountDetails.set(null);
+    }
+  }
+
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const page = params.get(PAGE_HEADER);
     this.page = +(page ?? 1);
     this.sortState.set(this.sortService.parseSortParam(params.get(SORT) ?? data[DEFAULT_SORT_DATA]));
+
+    // Get account ID from URL if present
+    const accountId = params.get('accountId');
+    if (accountId) {
+      this.accountIdFilter = accountId;
+      this.loadAccountDetails();
+    }
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
@@ -107,6 +146,7 @@ export class AccountStatementRecordComponent implements OnInit {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       sort: this.sortService.buildSortParam(this.sortState()),
+      accountId: this.accountIdFilter,
     };
     return this.accountStatementRecordService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
@@ -116,6 +156,7 @@ export class AccountStatementRecordComponent implements OnInit {
       page,
       size: this.itemsPerPage,
       sort: this.sortService.buildSortParam(sortState),
+      accountId: this.accountIdFilter,
     };
 
     this.ngZone.run(() => {

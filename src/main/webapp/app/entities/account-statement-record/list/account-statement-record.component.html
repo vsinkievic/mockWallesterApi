@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-account-statement-record"
         [routerLink]="['/account-statement-record/new']"
+        [queryParams]="accountIdFilter ? { accountId: accountIdFilter } : {}"
       >
         <fa-icon icon="plus"></fa-icon>
         <span>Create a new Account Statement Record</span>
@@ -23,6 +24,66 @@
   <jhi-alert-error />
 
   <jhi-alert />
+
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <div class="input-group">
+        <span class="input-group-text">Account ID</span>
+        <input type="text" class="form-control" [(ngModel)]="accountIdFilter" />
+        <button class="btn btn-primary" type="button" (click)="onAccountIdFilterChange()">
+          <fa-icon icon="search"></fa-icon>
+          <span class="ms-1">Search</span>
+        </button>
+        @if (accountIdFilter) {
+          <button class="btn btn-outline-secondary" type="button" (click)="clearAccountIdFilter()">
+            <fa-icon icon="times"></fa-icon>
+            <span class="ms-1">Clear</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (accountIdFilter) {
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body py-2">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-1 d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 100px">External ID:</div>
+                  <div class="text-start">{{ accountDetails()?.externalId }}</div>
+                </div>
+                <div class="mb-1 d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 100px">Status:</div>
+                  <div class="text-start">{{ accountDetails()?.status }}</div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 100px">Updated At:</div>
+                  <div class="text-start">{{ accountDetails()?.updatedAt | formatMediumDatetime }}</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-1 d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 120px">Balance:</div>
+                  <div class="text-end flex-grow-1">{{ accountDetails()?.balance }} {{ accountDetails()?.currencyCode }}</div>
+                </div>
+                <div class="mb-1 d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 120px">Blocked Amount:</div>
+                  <div class="text-end flex-grow-1">{{ accountDetails()?.blockedAmount }} {{ accountDetails()?.currencyCode }}</div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="text-muted" style="min-width: 120px">Available Amount:</div>
+                  <div class="text-end flex-grow-1">{{ accountDetails()?.availableAmount }} {{ accountDetails()?.currencyCode }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 
   @if (accountStatementRecords().length === 0) {
     <div class="alert alert-warning" id="no-result">
@@ -75,23 +136,9 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="transactionCurrencyCode">
-              <div class="d-flex">
-                <span>Transaction Currency Code</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="accountAmount">
               <div class="d-flex">
                 <span>Account Amount</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="accountCurrencyCode">
-              <div class="d-flex">
-                <span>Account Currency Code</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -106,13 +153,6 @@
             <th scope="col" jhiSortBy="response">
               <div class="d-flex">
                 <span>Response</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="responseCode">
-              <div class="d-flex">
-                <span>Response Code</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -156,13 +196,10 @@
               <td>{{ accountStatementRecord.type }}</td>
               <td>{{ accountStatementRecord.group }}</td>
               <td>{{ accountStatementRecord.date | formatMediumDatetime }}</td>
-              <td>{{ accountStatementRecord.transactionAmount }}</td>
-              <td>{{ accountStatementRecord.transactionCurrencyCode }}</td>
-              <td>{{ accountStatementRecord.accountAmount }}</td>
-              <td>{{ accountStatementRecord.accountCurrencyCode }}</td>
+              <td class="text-end">{{ accountStatementRecord.transactionAmount }} {{ accountStatementRecord.transactionCurrencyCode }}</td>
+              <td class="text-end">{{ accountStatementRecord.accountAmount }} {{ accountStatementRecord.accountCurrencyCode }}</td>
               <td>{{ accountStatementRecord.status }}</td>
               <td>{{ accountStatementRecord.response }}</td>
-              <td>{{ accountStatementRecord.responseCode }}</td>
               <td>{{ accountStatementRecord.merchantName }}</td>
               <td>{{ accountStatementRecord.description }}</td>
               <td>{{ accountStatementRecord.originalAuthorizationId }}</td>

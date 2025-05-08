@@ -149,10 +149,21 @@ public class AccountStatementRecordResource {
      */
     @GetMapping("")
     public ResponseEntity<List<AccountStatementRecordDTO>> getAllAccountStatementRecords(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) String accountId
     ) {
-        LOG.debug("REST request to get a page of AccountStatementRecords");
-        Page<AccountStatementRecordDTO> page = accountStatementRecordService.findAll(pageable);
+        LOG.debug("REST request to get a page of AccountStatementRecords{}", accountId != null ? " for accountId: " + accountId : "");
+        Page<AccountStatementRecordDTO> page;
+        if (accountId != null && !accountId.isEmpty()) {
+            try {
+                UUID accountUuid = UUID.fromString(accountId);
+                page = accountStatementRecordService.findAllByAccountId(accountUuid, pageable);
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestAlertException("Invalid account ID format", ENTITY_NAME, "invalidaccountid");
+            }
+        } else {
+            page = accountStatementRecordService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

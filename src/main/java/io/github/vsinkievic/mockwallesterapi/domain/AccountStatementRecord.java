@@ -235,15 +235,21 @@ public class AccountStatementRecord implements Serializable {
                 if (AccountStatementRecordStatus.Canceled.equals(this.getStatus())) {
                     this.setResponse(AccountStatementRecordResponse.Declined);
                     this.isDeclined = true;
-                } else if (
-                    AccountStatementRecordStatus.Completed.equals(this.getStatus()) ||
-                    AccountStatementRecordStatus.Pending.equals(this.getStatus())
-                ) {
+                    this.isCleared = false;
+                } else if (AccountStatementRecordStatus.Pending.equals(this.getStatus())) {
                     this.setResponse(AccountStatementRecordResponse.Approved);
+                    this.isDeclined = false;
+                    this.isCleared = false;
+                } else if (AccountStatementRecordStatus.Completed.equals(this.getStatus())) {
+                    this.isCleared = AccountStatementRecordResponse.Approved.equals(this.getResponse());
+                    this.isDeclined = false;
                 } else {
                     this.setStatus(AccountStatementRecordStatus.Pending);
                     this.setResponse(AccountStatementRecordResponse.Approved);
+                    this.isDeclined = false;
+                    this.isCleared = false;
                 }
+
                 this.transactionAmount = this.accountAmount;
                 this.transactionCurrencyCode = this.accountCurrencyCode;
 

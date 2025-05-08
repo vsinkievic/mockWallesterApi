@@ -14,6 +14,22 @@
           <dt><span>ID</span></dt>
           <dd>
             <span>{{ cardAccountRef.id }}</span>
+            <a
+              [routerLink]="['/account-statement-record']"
+              [queryParams]="{ accountId: cardAccountRef.id }"
+              class="btn btn-info btn-sm ms-2"
+            >
+              <fa-icon icon="list"></fa-icon>
+              <span class="ms-1">Statement</span>
+            </a>
+            <a
+              [routerLink]="['/account-statement-record/new']"
+              [queryParams]="{ accountId: cardAccountRef.id }"
+              class="btn btn-primary btn-sm ms-2"
+            >
+              <fa-icon icon="plus"></fa-icon>
+              <span class="ms-1">New payment</span>
+            </a>
           </dd>
           <dt><span>External ID</span></dt>
           <dd>

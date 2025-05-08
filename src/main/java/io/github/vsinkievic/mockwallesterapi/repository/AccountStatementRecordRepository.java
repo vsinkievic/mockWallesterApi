@@ -20,4 +20,5 @@ public interface AccountStatementRecordRepository extends JpaRepository<AccountS
     List<AccountStatementRecord> findByAccountId(UUID accountId);
     Optional<AccountStatementRecord> findByExternalId(String externalId);
     List<AccountStatementRecord> findByOriginalAuthorizationId(UUID originalAuthorizationId);
+    Page<AccountStatementRecord> findAllByAccountId(UUID accountId, Pageable pageable);
 }

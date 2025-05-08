@@ -17,6 +17,8 @@ import { AccountStatementRecordResponse } from 'app/entities/enumerations/accoun
 import { AccountStatementRecordService } from '../service/account-statement-record.service';
 import { IAccountStatementRecord } from '../account-statement-record.model';
 import { AccountStatementRecordFormGroup, AccountStatementRecordFormService } from './account-statement-record-form.service';
+import { CardService } from 'app/entities/card/service/card.service';
+import { CardAccountService } from 'app/entities/card-account/service/card-account.service';
 
 @Component({
   selector: 'jhi-account-statement-record-update',
@@ -37,6 +39,8 @@ export class AccountStatementRecordUpdateComponent implements OnInit {
   protected accountStatementRecordService = inject(AccountStatementRecordService);
   protected accountStatementRecordFormService = inject(AccountStatementRecordFormService);
   protected activatedRoute = inject(ActivatedRoute);
+  protected cardService = inject(CardService);
+  protected cardAccountService = inject(CardAccountService);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: AccountStatementRecordFormGroup = this.accountStatementRecordFormService.createAccountStatementRecordFormGroup();
@@ -46,6 +50,34 @@ export class AccountStatementRecordUpdateComponent implements OnInit {
       this.accountStatementRecord = accountStatementRecord;
       if (accountStatementRecord) {
         this.updateForm(accountStatementRecord);
+      } else {
+        // Handle query parameters for new record
+        this.activatedRoute.queryParams.subscribe(params => {
+          const accountId = params['accountId'];
+          const cardId = params['cardId'];
+
+          if (accountId) {
+            this.cardAccountService.find(accountId).subscribe(response => {
+              if (response.body) {
+                this.editForm.patchValue({
+                  accountId: response.body.id,
+                  accountCurrencyCode: response.body.currencyCode,
+                });
+              }
+            });
+          }
+
+          if (cardId) {
+            this.cardService.find(cardId).subscribe(response => {
+              if (response.body) {
+                this.editForm.patchValue({
+                  cardId: response.body.id,
+                  accountId: response.body.accountId,
+                });
+              }
+            });
+          }
+        });
       }
     });
   }

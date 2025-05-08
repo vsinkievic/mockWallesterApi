@@ -19,6 +19,14 @@
           <dd>
             @if (accountStatementRecordRef.accountId) {
               <a [routerLink]="['/card-account', accountStatementRecordRef.accountId, 'view']">{{ accountStatementRecordRef.accountId }}</a>
+              <a
+                [routerLink]="['/account-statement-record']"
+                [queryParams]="{ accountId: accountStatementRecordRef.accountId }"
+                class="btn btn-info btn-sm ms-2"
+              >
+                <fa-icon icon="list"></fa-icon>
+                <span class="ms-1">Statement</span>
+              </a>
             } @else {
               <span>{{ accountStatementRecordRef.accountId }}</span>
             }

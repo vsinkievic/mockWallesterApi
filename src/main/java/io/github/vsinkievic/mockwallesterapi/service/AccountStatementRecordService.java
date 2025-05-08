@@ -2,10 +2,10 @@ package io.github.vsinkievic.mockwallesterapi.service;
 
 import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
 import io.github.vsinkievic.mockwallesterapi.domain.Card;
-import io.github.vsinkievic.mockwallesterapi.domain.CardAccount;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordResponse;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordType;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CardStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.repository.AccountStatementRecordRepository;
 import io.github.vsinkievic.mockwallesterapi.repository.CardRepository;
@@ -211,6 +211,12 @@ public class AccountStatementRecordService {
                     CountryCode.LVA
                 );
             }
+
+            if (accountStatementRecordDTO.getCardId() == null && accountStatementRecordDTO.getType() != null) {
+                if (!AccountStatementRecordType.AccountAdjustment.equals(accountStatementRecordDTO.getType())) {
+                    setCardIdIfNotSet(accountStatementRecordDTO);
+                }
+            }
         } else {
             AccountStatementRecord recordInDb = accountStatementRecordRepository
                 .findById(accountStatementRecordDTO.getId())
@@ -319,6 +325,11 @@ public class AccountStatementRecordService {
         return accountStatementRecordRepository.findAll(pageable).map(accountStatementRecordMapper::toDto);
     }
 
+    public Page<AccountStatementRecordDTO> findAllByAccountId(UUID accountId, Pageable pageable) {
+        LOG.debug("Request to get all AccountStatementRecords for accountId: {}", accountId);
+        return accountStatementRecordRepository.findAllByAccountId(accountId, pageable).map(accountStatementRecordMapper::toDto);
+    }
+
     /**
      * Get one accountStatementRecord by id.
      *
@@ -340,5 +351,27 @@ public class AccountStatementRecordService {
         LOG.debug("Request to delete AccountStatementRecord : {}", id);
         accountStatementRecordRepository.deleteById(id);
         cardAccountService.recalculateBalance(id);
+    }
+
+    // get the last updated active card of the account. Active means CardStatus.Active. If there is no active card, use the last updated card despite of the status. Do nothing if nothing found.
+    private void setCardIdIfNotSet(AccountStatementRecordDTO accountStatementRecordDTO) {
+        if (accountStatementRecordDTO.getCardId() == null && accountStatementRecordDTO.getAccountId() != null) {
+            // First try to find an active card
+            Optional<Card> activeCard = cardRepository.findFirstByAccountIdAndStatusOrderByUpdatedAtDesc(
+                accountStatementRecordDTO.getAccountId(),
+                CardStatus.Active
+            );
+
+            if (activeCard.isPresent()) {
+                accountStatementRecordDTO.setCardId(activeCard.get().getId());
+            } else {
+                // If no active card found, get the last updated card regardless of status
+                Optional<Card> lastUpdatedCard = cardRepository.findFirstByAccountIdOrderByUpdatedAtDesc(
+                    accountStatementRecordDTO.getAccountId()
+                );
+
+                lastUpdatedCard.ifPresent(card -> accountStatementRecordDTO.setCardId(card.getId()));
+            }
+        }
     }
 }
