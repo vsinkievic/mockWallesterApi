@@ -1,14 +1,12 @@
 package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.RiskProfile;
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
@@ -74,4 +72,4 @@ public class WallesterCompanyRequest {
 
     @JsonProperty("vat_number")
     private String vatNumber;
-} 
+}

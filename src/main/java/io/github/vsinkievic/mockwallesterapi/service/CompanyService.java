@@ -7,7 +7,6 @@ import io.github.vsinkievic.mockwallesterapi.repository.CompanyRepository;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CompanyMapper;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,7 +64,7 @@ public class CompanyService {
 
             if (company.getLimitDailyWithdrawal() == null) {
                 company.setLimitDailyWithdrawal(DEFAULT_LIMIT_VALUE);
-            }       
+            }
 
             if (company.getLimitMonthlyPurchase() == null) {
                 company.setLimitMonthlyPurchase(DEFAULT_LIMIT_VALUE);
@@ -73,7 +72,7 @@ public class CompanyService {
 
             if (company.getLimitMonthlyWithdrawal() == null) {
                 company.setLimitMonthlyWithdrawal(DEFAULT_LIMIT_VALUE);
-            }   
+            }
 
             company.setKybStatus(KybStatus.Verified);
             company.setStatus(CompanyStatus.Active);

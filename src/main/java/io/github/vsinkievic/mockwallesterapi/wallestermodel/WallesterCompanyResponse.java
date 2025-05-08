@@ -1,17 +1,15 @@
 package io.github.vsinkievic.mockwallesterapi.wallestermodel;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.RiskProfile;
 import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -129,7 +127,9 @@ public class WallesterCompanyResponse {
         this.deletedAt = companyDTO.getDeletedAt();
         this.deletedBy = companyDTO.getDeletedBy();
         this.industryType = companyDTO.getIndustryType();
-        this.dateOfIncorporation = companyDTO.getDateOfIncorporation() != null ? LocalDate.ofInstant(companyDTO.getDateOfIncorporation(), ZoneId.of("UTC")) : null;
+        this.dateOfIncorporation = companyDTO.getDateOfIncorporation() != null
+            ? LocalDate.ofInstant(companyDTO.getDateOfIncorporation(), ZoneId.of("UTC"))
+            : null;
         this.businessRelationshipPurpose = companyDTO.getBusinessRelationshipPurpose();
         this.isSanctionsRelated = companyDTO.getIsSanctionsRelated();
         this.isAdverseMediaInvolved = companyDTO.getIsAdverseMediaInvolved();

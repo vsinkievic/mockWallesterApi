@@ -95,21 +95,6 @@ export class AccountStatementRecordComponent implements OnInit {
     this.onAccountIdFilterChange();
   }
 
-  private loadAccountDetails(): void {
-    if (this.accountIdFilter) {
-      this.cardAccountService.find(this.accountIdFilter).subscribe({
-        next: (response: { body: ICardAccount | null }) => {
-          this.accountDetails.set(response.body);
-        },
-        error: () => {
-          this.accountDetails.set(null);
-        },
-      });
-    } else {
-      this.accountDetails.set(null);
-    }
-  }
-
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const page = params.get(PAGE_HEADER);
     this.page = +(page ?? 1);
@@ -165,5 +150,20 @@ export class AccountStatementRecordComponent implements OnInit {
         queryParams: queryParamsObj,
       });
     });
+  }
+
+  private loadAccountDetails(): void {
+    if (this.accountIdFilter) {
+      this.cardAccountService.find(this.accountIdFilter).subscribe({
+        next: (response: { body: ICardAccount | null }) => {
+          this.accountDetails.set(response.body);
+        },
+        error: () => {
+          this.accountDetails.set(null);
+        },
+      });
+    } else {
+      this.accountDetails.set(null);
+    }
   }
 }

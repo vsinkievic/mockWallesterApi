@@ -39,8 +39,8 @@ class AuthorityResourceIT {
     @Autowired
     private AuthorityRepository authorityRepository;
 
- //   @Autowired
-//    private EntityManager em;
+    //   @Autowired
+    //    private EntityManager em;
 
     @Autowired
     private MockMvc restAuthorityMockMvc;

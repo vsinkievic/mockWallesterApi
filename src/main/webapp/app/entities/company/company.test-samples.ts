@@ -23,7 +23,7 @@ export const sampleWithPartialData: ICompany = {
   isAdverseMediaInvolved: true,
   employeesQuantity: 'past',
   limitDailyPurchase: 28486.13,
-  kybStatus: 'Approved',
+  kybStatus: 'Verified',
   status: 'Active',
   pushNotificationsEnabled: false,
 };

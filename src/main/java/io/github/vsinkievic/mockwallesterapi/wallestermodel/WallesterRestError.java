@@ -28,17 +28,21 @@ public class WallesterRestError {
         this.errorText = exception.getErrorText();
         this.message = exception.getMessage();
     }
+
     public WallesterRestError(String message) {
         this.message = message;
     }
+
     public WallesterRestError errorText(String errorText) {
         this.errorText = errorText;
         return this;
     }
+
     public WallesterRestError errorCode(Long errorCode) {
         this.errorCode = errorCode;
         return this;
     }
+
     public WallesterRestError httpStatus(int httpStatus) {
         this.httpStatus = httpStatus;
         return this;

@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vsinkievic.mockwallesterapi.IntegrationTest;
 import io.github.vsinkievic.mockwallesterapi.domain.Company;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CountryCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.KybStatus;
-import io.github.vsinkievic.mockwallesterapi.domain.enumeration.CompanyStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.LanguageCode;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.RiskProfile;
 import io.github.vsinkievic.mockwallesterapi.repository.CompanyRepository;
