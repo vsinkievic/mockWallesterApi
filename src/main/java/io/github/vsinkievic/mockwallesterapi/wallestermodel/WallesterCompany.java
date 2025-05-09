@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WallesterCompanyResponse {
+public class WallesterCompany {
 
     @JsonProperty("id")
     private String id;
@@ -99,7 +99,7 @@ public class WallesterCompanyResponse {
     @JsonProperty("vat_number")
     private String vatNumber;
 
-    public WallesterCompanyResponse(CompanyDTO companyDTO) {
+    public WallesterCompany(CompanyDTO companyDTO) {
         this.id = companyDTO.getId().toString();
         this.name = companyDTO.getName();
         this.registrationNumber = companyDTO.getRegistrationNumber();

@@ -16,8 +16,8 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterAdjustmentR
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCard;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardRequest;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardResponse;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompany;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
-import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterStatementRecord;
@@ -83,12 +83,12 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Company" }, summary = "Get company by ID", description = "Returns company information by its ID")
     @GetMapping("/v1/companies/{companyId}")
-    public ResponseEntity<WallesterCompanyResponse> getCompanyById(@PathVariable("companyId") String companyId) {
+    public ResponseEntity<WallesterCompany> getCompanyById(@PathVariable("companyId") String companyId) {
         log.info("GET /v1/companies/{}", companyId);
 
         return companyService
             .findOne(UUID.fromString(companyId))
-            .map(companyDTO -> ResponseEntity.ok(new WallesterCompanyResponse(companyDTO)))
+            .map(companyDTO -> ResponseEntity.ok(new WallesterCompany(companyDTO)))
             .orElse(ResponseEntity.notFound().build());
     }
 
@@ -146,7 +146,7 @@ public class WallesterRestApi {
             throw new WallesterApiException(422, "Only search by registration_number is supported");
         }
 
-        Page<WallesterCompanyResponse> companiesPage = companies.map(companyDTO -> new WallesterCompanyResponse(companyDTO));
+        Page<WallesterCompany> companiesPage = companies.map(companyDTO -> new WallesterCompany(companyDTO));
 
         WallesterCompanySearchResponse response = new WallesterCompanySearchResponse();
         response.setCompanies(companiesPage.getContent());
@@ -159,7 +159,7 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Company" }, summary = "Create company", description = "Creates a new company")
     @PostMapping("/v1/companies")
-    public ResponseEntity<WallesterCompanyResponse> createCompany(@RequestBody WallesterCompanyRequest request) {
+    public ResponseEntity<WallesterCompany> createCompany(@RequestBody WallesterCompanyRequest request) {
         log.info("POST /v1/companies with request: {}", request);
 
         CompanyDTO companyDTO = new CompanyDTO();
@@ -215,7 +215,7 @@ public class WallesterRestApi {
         companyDTO.setVatNumber(request.getVatNumber());
 
         CompanyDTO savedCompany = companyService.save(companyDTO);
-        return ResponseEntity.ok(new WallesterCompanyResponse(savedCompany));
+        return ResponseEntity.ok(new WallesterCompany(savedCompany));
     }
 
     @Operation(tags = { "Account" }, summary = "Search accounts", description = "Returns a list of accounts matching the search criteria")

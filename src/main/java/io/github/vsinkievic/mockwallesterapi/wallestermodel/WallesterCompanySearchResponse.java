@@ -10,7 +10,7 @@ import lombok.Data;
 public class WallesterCompanySearchResponse {
 
     @JsonProperty("companies")
-    private List<WallesterCompanyResponse> companies;
+    private List<WallesterCompany> companies;
 
     @JsonProperty("total")
     private Integer total;
