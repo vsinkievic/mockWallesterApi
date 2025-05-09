@@ -549,12 +549,12 @@ public class WallesterRestApi {
     }
 
     @Operation(tags = { "Account" }, summary = "Adjust account balance", description = "Adjusts the balance of an account")
-    @PostMapping("/v1/accounts/{account_id}/adjustment")
+    @PatchMapping("/v1/accounts/{account_id}/balance")
     public ResponseEntity<WallesterAccountResponse> adjustAccountBalance(
         @PathVariable("account_id") String accountId,
         @RequestBody WallesterAdjustmentRequest request
     ) {
-        log.info(String.format("POST /v1/accounts/%s/adjustment with request: %s", accountId, request));
+        log.info(String.format("PATCH /v1/accounts/%s/balance with request: %s", accountId, request));
 
         // Validate request
         if (request.getAmount() == null) {
@@ -562,9 +562,6 @@ public class WallesterRestApi {
         }
         if (StringUtils.isBlank(request.getDescription())) {
             throw new WallesterApiException(422, "Description is required");
-        }
-        if (StringUtils.isBlank(request.getExternalId())) {
-            throw new WallesterApiException(422, "External ID is required");
         }
 
         // Call service to adjust balance
