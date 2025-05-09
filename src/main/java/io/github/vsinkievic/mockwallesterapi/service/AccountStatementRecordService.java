@@ -357,20 +357,20 @@ public class AccountStatementRecordService {
     private void setCardIdIfNotSet(AccountStatementRecordDTO accountStatementRecordDTO) {
         if (accountStatementRecordDTO.getCardId() == null && accountStatementRecordDTO.getAccountId() != null) {
             // First try to find an active card
-            Optional<Card> activeCard = cardRepository.findFirstByAccountIdAndStatusOrderByUpdatedAtDesc(
-                accountStatementRecordDTO.getAccountId(),
-                CardStatus.Active
-            );
+            Card activeCard = cardRepository
+                .findFirstByAccountIdAndStatusOrderByUpdatedAtDesc(accountStatementRecordDTO.getAccountId(), CardStatus.Active)
+                .orElse(null);
 
-            if (activeCard.isPresent()) {
-                accountStatementRecordDTO.setCardId(activeCard.get().getId());
+            if (activeCard != null) {
+                accountStatementRecordDTO.setCardId(activeCard.getId());
             } else {
                 // If no active card found, get the last updated card regardless of status
-                Optional<Card> lastUpdatedCard = cardRepository.findFirstByAccountIdOrderByUpdatedAtDesc(
-                    accountStatementRecordDTO.getAccountId()
-                );
-
-                lastUpdatedCard.ifPresent(card -> accountStatementRecordDTO.setCardId(card.getId()));
+                Card lastUpdatedCard = cardRepository
+                    .findFirstByAccountIdOrderByUpdatedAtDesc(accountStatementRecordDTO.getAccountId())
+                    .orElse(null);
+                if (lastUpdatedCard != null) {
+                    accountStatementRecordDTO.setCardId(lastUpdatedCard.getId());
+                }
             }
         }
     }
