@@ -215,6 +215,8 @@ public class MockWallesterApiApp {
             \tWallester API Local (BASE_URL):    {}://localhost:{}{}/wallester/api
             \tWallester API External (BASE_URL): {}://{}:{}{}/wallester/api
             \t
+            \tNote: Authentication is disabled for all Wallester API endpoints
+            \t
             \tAvailable Wallester API Endpoints:
             {}
             ----------------------------------------------------------------------------------------""",

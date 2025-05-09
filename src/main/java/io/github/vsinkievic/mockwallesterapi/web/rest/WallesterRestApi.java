@@ -76,7 +76,7 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Testing" }, summary = "Ping endpoint", description = "Returns the input string with '-pong' suffix")
     @GetMapping("/ping")
-    public ResponseEntity<String> ping(@RequestParam String request) {
+    public ResponseEntity<String> ping(@RequestParam(required = false, defaultValue = "ping") String request) {
         log.info("Ping request: {}", request);
         return ResponseEntity.ok(request + "-pong");
     }
@@ -143,7 +143,7 @@ public class WallesterRestApi {
         if (StringUtils.isNotBlank(registrationNumber)) {
             companies = companyService.findByRegistrationNumber(registrationNumber, PageRequest.of(page - 1, pageSize));
         } else {
-            throw new WallesterApiException(422, "Not supported yet");
+            throw new WallesterApiException(422, "Only search by registration_number is supported");
         }
 
         Page<WallesterCompanyResponse> companiesPage = companies.map(companyDTO -> new WallesterCompanyResponse(companyDTO));
