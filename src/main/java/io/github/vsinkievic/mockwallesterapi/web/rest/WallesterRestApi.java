@@ -18,6 +18,7 @@ import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardRequest
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCardResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompany;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyRequest;
+import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanyResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterCompanySearchResponse;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterRestError;
 import io.github.vsinkievic.mockwallesterapi.wallestermodel.WallesterStatementRecord;
@@ -159,7 +160,7 @@ public class WallesterRestApi {
 
     @Operation(tags = { "Company" }, summary = "Create company", description = "Creates a new company")
     @PostMapping("/v1/companies")
-    public ResponseEntity<WallesterCompany> createCompany(@RequestBody WallesterCompanyRequest request) {
+    public ResponseEntity<WallesterCompanyResponse> createCompany(@RequestBody WallesterCompanyRequest request) {
         log.info("POST /v1/companies with request: {}", request);
 
         CompanyDTO companyDTO = new CompanyDTO();
@@ -215,7 +216,7 @@ public class WallesterRestApi {
         companyDTO.setVatNumber(request.getVatNumber());
 
         CompanyDTO savedCompany = companyService.save(companyDTO);
-        return ResponseEntity.ok(new WallesterCompany(savedCompany));
+        return ResponseEntity.ok(new WallesterCompanyResponse(new WallesterCompany(savedCompany)));
     }
 
     @Operation(tags = { "Account" }, summary = "Search accounts", description = "Returns a list of accounts matching the search criteria")
