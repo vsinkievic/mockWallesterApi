@@ -8,6 +8,7 @@ import io.github.vsinkievic.mockwallesterapi.service.dto.CompanyDTO;
 import io.github.vsinkievic.mockwallesterapi.service.mapper.CompanyMapper;
 import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiException;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -77,6 +78,13 @@ public class CompanyService {
             company.setKybStatus(KybStatus.Verified);
             company.setStatus(CompanyStatus.Active);
         }
+        if (company.getCreatedAt() == null) {
+            company.setCreatedAt(Instant.now());
+            company.setCreatedBy("system");
+        }
+        company.setUpdatedAt(Instant.now());
+        company.setUpdatedBy("system");
+
         company = companyRepository.save(company);
         return companyMapper.toDto(company);
     }
@@ -90,6 +98,13 @@ public class CompanyService {
     public CompanyDTO update(CompanyDTO companyDTO) {
         LOG.debug("Request to update Company : {}", companyDTO);
         Company company = companyMapper.toEntity(companyDTO);
+        if (company.getCreatedAt() == null) {
+            company.setCreatedAt(Instant.now());
+            company.setCreatedBy("system");
+        }
+        company.setUpdatedAt(Instant.now());
+        company.setUpdatedBy("system");
+
         company = companyRepository.save(company);
         return companyMapper.toDto(company);
     }
@@ -106,6 +121,8 @@ public class CompanyService {
         return companyRepository
             .findById(companyDTO.getId())
             .map(existingCompany -> {
+                companyDTO.setUpdatedAt(Instant.now());
+                companyDTO.setUpdatedBy("system");
                 companyMapper.partialUpdate(existingCompany, companyDTO);
 
                 return existingCompany;

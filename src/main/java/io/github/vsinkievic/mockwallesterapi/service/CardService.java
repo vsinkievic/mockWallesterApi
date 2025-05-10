@@ -109,7 +109,6 @@ public class CardService {
             card.setExpiryDate(calculateExpiryDate());
             card.setStatus(card.getType() == CardType.Virtual ? CardStatus.Active : CardStatus.Personalized);
             card.setCreatedAt(Instant.now());
-            card.setUpdatedAt(Instant.now());
         }
         if (StringUtils.isNotBlank(card.getExternalId())) {
             cardRepository
@@ -118,7 +117,7 @@ public class CardService {
                     throw new WallesterApiException(422, "Card with such external ID already exists");
                 });
         }
-
+        card.setUpdatedAt(Instant.now());
         card = cardRepository.save(card);
         return cardMapper.toDto(card);
     }
@@ -140,6 +139,7 @@ public class CardService {
                     throw new WallesterApiException(422, "Card with such external ID already exists");
                 });
         }
+        card.setUpdatedAt(Instant.now());
         card = cardRepository.save(card);
         return cardMapper.toDto(card);
     }
@@ -164,6 +164,7 @@ public class CardService {
         return cardRepository
             .findById(cardDTO.getId())
             .map(existingCard -> {
+                cardDTO.setUpdatedAt(Instant.now());
                 cardMapper.partialUpdate(existingCard, cardDTO);
 
                 return existingCard;

@@ -14,6 +14,8 @@ import io.github.vsinkievic.mockwallesterapi.web.rest.errors.WallesterApiExcepti
 import io.micrometer.common.util.StringUtils;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -99,7 +101,6 @@ public class CardAccountService {
             cardAccount.setBlockedAmount(BigDecimal.ZERO);
 
             cardAccount.setCreatedAt(Instant.now());
-            cardAccount.setUpdatedAt(Instant.now());
             cardAccount.setStatus(AccountStatus.Active);
         } else {
             if (StringUtils.isNotBlank(cardAccount.getExternalId())) {
@@ -111,6 +112,7 @@ public class CardAccountService {
             }
         }
 
+        cardAccount.setUpdatedAt(Instant.now());
         cardAccount = cardAccountRepository.save(cardAccount);
         return cardAccountMapper.toDto(cardAccount);
     }
@@ -133,6 +135,7 @@ public class CardAccountService {
                 });
         }
 
+        cardAccount.setUpdatedAt(Instant.now());
         cardAccount = cardAccountRepository.save(cardAccount);
         return cardAccountMapper.toDto(cardAccount);
     }
@@ -159,7 +162,7 @@ public class CardAccountService {
                             throw new WallesterApiException(422, "Account with such external ID already exists");
                         });
                 }
-
+                existingCardAccount.setUpdatedAt(Instant.now());
                 return existingCardAccount;
             })
             .map(cardAccountRepository::save)
@@ -290,9 +293,17 @@ public class CardAccountService {
 
         BigDecimal balanceAmount = BigDecimal.ZERO;
         BigDecimal blockedAmount = BigDecimal.ZERO;
+        Instant lastRecordDate = cardAccount.getCreatedAt();
+        if (lastRecordDate == null) lastRecordDate = LocalDate.of(1900, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        LOG.debug("Account_ID: {} - Last record date before recalculation: {}", cardAccount.getId(), lastRecordDate);
 
         for (AccountStatementRecord record : records) {
             if (record.getIsDeclined()) continue;
+
+            if (record.getDate().isAfter(lastRecordDate)) {
+                lastRecordDate = record.getDate();
+                LOG.debug("Account_ID: {} - Last record date updated to: {}", cardAccount.getId(), lastRecordDate);
+            }
 
             BigDecimal balanceDelta = null;
             BigDecimal blockedDelta = null;
@@ -333,6 +344,17 @@ public class CardAccountService {
         cardAccount.setBalance(balanceAmount);
         cardAccount.setBlockedAmount(blockedAmount);
         cardAccount.setAvailableAmount(balanceAmount.subtract(blockedAmount));
+
+        if (lastRecordDate.isAfter(cardAccount.getUpdatedAt())) {
+            LOG.debug(
+                "Account_ID: {} - Last record date after recalculation: {} vs account.updatedAt: {}",
+                cardAccount.getId(),
+                lastRecordDate,
+                cardAccount.getUpdatedAt()
+            );
+            cardAccount.setUpdatedAt(lastRecordDate);
+        }
+        LOG.debug("Account_ID: {} - Card account updatedAt after recalculation: {}", cardAccount.getId(), cardAccount.getUpdatedAt());
         cardAccountRepository.save(cardAccount);
 
         return cardAccountMapper.toDto(cardAccountRepository.save(cardAccount));
