@@ -350,8 +350,13 @@ public class AccountStatementRecordService {
      */
     public void delete(UUID id) {
         LOG.debug("Request to delete AccountStatementRecord : {}", id);
+        AccountStatementRecord record = accountStatementRecordRepository
+            .findById(id)
+            .orElseThrow(() -> new WallesterApiException(422, "Account statement record not found"));
+        UUID accountId = record.getAccountId();
         accountStatementRecordRepository.deleteById(id);
-        cardAccountService.recalculateBalance(id);
+        accountStatementRecordRepository.flush();
+        cardAccountService.recalculateBalance(accountId);
     }
 
     // get the last updated active card of the account. Active means CardStatus.Active. If there is no active card, use the last updated card despite of the status. Do nothing if nothing found.

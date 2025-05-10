@@ -62,7 +62,12 @@ export class AccountStatementRecordComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        tap(() => this.load()),
+        tap(() => {
+          this.load();
+          if (this.accountIdFilter) {
+            this.loadAccountDetails();
+          }
+        }),
       )
       .subscribe();
   }
