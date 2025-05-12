@@ -341,10 +341,17 @@ public class CardAccountService {
             }
         }
 
-        cardAccount.setBalance(balanceAmount);
-        cardAccount.setBlockedAmount(blockedAmount);
-        cardAccount.setAvailableAmount(balanceAmount.subtract(blockedAmount));
+        boolean isSaveRequired =
+            cardAccount.getBalance().compareTo(balanceAmount) != 0 || cardAccount.getBlockedAmount().compareTo(blockedAmount) != 0;
 
+        if (isSaveRequired) {
+            cardAccount.setBalance(balanceAmount);
+            cardAccount.setBlockedAmount(blockedAmount);
+            cardAccount.setAvailableAmount(balanceAmount.subtract(blockedAmount));
+            cardAccount.setUpdatedAt(Instant.now());
+            cardAccount = cardAccountRepository.save(cardAccount);
+        }
+        /*
         if (lastRecordDate.isAfter(cardAccount.getUpdatedAt())) {
             LOG.debug(
                 "Account_ID: {} - Last record date after recalculation: {} vs account.updatedAt: {}",
@@ -355,8 +362,10 @@ public class CardAccountService {
             cardAccount.setUpdatedAt(lastRecordDate);
         }
         LOG.debug("Account_ID: {} - Card account updatedAt after recalculation: {}", cardAccount.getId(), cardAccount.getUpdatedAt());
-        cardAccountRepository.save(cardAccount);
-
+        if (isSaveRequired) {
+            cardAccountRepository.save(cardAccount);
+        }
+*/
         return cardAccountMapper.toDto(cardAccountRepository.save(cardAccount));
     }
 }
