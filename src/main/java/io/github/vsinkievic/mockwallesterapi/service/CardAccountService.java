@@ -310,7 +310,11 @@ public class CardAccountService {
             switch (record.getType()) {
                 case Authorization:
                     if (AccountStatementRecordStatus.Pending.equals(record.getStatus())) {
-                        if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) blockedDelta = record.getAccountAmount().negate();
+                        //                        if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) {
+                        //                            blockedDelta = record.getAccountAmount().negate();
+                        //                        } else {
+                        blockedDelta = record.getAccountAmount();
+                        //                        }
                     }
                     break;
                 case Transaction:
@@ -319,7 +323,11 @@ public class CardAccountService {
                 case Fee:
                     switch (record.getStatus()) {
                         case Pending:
-                            if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) blockedDelta = record.getAccountAmount().negate();
+                            //                            if (record.getAccountAmount().compareTo(BigDecimal.ZERO) < 0) {
+                            //                                blockedDelta = record.getAccountAmount().negate();
+                            //                            } else {
+                            blockedDelta = record.getAccountAmount();
+                            //                            }
                             break;
                         case Completed:
                             balanceDelta = record.getAccountAmount();
@@ -337,7 +345,7 @@ public class CardAccountService {
             }
 
             if (blockedDelta != null) {
-                blockedAmount = blockedAmount.add(blockedDelta);
+                blockedAmount = blockedAmount.add(blockedDelta.negate());
             }
         }
 
@@ -345,6 +353,9 @@ public class CardAccountService {
             cardAccount.getBalance().compareTo(balanceAmount) != 0 || cardAccount.getBlockedAmount().compareTo(blockedAmount) != 0;
 
         if (isSaveRequired) {
+            if (blockedAmount.compareTo(BigDecimal.ZERO) < 0) {
+                blockedAmount = BigDecimal.ZERO;
+            }
             cardAccount.setBalance(balanceAmount);
             cardAccount.setBlockedAmount(blockedAmount);
             cardAccount.setAvailableAmount(balanceAmount.subtract(blockedAmount));
