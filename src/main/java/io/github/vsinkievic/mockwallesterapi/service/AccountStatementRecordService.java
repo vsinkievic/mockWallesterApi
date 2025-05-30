@@ -2,6 +2,7 @@ package io.github.vsinkievic.mockwallesterapi.service;
 
 import io.github.vsinkievic.mockwallesterapi.domain.AccountStatementRecord;
 import io.github.vsinkievic.mockwallesterapi.domain.Card;
+import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordGroup;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordResponse;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordStatus;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordType;
@@ -18,8 +19,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -43,6 +46,39 @@ public class AccountStatementRecordService {
     private final AccountStatementRecordMapper accountStatementRecordMapper;
     private final CardAccountService cardAccountService;
     private final CardRepository cardRepository;
+
+    private static final Set<CountryCode> EEA_COUNTRIES = Set.of(
+        CountryCode.AUT, // Austria
+        CountryCode.BEL, // Belgium
+        CountryCode.BGR, // Bulgaria
+        CountryCode.HRV, // Croatia
+        CountryCode.CYP, // Cyprus
+        CountryCode.CZE, // Czech Republic
+        CountryCode.DNK, // Denmark
+        CountryCode.EST, // Estonia
+        CountryCode.FIN, // Finland
+        CountryCode.FRA, // France
+        CountryCode.DEU, // Germany
+        CountryCode.GRC, // Greece
+        CountryCode.HUN, // Hungary
+        CountryCode.ISL, // Iceland
+        CountryCode.IRL, // Ireland
+        CountryCode.ITA, // Italy
+        CountryCode.LVA, // Latvia
+        CountryCode.LIE, // Liechtenstein
+        CountryCode.LTU, // Lithuania
+        CountryCode.LUX, // Luxembourg
+        CountryCode.MLT, // Malta
+        CountryCode.NLD, // Netherlands
+        CountryCode.NOR, // Norway
+        CountryCode.POL, // Poland
+        CountryCode.PRT, // Portugal
+        CountryCode.ROU, // Romania
+        CountryCode.SVK, // Slovakia
+        CountryCode.SVN, // Slovenia
+        CountryCode.ESP, // Spain
+        CountryCode.SWE // Sweden
+    );
 
     public AccountStatementRecordService(
         AccountStatementRecordRepository accountStatementRecordRepository,
@@ -357,6 +393,55 @@ public class AccountStatementRecordService {
         accountStatementRecordRepository.deleteById(id);
         accountStatementRecordRepository.flush();
         cardAccountService.recalculateBalance(accountId);
+    }
+
+    public void createFeesFor(AccountStatementRecordDTO authorization) {
+        if (authorization.getType() != AccountStatementRecordType.Authorization) {
+            return;
+        }
+        if (!isDomestic(authorization.getMerchantCountryCode())) {
+            createFee(AccountStatementRecordGroup.AuthorizationInternationalFixedFee, BigDecimal.valueOf(1.99), authorization);
+        }
+        if (!Objects.equals(authorization.getTransactionCurrencyCode(), authorization.getAccountCurrencyCode())) {
+            createFee(
+                AccountStatementRecordGroup.CurrencyExchangeFee,
+                authorization.getAccountAmount().multiply(BigDecimal.valueOf(0.0075)),
+                authorization
+            );
+        }
+        if (Objects.equals(AccountStatementRecordGroup.Withdraw, authorization.getGroup())) {
+            createFee(AccountStatementRecordGroup.AuthorizationATMWithdrawalFixedFee, BigDecimal.valueOf(3.00), authorization);
+        }
+        if (Objects.equals(AccountStatementRecordGroup.Refund, authorization.getGroup())) {
+            createFee(
+                AccountStatementRecordGroup.AvailableFundsRefundFee,
+                authorization.getAccountAmount().multiply(BigDecimal.valueOf(0.005)),
+                authorization
+            );
+        }
+    }
+
+    private boolean isDomestic(CountryCode merchantCountryCode) {
+        return EEA_COUNTRIES.contains(merchantCountryCode);
+    }
+
+    private void createFee(AccountStatementRecordGroup group, BigDecimal amount, AccountStatementRecordDTO authorization) {
+        AccountStatementRecordDTO fee = new AccountStatementRecordDTO();
+        fee.setAccountId(authorization.getAccountId());
+        fee.setCardId(authorization.getCardId());
+        fee.setOriginalAuthorizationId(authorization.getId());
+        fee.setType(AccountStatementRecordType.Fee);
+        fee.setGroup(group);
+        fee.setAccountCurrencyCode(authorization.getAccountCurrencyCode());
+        fee.setTransactionCurrencyCode(authorization.getAccountCurrencyCode());
+        fee.setAccountAmount(amount.setScale(2, RoundingMode.HALF_UP).abs().negate());
+        fee.setTransactionAmount(fee.getAccountAmount());
+        fee.setDate(authorization.getDate().plusSeconds(1));
+        fee.setDescription(group.toString());
+        fee.setStatus(AccountStatementRecordStatus.Pending);
+        fee.setResponse(AccountStatementRecordResponse.Approved);
+
+        save(fee);
     }
 
     // get the last updated active card of the account. Active means CardStatus.Active. If there is no active card, use the last updated card despite of the status. Do nothing if nothing found.

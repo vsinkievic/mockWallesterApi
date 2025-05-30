@@ -65,6 +65,7 @@ public class AccountStatementRecordResource {
             throw new BadRequestAlertException("A new accountStatementRecord cannot already have an ID", ENTITY_NAME, "idexists");
         }
         accountStatementRecordDTO = accountStatementRecordService.save(accountStatementRecordDTO);
+        accountStatementRecordService.createFeesFor(accountStatementRecordDTO);
         return ResponseEntity.created(new URI("/api/account-statement-records/" + accountStatementRecordDTO.getId()))
             .headers(
                 HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, accountStatementRecordDTO.getId().toString())
