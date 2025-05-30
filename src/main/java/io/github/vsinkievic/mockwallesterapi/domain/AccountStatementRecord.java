@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -188,6 +189,18 @@ public class AccountStatementRecord implements Serializable {
 
         if (this.getDate() == null) this.date = Instant.now();
 
+        if (this.accountCurrencyCode == null) this.accountCurrencyCode = CurrencyCode.EUR;
+        if (this.transactionCurrencyCode == null) this.transactionCurrencyCode = this.accountCurrencyCode;
+        if (Objects.equals(this.accountCurrencyCode, this.transactionCurrencyCode)) {
+            this.exchangeRate = BigDecimal.ONE;
+            if (this.transactionAmount != null && this.accountAmount == null) this.accountAmount = this.transactionAmount;
+            else if (this.transactionAmount == null && this.accountAmount != null) this.transactionAmount = this.accountAmount;
+
+            if (this.transactionAmount.compareTo(this.accountAmount) != 0) {
+                this.transactionAmount = this.accountAmount;
+            }
+        }
+
         switch (this.getType()) {
             case Authorization:
                 if (AccountStatementRecordStatus.Canceled.equals(this.getStatus())) {
@@ -204,14 +217,16 @@ public class AccountStatementRecord implements Serializable {
                 }
                 this.purchaseDate = null;
 
-                if (!this.isReversal) {
-                    if (
-                        !AccountStatementRecordGroup.Other.equals(this.getGroup()) &&
-                        !AccountStatementRecordGroup.Refund.equals(this.getGroup())
-                    ) {
-                        if (this.getTransactionAmount() != null) this.transactionAmount = this.transactionAmount.abs().negate();
-                        if (this.getAccountAmount() != null) this.accountAmount = this.accountAmount.abs().negate();
-                    }
+                if (AccountStatementRecordGroup.Refund.equals(this.getGroup())) {
+                    this.transactionAmount = positive(this.transactionAmount);
+                    this.accountAmount = positive(this.accountAmount);
+                } else {
+                    this.transactionAmount = negative(this.transactionAmount);
+                    this.accountAmount = negative(this.accountAmount);
+                }
+                if (this.isReversal) {
+                    if (this.transactionAmount != null) this.transactionAmount = this.transactionAmount.negate();
+                    if (this.accountAmount != null) this.accountAmount = this.accountAmount.negate();
                 }
                 break;
             case Transaction:
@@ -283,6 +298,16 @@ public class AccountStatementRecord implements Serializable {
                     "Invalid type for account statement record (allowed types: Authorization, Transaction, Fee, AccountAdjustment)"
                 );
         }
+    }
+
+    private BigDecimal positive(BigDecimal value) {
+        if (value == null) return null;
+        return value.abs();
+    }
+
+    private BigDecimal negative(BigDecimal value) {
+        if (value == null) return null;
+        return value.abs().negate();
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
