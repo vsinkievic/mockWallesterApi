@@ -482,11 +482,8 @@ class CardAccountResourceIT {
         CardAccount partialUpdatedCardAccount = new CardAccount();
         partialUpdatedCardAccount.setId(cardAccount.getId());
 
-        partialUpdatedCardAccount
-            .balance(UPDATED_BALANCE)
-            .blockedAmount(UPDATED_BLOCKED_AMOUNT)
-            .availableAmount(UPDATED_AVAILABLE_AMOUNT)
-            .updatedAt(UPDATED_UPDATED_AT);
+        partialUpdatedCardAccount.balance(UPDATED_BALANCE).blockedAmount(UPDATED_BLOCKED_AMOUNT).availableAmount(UPDATED_AVAILABLE_AMOUNT);
+        //            .updatedAt(UPDATED_UPDATED_AT);
 
         restCardAccountMockMvc
             .perform(

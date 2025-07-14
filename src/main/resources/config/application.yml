@@ -202,8 +202,8 @@ jhipster:
   api-docs:
     default-include-pattern: /wallester/api/**
     management-include-pattern: /management/**
-    title: Mock Wallester Api API
-    description: Mock Wallester Api API documentation
+    title: Mock Wallester API
+    description: Mock Wallester API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:

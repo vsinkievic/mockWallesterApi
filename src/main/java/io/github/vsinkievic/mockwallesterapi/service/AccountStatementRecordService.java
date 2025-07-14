@@ -221,11 +221,13 @@ public class AccountStatementRecordService {
                 }
             }
             if (accountStatementRecordDTO.getAccountAmount() != null && accountStatementRecordDTO.getTransactionAmount() != null) {
-                accountStatementRecordDTO.setExchangeRate(
-                    accountStatementRecordDTO
-                        .getTransactionAmount()
-                        .divide(accountStatementRecordDTO.getAccountAmount(), 2, RoundingMode.HALF_UP)
-                );
+                if (accountStatementRecordDTO.getAccountAmount().compareTo(BigDecimal.ZERO) != 0) {
+                    accountStatementRecordDTO.setExchangeRate(
+                        accountStatementRecordDTO
+                            .getTransactionAmount()
+                            .divide(accountStatementRecordDTO.getAccountAmount(), 2, RoundingMode.HALF_UP)
+                    );
+                }
             }
 
             if (accountStatementRecordDTO.getType() == AccountStatementRecordType.Authorization) {
@@ -399,20 +401,22 @@ public class AccountStatementRecordService {
         if (authorization.getType() != AccountStatementRecordType.Authorization) {
             return;
         }
-        if (!isDomestic(authorization.getMerchantCountryCode())) {
+        if (!isDomestic(authorization.getMerchantCountryCode()) && authorization.isDebit()) {
             createFee(AccountStatementRecordGroup.AuthorizationInternationalFixedFee, BigDecimal.valueOf(1.99), authorization);
         }
-        if (!Objects.equals(authorization.getTransactionCurrencyCode(), authorization.getAccountCurrencyCode())) {
+        if (
+            !Objects.equals(authorization.getTransactionCurrencyCode(), authorization.getAccountCurrencyCode()) && authorization.isDebit()
+        ) {
             createFee(
                 AccountStatementRecordGroup.CurrencyExchangeFee,
                 authorization.getAccountAmount().multiply(BigDecimal.valueOf(0.0075)),
                 authorization
             );
         }
-        if (Objects.equals(AccountStatementRecordGroup.Withdraw, authorization.getGroup())) {
+        if (Objects.equals(AccountStatementRecordGroup.Withdraw, authorization.getGroup()) && authorization.isDebit()) {
             createFee(AccountStatementRecordGroup.AuthorizationATMWithdrawalFixedFee, BigDecimal.valueOf(3.00), authorization);
         }
-        if (Objects.equals(AccountStatementRecordGroup.Refund, authorization.getGroup())) {
+        if (Objects.equals(AccountStatementRecordGroup.Refund, authorization.getGroup()) && authorization.isCredit()) {
             createFee(
                 AccountStatementRecordGroup.AvailableFundsRefundFee,
                 authorization.getAccountAmount().multiply(BigDecimal.valueOf(0.005)),

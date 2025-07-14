@@ -1,5 +1,6 @@
 package io.github.vsinkievic.mockwallesterapi.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordGroup;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordResponse;
 import io.github.vsinkievic.mockwallesterapi.domain.enumeration.AccountStatementRecordStatus;
@@ -176,5 +177,15 @@ public class AccountStatementRecordDTO implements Serializable {
             ", enrichedMerchantIconUrl='" + getEnrichedMerchantIconUrl() + "'" +
             ", totalAmount=" + getTotalAmount() +
             "}";
+    }
+
+    @JsonIgnore
+    public boolean isDebit() {
+        return this.accountAmount.compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    @JsonIgnore
+    public boolean isCredit() {
+        return this.accountAmount.compareTo(BigDecimal.ZERO) > 0;
     }
 }
