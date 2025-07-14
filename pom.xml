@@ -5,7 +5,7 @@
 
     <groupId>io.github.vsinkievic.mockwallesterapi</groupId>
     <artifactId>mock-wallester-api</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Mock Wallester Api</name>
     <description>Description for Mock Wallester Api</description>
